@@ -1,0 +1,13 @@
+@import url('../experiments/shared/studies.css?v=merz-nav-2');
+[hidden]{display:none!important}
+.playground{grid-template-columns:minmax(0,1fr) 320px}.playground .work{max-width:760px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.toolbar button{padding:8px 12px}#element-list{margin:10px 0}pre{overflow:auto;background:#eeeee6;padding:20px;font-size:13px;line-height:1.6;max-height:550px}h2{font-size:22px;font-weight:normal;margin-top:32px}.library-intro{margin:18px 0 24px}.code-section{margin-top:28px}.hint{font-size:13px;color:var(--muted)}#editor label{display:block}#editor input,#editor select{margin-bottom:8px}#error{color:var(--red);font-size:13px;min-height:22px}nav.study-nav{gap:16px}@media(max-width:760px){.playground{grid-template-columns:1fr}}
+
+/* A drawn opening with a quiet area for ordinary, accessible HTML text. */
+#hero{position:relative;width:100%;height:clamp(510px,51.67vw,720px);overflow:hidden;border-bottom:1px solid var(--line)}
+#hero-canvas{position:absolute;inset:0}
+#hero-canvas canvas{display:block}
+.merz-hero-copy{position:absolute;left:5%;top:48%;width:43%;max-width:510px}
+.merz-hero-copy h1{font-size:clamp(52px,6vw,90px);margin:0 0 16px;line-height:1.05}
+.merz-hero-copy p{max-width:34ch;font-size:18px;line-height:1.55}
+.merz-hero-note{margin:0;padding:16px 4vw;font-size:13px;color:var(--muted);max-width:100ch}
+@media(max-width:699px){#hero{height:clamp(640px,126.67vw,885px)}.merz-hero-copy{top:64%;left:6%;width:88%;max-width:none}.merz-hero-copy h1{font-size:54px}.merz-hero-copy p{font-size:16px;max-width:32ch}}

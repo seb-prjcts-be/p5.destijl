@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ink at the edges - p5.merz</title>
+    <link rel="stylesheet" href="../../docs/library.css?v=merz-study-4" />
+
+    <script defer src="../../p5.merz.js"></script>
+    <script defer src="edges.js"></script>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"
+    ></script>
+    <script defer src="../../docs/example-source.js"></script>
+    <script src="../../docs/preview.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="../../index.html">p5.merz</a>
+      <span>A small study</span>
+    </header>
+    <nav class="study-nav" aria-label="p5.merz pages">
+      <a href="../../index.html">Showcase</a>
+      <a href="../../docs/examples.html">Examples</a>
+      <a href="../../docs/guide.html">Guide</a>
+      <a aria-current="true" href="../../docs/research.html">Research</a>
+      <a href="../../docs/about.html">About</a>
+      <a href="https://github.com/seb-prjcts-be/p5.merz">GitHub</a>
+    </nav>
+    <main class="wide">
+      <h1>Ink at the edges</h1>
+      <p>
+        A small study of incomplete edges and a little excess ink. Both pages use the
+        same drawing; the second changes only the ink surface. Open the sketch to change
+        the word, shapes, amount or seed.
+      </p>
+      <div class="compare merz-comparison">
+        <section>
+          <h2>Clean: amount 0</h2>
+          <iframe
+            title="Clean: amount 0"
+            src="edge-clean.html?preview=1"
+            style="width: 100%; aspect-ratio: 1; border: 0"
+          ></iframe>
+          <p><a href="edge-clean.html">Open the sketch</a></p>
+        </section>
+        <section>
+          <h2>Imperfect edges: amount 0.7</h2>
+          <iframe
+            title="Imperfect edges: amount 0.7"
+            src="edge-sketch.html?preview=1"
+            style="width: 100%; aspect-ratio: 1; border: 0"
+          ></iframe>
+          <p><a href="edge-sketch.html">Open the sketch</a></p>
+        </section>
+      </div>
+      <p>
+        The model takes missing and excess ink as related traces of execution. It is a
+        new digital study, not a reconstruction of a printing process. The clean source
+        is sampled once, so excess ink cannot spread repeatedly during a render.
+      </p>
+      <p><a href="index.html">Other surface comparisons</a></p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Examples - p5.merz</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="library.css?v=merz-site-1" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"
+    ></script>
+    <script defer src="example-source.js"></script>
+    <style>
+      .example-list > section {
+        margin: 40px 0 64px;
+      }
+      .example-list iframe {
+        display: block;
+        width: 100%;
+        border: 0;
+      }
+    </style>
+  <link rel="stylesheet" href="prose.css?v=1"></head>
+  <body>
+    <header>
+      <a class="brand" href="../index.html">p5.merz</a
+      ><span>Letters, lines and colour planes for p5.js</span>
+    </header>
+    <nav class="study-nav" aria-label="p5.merz pages">
+      <a href="../index.html">Showcase</a>
+      <a aria-current="page" href="examples.html">Examples</a>
+      <a href="guide.html">Guide</a>
+      <a href="research.html">Research</a>
+      <a href="about.html">About</a>
+      <a href="https://github.com/seb-prjcts-be/p5.merz">GitHub</a>
+    </nav>
+    <main class="wide example-list">
+      <h1>Examples</h1>
+      <p>
+        Each sketch runs here beside its code. Change a word, draw another shape or
+        write a loop of your own.
+      </p>
+      <section id="nasci-samples"><h2>NASCI</h2><p>Six samples from Merz 8/9, loaded by number. <a href="fundsachen.html">Download each element from the catalogue</a>.</p><div class="demo-layout"><div class="demo-code"><pre><code class="language-javascript" data-source="../experiments/merz-fundsachen/nasci.js">Loading source...</code></pre></div><div class="demo-right"><iframe title="NASCI samples" src="../experiments/merz-fundsachen/nasci.html?preview=1" style="aspect-ratio:600/760" loading="lazy"></iframe></div></div></section>
+      <section id="catalogue-samples"><h2>001 / 002 / 003</h2><p>Load samples by number or name from the <a href="fundsachen.html">Fundsachen catalogue</a>.</p><div class="demo-layout"><div class="demo-code"><pre><code class="language-javascript" data-source="../experiments/merz-fundsachen/sketch.js">Loading source...</code></pre></div><div class="demo-right"><iframe title="Catalogue samples" src="../experiments/merz-fundsachen/index.html?preview=1" style="aspect-ratio:600/760" loading="lazy"></iframe></div></div></section>
+      <section id="stempel"><h2>Stempel</h2><p>Repeat a word, a cut strip and a letter part. Each placement comes from the sketch.</p><div class="demo-layout"><div class="demo-code"><pre><code class="language-javascript" data-source="../experiments/merz-stempel/sketch.js">Loading source...</code></pre></div><div class="demo-right"><h3>Merzbild</h3><iframe title="Merzbild" src="../experiments/merz-stempel/sketch.html?preview=1&amp;study=0" style="aspect-ratio:600/760" loading="lazy"></iframe><h3>Splitter</h3><iframe title="Splitter" src="../experiments/merz-stempel/sketch.html?preview=1&amp;study=1" style="aspect-ratio:600/760" loading="lazy"></iframe><h3>Rrrt</h3><iframe title="Rrrt" src="../experiments/merz-stempel/sketch.html?preview=1&amp;study=2" style="aspect-ratio:600/760" loading="lazy"></iframe></div></div><p><a href="guide.html#stempel">Stempel reference</a></p></section>
+      <section id="fundsachen">
+        <h2>Fundsachen</h2>
+        <p>
+          A quiet surface on separate paper and ink layers. Change the two amounts in
+          the code.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-sheet/sketch.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Fundsachen"
+              src="../experiments/merz-sheet/index.html?preview=1"
+              style="aspect-ratio: 600/760"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p><a href="../experiments/merz-sheet/">Sketch notes</a></p>
+      </section>
+      <section id="fragment-scan">
+        <h2>A scan, cut and repeated</h2>
+        <p>
+          Change amount and seed, or move the crop points. The library cuts the scan and
+          changes its edge; p5 places the pieces.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-fragment-route/scan.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="A scan, cut and repeated"
+              src="../experiments/merz-fragment-route/scan.html?preview=1"
+              style="aspect-ratio: 600/680"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p><a href="../experiments/merz-fragment-route/scan.html">Sketch notes</a></p>
+      </section>
+      <section id="fragment-word">
+        <h2>A word through three cuts</h2>
+        <p>
+          Change the word, amount and seed. Each strip comes from the same word
+          geometry; p5 separates and offsets the resulting images.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-fragment-route/word.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="A word through three cuts"
+              src="../experiments/merz-fragment-route/word.html?preview=1"
+              style="aspect-ratio: 600/680"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p><a href="../experiments/merz-fragment-route/word.html">Sketch notes</a></p>
+      </section>
+      <section id="fragment-part">
+        <h2>A part becomes a field</h2>
+        <p>
+          Change the letter part, amount and seed. One cropped R bowl becomes a repeated
+          field, with placement and rotation in p5.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-fragment-route/part.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="A part becomes a field"
+              src="../experiments/merz-fragment-route/part.html?preview=1"
+              style="aspect-ratio: 600/680"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p><a href="../experiments/merz-fragment-route/part.html">Sketch notes</a></p>
+      </section>
+      <section id="clippings">
+        <h2>Clippings and impressions</h2>
+        <p>
+          Change ticketNumber, the crop outline or the positions of the impressions. A
+          scanned page sits beside marks drawn in p5.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-materials/clippings.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Clippings and impressions - live sketch"
+              src="../experiments/merz-materials/clippings.html?preview=1"
+              style="aspect-ratio: 600/720"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-materials/clippings.js">Source sketch</a> ·
+          <a href="../experiments/merz-materials/clippings.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="syllables">
+        <h2>Syllables on a page</h2>
+        <p>
+          Change the syllables and repetitions. Serif text, a diagonal sequence and a
+          letter part each have their own scale.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-materials/syllables.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Syllables on a page - live sketch"
+              src="../experiments/merz-materials/syllables.html?preview=1"
+              style="aspect-ratio: 600/720"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-materials/syllables.js">Source sketch</a> ·
+          <a href="../experiments/merz-materials/syllables.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="connections">
+        <h2>Openings and connections</h2>
+        <p>
+          Change opening, threads or the polygon points. The hole reveals earlier
+          layers; the thin lines keep their curves.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-materials/connections.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Openings and connections - live sketch"
+              src="../experiments/merz-materials/connections.html?preview=1"
+              style="aspect-ratio: 600/720"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-materials/connections.js">Source sketch</a> ·
+          <a href="../experiments/merz-materials/connections.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="large-and-small">
+        <h2>Large and small</h2>
+        <p>
+          Change the word, scale and position. Ordinary p5 text keeps its own voice.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-pages/large-small.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Large and small - live sketch"
+              src="../experiments/merz-pages/large-small.html?preview=1"
+              style="aspect-ratio: 600/840"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-pages/large-small.js">Source sketch</a> &middot;
+          <a href="../experiments/merz-pages/large-small.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="text-and-rules">
+        <h2>Text and rules</h2>
+        <p>Change the text lines and the space between the rules.</p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-pages/text-rules.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Text and rules - live sketch"
+              src="../experiments/merz-pages/text-rules.html?preview=1"
+              style="aspect-ratio: 600/840"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-pages/text-rules.js">Source sketch</a> &middot;
+          <a href="../experiments/merz-pages/text-rules.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="open-page">
+        <h2>Open page</h2>
+        <p>
+          Two groups leave a large interval. Move them in the sketch and see how the
+          page changes.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-pages/open-page.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Open page - live sketch"
+              src="../experiments/merz-pages/open-page.html?preview=1"
+              style="aspect-ratio: 900/600"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-pages/open-page.js">Source sketch</a> &middot;
+          <a href="../experiments/merz-pages/open-page.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="free-composition">
+        <h2>Free composition</h2>
+        <p>A word, a line and a plane, stored as editable elements.</p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../examples/free-composition/sketch.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Free composition - live sketch"
+              src="../examples/free-composition/index.html?preview=1"
+              style="aspect-ratio: 1"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../examples/free-composition/sketch.js">Source sketch</a> &middot;
+          <a href="../examples/free-composition/index.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="poster">
+        <h2>Poster</h2>
+        <p>A title, date and price use the same geometric character set.</p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../examples/poster/sketch.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Poster - live sketch"
+              src="../examples/poster/index.html?preview=1"
+              style="aspect-ratio: 700/900"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../examples/poster/sketch.js">Source sketch</a> &middot;
+          <a href="../examples/poster/index.html">Sketch notes and dependencies</a>
+        </p>
+      </section>
+      <section id="characters">
+        <h2>Characters</h2>
+        <p>
+          Letters, numbers and punctuation drawn together. Change weight in the sketch.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../examples/characters/sketch.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Characters - live sketch"
+              src="../examples/characters/index.html?preview=1"
+              style="aspect-ratio: 900/1240"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../examples/characters/sketch.js">Source sketch</a> &middot;
+          <a href="../examples/characters/index.html">Sketch notes and dependencies</a>
+        </p>
+      </section>
+      <section id="letters-and-ink">
+        <h2>Letters and ink</h2>
+        <p>
+          Geometric letters, ordinary p5 text and a cut-out word. This sketch also loads
+          composition.js and ink.js from its folder.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-print/sketch.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Letters and ink - live sketch"
+              src="../experiments/merz-print/sketch.html?preview=1"
+              style="aspect-ratio: 600/840"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-print/sketch.js">Source sketch</a> &middot;
+          <a href="../experiments/merz-print/sketch.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="scanned-fragments">
+        <h2>Scanned fragments</h2>
+        <p>
+          Change the crop and its positions with ordinary p5 image calls. Keep the
+          source image in the assets folder.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-fragments/sketch.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Scanned fragments - live sketch"
+              src="../experiments/merz-fragments/index.html?preview=1"
+              style="aspect-ratio: 600/840"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-fragments/sketch.js">Source sketch</a> &middot;
+          <a href="../experiments/merz-fragments/index.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="one-letter-separate-parts">
+        <h2>One letter, separate parts</h2>
+        <p>Colour and repeat a crossbar using the current geometry.</p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-parts/sketch.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="One letter, separate parts - live sketch"
+              src="../experiments/merz-parts/index.html?preview=1"
+              style="aspect-ratio: 600/840"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-parts/sketch.js">Source sketch</a> &middot;
+          <a href="../experiments/merz-parts/index.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="draw-with-a-named-part">
+        <h2>Draw with a named part</h2>
+        <p>
+          Choose a letter and one of its parts, then repeat it in a p5 loop. The library
+          supplies the paths; the sketch draws them.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-parts/module-parts.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Draw with a named part - live sketch"
+              src="../experiments/merz-parts/module-parts.html?preview=1"
+              style="aspect-ratio: 1"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-parts/module-parts.js">Source sketch</a> &middot;
+          <a href="../experiments/merz-parts/module-parts.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="ink-at-the-edges">
+        <h2>Ink at the edges</h2>
+        <p>
+          Draw the shapes yourself. Change edgeAmount and edgeSeed to study imperfect
+          edges. This sketch also loads edges.js.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-surface/edge-sketch.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Ink at the edges - live sketch"
+              src="../experiments/merz-surface/edge-sketch.html?preview=1"
+              style="aspect-ratio: 1"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-surface/edge-sketch.js">Source sketch</a>
+          &middot;
+          <a href="../experiments/merz-surface/edge-sketch.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="draw-first-then-change-the-ink">
+        <h2>Draw first, then change the ink</h2>
+        <p>
+          The complete drawing and separate print and age settings share one sketch.
+          Load ink.js and surface.js as described in the sketch notes.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-surface/draw-ink.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Draw first, then change the ink - live sketch"
+              src="../experiments/merz-surface/draw-ink.html?preview=1"
+              style="aspect-ratio: 1"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-surface/draw-ink.js">Source sketch</a> &middot;
+          <a href="../experiments/merz-surface/draw-ink.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <section id="printing-and-ageing">
+        <h2>Printing and ageing</h2>
+        <p>
+          Independent amounts treat the same composition. This comparison sketch loads
+          the shared composition and surface helpers.
+        </p>
+        <div class="demo-layout">
+          <div class="demo-code">
+            <pre><code class="language-javascript" data-source="../experiments/merz-surface/both.js">Loading source...</code></pre>
+          </div>
+          <div class="demo-right">
+            <iframe
+              title="Printing and ageing - live sketch"
+              src="../experiments/merz-surface/both.html?preview=1"
+              style="aspect-ratio: 600/840"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <p>
+          <a href="../experiments/merz-surface/both.js">Source sketch</a> &middot;
+          <a href="../experiments/merz-surface/both.html"
+            >Sketch notes and dependencies</a
+          >
+        </p>
+      </section>
+      <p><a href="research.html">Research comparisons, sources and notes</a></p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+[
+  {
+    "file": "merz-2-cover.pdf",
+    "sha256": "f05db6f7c95ab015a8008d5cbea3af93283fc24b61db6732f33cbfbe674425e2",
+    "pixels": [
+      855,
+      1307
+    ]
+  },
+  {
+    "file": "merz-2-17.pdf",
+    "sha256": "168696c86c27c84edf977436be1a3ecbc3383d69bff10ba33d2951f90d2dc177",
+    "pixels": [
+      851,
+      1308
+    ]
+  },
+  {
+    "file": "merz-8-cover.pdf",
+    "sha256": "5e624a07552b3436a8d7d58308598611ec642ebe2cf2b3f350346ca2f4e28de6",
+    "pixels": [
+      1125,
+      1460
+    ]
+  }
+]

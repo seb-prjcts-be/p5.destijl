@@ -1,0 +1,19 @@
+const assert=require('node:assert/strict');const fs=require('node:fs');const vm=require('node:vm');
+function test(file){const ctx={};vm.runInNewContext(fs.readFileSync(file,'utf8'),ctx);const {Merz}=ctx;
+const c=Merz.create({width:600,height:600}),back=c.plane(20,30,200,100,{color:'#b92d26'}),word=c.text('VORM',40,50,{size:70}),line=c.line(0,0,100,100);
+assert.equal(c.items().length,3);assert.equal(c.get(word).id,word);
+const before=JSON.stringify(c.get(word));assert.throws(()=>c.update(word,{size:-1}));assert.equal(JSON.stringify(c.get(word)),before);
+c.move(word,80,90);assert.equal(c.get(word).x,80);const clone=c.get(word);clone.x=999;assert.equal(c.get(word).x,80);
+c.sendToBack(line);assert.equal(c.items()[0].id,line);c.bringToFront(back);assert.equal(c.items().at(-1).id,back);
+assert.throws(()=>c.update(word,{id:'other'}));assert.throws(()=>c.text('Hello🙂',0,0));assert.throws(()=>c.plane(0,0,-3,10));
+const letters=new Set();for(const char of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'){const geom=Merz.geometry(char,{size:100});letters.add(JSON.stringify(geom.paths));for(const p of geom.paths)for(const v of p.points)assert.ok(v.every(Number.isFinite));}assert.equal(letters.size,26,'Each letter needs its own shape');
+const a=Merz.geometry('NN',{spacing:10}),b=Merz.geometry('NN',{spacing:40});assert.equal(JSON.stringify(a.paths[0]),JSON.stringify(b.paths[0]));assert.equal(b.paths[1].points[0][0]-a.paths[1].points[0][0],30);
+assert.equal(Merz.geometry('één').text,'EEN');assert.equal(Merz.geometry('A\nA',{size:100,leading:130}).height,230);
+const svg=c.exportSVG({title:'<A&B>'});assert.ok(svg.includes('&lt;A&amp;B&gt;'));assert.ok(svg.includes('clip-path'));assert.equal((svg.match(/<g id=/g)||[]).length,3);
+const calls=[];const p=new Proxy({CORNER:'corner',PROJECT:'square',MITER:'miter'},{get:(obj,key)=>key in obj?obj[key]:(...args)=>calls.push([key,...args])});c.draw(p);assert.equal(calls.filter(a=>a[0]==='push').length,calls.filter(a=>a[0]==='pop').length);assert.ok(calls.some(a=>a[0]==='applyMatrix'));
+const graphicsCalls=[];const graphics=new Proxy({}, {get:(_,key)=>['CORNER','PROJECT','MITER'].includes(key)?undefined:(...args)=>graphicsCalls.push([key,...args])});c.draw(graphics);
+assert.ok(graphicsCalls.some(a=>a[0]==='rectMode'&&a[1]==='corner'));
+assert.ok(graphicsCalls.some(a=>a[0]==='strokeCap'&&a[1]==='square'));
+assert.ok(graphicsCalls.some(a=>a[0]==='strokeJoin'&&a[1]==='miter'));
+c.clear();const newId=c.letter('N',0,0);assert.notEqual(newId,word);assert.throws(()=>c.get(word));return svg;}
+const source=test('p5.merz.js');if(fs.existsSync('p5.merz.min.js'))assert.equal(source,test('p5.merz.min.js'));console.log('Library and build: 26 distinct letters, stable ids, atomic edits, order, spacing, SVG and renderer isolation passed.');

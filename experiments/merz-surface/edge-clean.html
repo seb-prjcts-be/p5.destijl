@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ink at the edges - p5.merz</title>
+    <link rel="stylesheet" href="../../docs/library.css?v=merz-study-4" />
+    <script defer src="../../vendor/p5-2.3.4.min.js"></script>
+    <script defer src="../../p5.merz.js"></script>
+    <script defer src="edges.js"></script>
+    <script defer src="edge-clean.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"
+    ></script>
+    <script defer src="../../docs/example-source.js"></script>
+    <script src="../../docs/preview.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="../../index.html">p5.merz</a>
+      <span>A small study</span>
+    </header>
+    <nav class="study-nav" aria-label="p5.merz pages">
+      <a href="../../index.html">Showcase</a>
+      <a href="../../docs/examples.html">Examples</a>
+      <a href="../../docs/guide.html">Guide</a>
+      <a aria-current="true" href="../../docs/research.html">Research</a>
+      <a href="../../docs/about.html">About</a>
+      <a href="https://github.com/seb-prjcts-be/p5.merz">GitHub</a>
+    </nav>
+    <main class="wide">
+      <h1>Ink at the edges</h1>
+      <p>
+        Draw the word and shapes in p5. Then choose <code>edgeAmount</code> from 0 to 1.
+        The seed fixes where the ink loses coverage or spreads slightly.
+      </p>
+      <div class="demo-layout">
+        <section class="demo-code">
+          <h2>Complete sketch</h2>
+          <pre><code class="language-javascript" data-source="edge-clean.js">Loading source...</code></pre>
+        </section>
+        <section class="demo-right">
+          <div id="drawing" class="demo-canvas"></div>
+        </section>
+      </div>
+      <p>
+        <a href="edge-comparison.html">Compare with clean ink</a> &middot;
+        <a href="edge-clean.js">Sketch</a> &middot;
+        <a href="edges.js">Surface helper</a>
+      </p>
+      <p>
+        This is a study of imperfect execution. It treats only a two-pixel band near the
+        ink edges at the sketch's original resolution. It does not move the drawing or
+        simulate elapsed time. Thin marks can lose some coverage; spreading can add up
+        to two pixels outside a mark. PNG includes the result; SVG does not. Press S to
+        save PNG.
+      </p>
+    </main>
+  </body>
+</html>

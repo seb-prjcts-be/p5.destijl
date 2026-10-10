@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Clean - p5.merz</title>
+    <link rel="stylesheet" href="../../docs/library.css?v=merz-study-4" />
+    <script defer src="../../vendor/p5-2.3.4.min.js"></script>
+    <script defer src="../../p5.merz.js"></script>
+    <script defer src="../merz-print/ink.js"></script>
+    <script defer src="surface.js"></script>
+    <script defer src="composition.js"></script>
+    <script defer src="clean.js"></script>
+    <script src="../../docs/preview.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script defer src="../../docs/example-source.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="../../index.html">p5.merz</a>
+      <span>A small study</span>
+    </header>
+    <nav class="study-nav" aria-label="p5.merz pages">
+      <a href="../../index.html">Showcase</a>
+      <a href="../../docs/examples.html">Examples</a>
+      <a href="../../docs/guide.html">Guide</a>
+      <a aria-current="true" href="../../docs/research.html">Research</a>
+      <a href="../../docs/about.html">About</a>
+      <a href="https://github.com/seb-prjcts-be/p5.merz">GitHub</a>
+    </nav>
+    <main class="wide">
+      <h1>Clean</h1>
+
+
+      <div class="demo-layout">
+        <section class="demo-code">
+          <h2>Complete sketch</h2>
+          <pre>
+<code class="language-javascript" data-source="clean.js">Loading source…</code>
+</pre>
+        </section>
+        <section class="demo-right">
+          <div id="drawing" class="demo-canvas"></div>
+        </section>
+      </div>
+      <details>
+        <summary>Compare settings</summary>
+        <p>These controls help compare the study. To make your own version, change the settings in the sketch above.</p>
+      <form id="surface-controls">
+        <label
+          >Print amount<input
+            name="print"
+            type="number"
+            min="0"
+            max="1"
+            step=".05"
+            value=".45"
+          />
+        </label>
+        <label
+          >Age amount<input
+            name="age"
+            type="number"
+            min="0"
+            max="1"
+            step=".05"
+            value=".65"
+          />
+        </label>
+        <label
+          >Pattern<input
+            name="seed"
+            type="number"
+            min="0"
+            max="999999"
+            step="1"
+            value="17"
+          />
+        </label>
+        <button type="button" id="reset">Reset</button>
+      </form>
+        <p id="coverage" role="status"></p>
+      </details>
+      <p>
+        <a href="clean.js">Complete sketch</a> ·
+        <a href="index.html">Compare treatments</a>.
+        <a href="composition.js">Composition</a> ·
+        <a href="surface.js">Ageing helper</a>. Press S to save PNG.
+      </p>
+    </main>
+  </body>
+</html>

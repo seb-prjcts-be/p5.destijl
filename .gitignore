@@ -1,0 +1,11 @@
+node_modules/
+research_notes/**/source-checks/
+
+# Local working documents and retired builds
+/AGENTS.md
+/reports/
+/research_notes/
+/docs/*.md
+/experiments/merz-material/README.md
+/p5.destijl.js
+/p5.destijl.min.js

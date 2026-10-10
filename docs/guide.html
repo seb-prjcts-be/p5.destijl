@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Guide - p5.merz</title><link rel="stylesheet" href="library.css?v=merz-site-1"><link rel="icon" href="data:,"><link rel="stylesheet" href="prose.css?v=1"></head><body><header><a class="brand" href="../index.html">p5.merz</a><span>Guide</span></header>
+<nav class="study-nav" aria-label="p5.merz pages">
+      <a href="../index.html">Showcase</a>
+      <a href="examples.html">Examples</a>
+      <a aria-current="page" href="guide.html">Guide</a>
+      <a href="research.html">Research</a>
+      <a href="about.html">About</a>
+      <a href="https://github.com/seb-prjcts-be/p5.merz">GitHub</a>
+    </nav>
+<main class="wide"><h1>Drawing with p5.merz</h1><p>Use p5.merz.js and the Merz API. The DeStijl API alias remains available for existing sketches.</p><p>Load p5.js, then p5.merz.js and your own sketch. The examples use p5.js 2.3.4.</p><pre>&lt;script src="p5.js"&gt;&lt;/script&gt;
+&lt;script src="p5.merz.js"&gt;&lt;/script&gt;
+&lt;script src="sketch.js"&gt;&lt;/script&gt;</pre>
+<h2 id="geometry">Draw with geometry</h2>
+<p><code>Merz.geometry(text, options)</code> returns normalised text, paths, width and frame height. Each path contains <code>points</code>, an array of [x, y] pairs, and <code>width</code>, its stroke thickness. Choose colour, placement and repetition in your sketch.</p>
+<pre>const word = Merz.geometry('ROOM', { size: 100 });
+const pieces = Merz.parts('R', { size: 100 });
+const bowl = pieces.find(part => part.id === 'bowl');</pre>
+<p><code>Merz.parts(letter, options)</code> returns an array of named parts: <code>{ id, paths }</code>. It accepts one uppercase letter from A to Z. Use <code>geometry()</code> for words, numbers and punctuation. Both calls accept the text measurements described below and return fresh data, so changing points does not change the alphabet or another call.</p>
+<p>Parts keep their position within the original letter frame. An R has <code>left-stem</code>, <code>bowl</code> and <code>lower-stem</code>; names vary with the construction. Read them with <code>pieces.map(part =&gt; part.id)</code>. A part may contain a joined frame or stepped shape.</p>
+<pre>function setup() {
+  createCanvas(600, 600);
+  background('#f7f7f2');
+  noLoop();
+  const pieces = Merz.parts('R', { size: 160 });
+  const bowl = pieces.find(part =&gt; part.id === 'bowl');
+  translate(80, 80);
+  noFill();
+  stroke('#b92d26');
+  strokeCap(SQUARE);
+  strokeJoin(MITER);
+  for (const path of bowl.paths) {
+    strokeWeight(path.width);
+    beginShape();
+    for (const [x, y] of path.points) vertex(x, y);
+    endShape();
+  }
+}</pre>
+<p>Use the same paths with instance methods such as <code>p.vertex()</code>. These calls need no p5 instance themselves. Your own p5 drawing is not recorded for SVG export.</p>
+<p><a href="../experiments/merz-parts/module-start.html">Complete word sketch</a> · <a href="examples.html#draw-with-a-named-part">Repeat a part</a>. The local working copy includes <code>parts()</code>; the published 0.2.0 release does not yet include it.</p>
+<h2 id="fragments">Cut a fragment, change its edge</h2>
+<p><code>fragment(source, outline)</code> accepts a p5.Image, p5.Graphics, geometry(), one named part or an array from parts(). The outline is a convex polygon of [x, y] points in the source's coordinates, ordered around its edge. It needs at least three corners, without repeated or collinear corners. Pixels outside the source remain transparent.</p>
+<pre>const letters = Merz.geometry('MERZ', { size: 180 });
+const piece = Merz.fragment(letters, [
+  [0, 20], [letters.width, 20],
+  [letters.width, 130], [0, 130]
+]);
+const torn = Merz.tear(piece, { amount: 0.7, seed: 17 });
+const cut = torn.toImage(globalThis, { color: '#b92d26' });
+image(cut, 40, 80);</pre>
+<p><code>tear()</code> changes the cut edge inward. Amount runs from 0 (the clean cut) to 1; seed selects the pattern. Each call starts from the original outline, even when passed an already torn fragment. The material and crop position stay fixed. This is a geometric edge treatment, not a simulation of paper fibres or ageing. It becomes visible where the cut crosses ink or image pixels.</p>
+<p>A fragment stores a copy of its source. Its <code>x</code> and <code>y</code> give the crop origin; <code>width</code> and <code>height</code> are rounded up to whole pixels and remain fixed when torn. <code>outline()</code> returns a fresh copy of the current edge. The output is limited to 16 million pixels.</p>
+<p><code>toImage(globalThis, { color })</code> converts the fragment to a transparent p5.Image at pixel density 1. Use <code>toImage(p, { color })</code> in instance mode. Color applies to geometry; image sources retain their own colours. Create the image once in setup(), then use ordinary p5 image(), translate() and rotate(). Rendering needs a browser and p5; geometry fragments and tear() can be prepared without them.</p>
+<p>The fragment output is raster. It is not added to a stored composition or its SVG export. These functions are in the local working copy, not the published 0.2.0 release. <a href="examples.html#fragment-scan">Three examples use the same route</a>.</p>
+<h2 id="surface">Small surface differences</h2><pre>const printed = Merz.surface(inkLayer, { ink: 0.12, paper: 0, seed: 17 });
+const sheet = Merz.surface(paperLayer, { ink: 0, paper: 0.18, seed: 17 });
+image(sheet, 0, 0);
+image(printed, 0, 0);</pre><p>surface(source, options, p) takes a p5.Image or p5.Graphics and returns a new p5.Image. It leaves the source unchanged. In instance mode pass p as the third argument. Make the result once in setup() and draw it with ordinary image(). No WEBGL canvas or shader code is needed in your sketch.</p><p>ink gently reduces coverage, with sparse small losses. paper adds faint warm tonal variation and sparse marks without changing alpha. Keep ink on a transparent layer and paper on its own layer. Applying either operation to a scan treats all its pixels; the library cannot identify the original ink or paper for you.</p><p>Both amounts range from 0 to 1. Defaults are ink 0.12, paper 0, seed 17. Set both to zero for a clean snapshot with no shader pass. Always return to the original source when changing values; treating an already treated result compounds the changes. The pattern is fixed for the same dimensions and seed. It belongs to the supplied layer and follows that layer when placed in p5.</p><p>Output uses one pixel per logical canvas unit, with a maximum of 16 million pixels. Resizing the source changes the pattern; resolution-independent export and fields shared across independently cropped fragments remain research. The result is raster and is not included in geometric SVG export.</p><p>The implementation uses a private shader pass with a CPU reference and fallback. This first version checks the GPU result against that reference; it makes no speed claim. Exact pixels across different devices are not promised. The methods are local development additions, not a new release. <a href="../experiments/merz-sheet/compare.html">Compare the clean and light versions</a>.</p>
+<h2>Keep a composition</h2><p>Store elements when you want to edit them by id or export their geometry as SVG.</p><pre>let work;
+
+function setup() {
+  createCanvas(600, 600);
+  noLoop();
+  work = Merz.create({ width: 600, height: 600 });
+  work.plane(50, 330, 200, 150, { color: Merz.palette.blue });
+  work.line(50, 280, 550, 280, { strokeWeight: 8 });
+  work.text('FORM', 50, 90, { size: 100, spacing: 12 });
+}
+
+function draw() {
+  work.draw();
+}</pre>
+<h2>Letters, lines and planes</h2><table><thead><tr><th>Call</th><th>What it does</th></tr></thead><tbody><tr><td><code>work.text(text, x, y, options)</code></td><td>Adds a word or several lines of geometric letters. Returns an id.</td></tr><tr><td><code>work.letter(letter, x, y, options)</code></td><td>Adds one character with the same options.</td></tr><tr><td><code>work.line(x1, y1, x2, y2, options)</code></td><td>Adds a line between two points, including diagonals.</td></tr><tr><td><code>work.plane(x, y, width, height, options)</code></td><td>Adds a filled rectangular plane.</td></tr></tbody></table>
+<p>All elements accept <code>color</code>, <code>angle</code> and <code>scale</code>. Colours are six-digit hex values, such as <code>#234b92</code>. Use the supplied palette or choose your own colours. Angles are in degrees and rotate around the element’s origin, independently of the sketch’s angleMode.</p>
+<p>For text, x/y is the top-left corner of the letter frame. <code>size</code> is its height (default 100), <code>weight</code> is relative bar thickness (0.05-1, default 0.8), <code>proportion</code> sets width (0.55-1.35, default 1), <code>spacing</code> is the gap between letter frames (default 12), and <code>leading</code> is line spacing (default size × 1.4). Measurements use canvas units. Text is not automatically wrapped or scaled.</p>
+<p>The character set includes A-Z, 0-9, spaces, new lines and common punctuation. Lowercase becomes uppercase and accents are simplified. Symbols include &amp;, %, @, #, €, $ and £. Curly quotes become straight quotes and non-breaking spaces become ordinary spaces. Unsupported characters raise an error. The letters are our own contemporary constructions. D/O and U/V have distinct shapes; Q stays inside its frame. The unusual letters still need readability studies with users.</p>
+<p>A line accepts <code>strokeWeight</code> (default 4). In an update, <code>x2</code> and <code>y2</code> are offsets from x/y, so both endpoints move together. Lines and letter paths have square caps.</p>
+<p>Short punctuation marks have narrower frames; spacing remains the extra gap between frames. Zero has an inner mark to distinguish it from O. Slash and backslash use straight steps. Numbers and punctuation are contemporary additions.</p><p><a href="../examples/characters/">View all characters</a> · <a href="../examples/poster/">Complete poster with date and price</a></p><h2>Changing an element</h2><pre>const title = work.text('SPACE', 40, 70, { size: 60 });
+work.update(title, { color: Merz.palette.red, angle: -90 });
+work.move(title, 520, 400);
+work.bringToFront(title);
+work.sendToBack(title);
+work.remove(title);</pre><p><code>work.get(id)</code> and <code>work.items()</code> return copies of the settings. Keep ids to edit elements later. <code>clear()</code> removes all elements; new elements receive new ids. Invalid measurements or unknown update options leave the existing element unchanged. Adding order determines which element appears on top.</p>
+<h2>Drawing and export</h2><p>Use <code>work.draw()</code> in global mode or <code>work.draw(p)</code> in instance mode. The library preserves p5 drawing settings. The default background is paper white; set <code>background: null</code> to draw over an existing sketch.</p><p>Match the canvas size to the composition. SVG uses the composition dimensions and clips at the page edge. External p5 transforms do not appear automatically in SVG. Use the elements’ angle, scale and x/y for matching output. This version draws on a 2D canvas.</p><pre>work.downloadSVG('composition.svg');
+const source = work.exportSVG({ title: 'My composition' });</pre><p>SVG contains vector paths and colour planes, grouped by element id. No font files are needed. The export is an editable vector image.</p><h2>Geometry for your own drawing</h2><pre>const word = Merz.geometry('FORM', { size: 100, weight: 0.6 });</pre><p>Returns normalised text, paths, width and frame height. Draw these paths with your own p5 code. The geometry core and SVG export also run without p5.</p><p><a href="../examples/free-composition/">Complete example</a> · <a href="../experiments/letter-atlas/">Letter atlas</a></p><h2 id="stempel">Stempel</h2><pre>const word = Merz.geometry('MERZ', { size: 80 });
+Merz.stempel(word, [
+  { x: 30, y: 40, color: '#b92d26' },
+  { x: 60, y: 180, angle: -8, scale: 1.2 }
+]);</pre><p><code>Merz.stempel(source, placements, p)</code> draws geometry, a letter part, an array of parts or a fragment at the positions you supply. Each placement needs <code>x</code> and <code>y</code>. Optional settings are <code>angle</code> in degrees (default 0), positive <code>scale</code> (default 1, minimum 0.001) and six-digit hex <code>color</code> (default ink black). The function returns the number of impressions.</p><p>Omit <code>p</code> in global mode; pass your p5 instance or graphics buffer otherwise. Your outer transforms remain active and drawing settings are restored afterwards. Geometry keeps its original coordinates; a fragment starts at its cropped top-left corner. Colour applies to paths; image fragments keep their source colours. Fragments are rasterised once per colour within each call. Drawings go straight to the canvas and are not added to a stored composition or its SVG export.</p><p><a href="../experiments/merz-stempel/">Three complete examples</a></p><h2 id="fundsachen">Fundsachen</h2><p>Each item in the <a href="fundsachen.html">catalogue</a> has a transparent PNG download. Letters, numbers and rules also have SVG silhouettes. Keep just the samples you use in your sketch folder. The library can stay at its online URL.</p><pre>const piece = await Merz.fundsachen('022', {
+  url: 'merz-8-cover-nasci-ink.png'
+});</pre><p><code>url</code> points to your downloaded image, relative to the sketch page. You can also use an absolute image URL. Choose either <code>url</code> for one file or <code>baseURL</code> for a folder. Hosted images need to allow cross-origin loading when used from another site.</p><pre>const piece = await Merz.fundsachen('001');
+Merz.stempel(piece, [{ x: 40, y: 60 }]);</pre><p>Load a catalogue sample by its fixed number or name. Use an async setup function with p5.js 2.x. The result is a fragment for <code>tear()</code>, <code>stempel()</code> or <code>toImage()</code>. <code>Merz.fundsachen.list()</code> returns the entries, dimensions, crop coordinates and source links without loading images.</p><p>Keep <code>assets/fundsachen/</code> next to the library file. To host the images elsewhere, pass <code>{ baseURL: 'https://your-site.example/samples/' }</code> with the trailing slash. In instance mode use <code>await Merz.fundsachen('001', {}, p)</code>. Images load once per URL and p5 context; each call returns its own fragment. Failed loads can be retried. The default <code>variant: 'ink'</code> loads transparent ink. Choose <code>variant: 'scan'</code> for the original paper or <code>variant: 'svg'</code> for an available SVG silhouette. An unavailable variant raises an error. SVG downloads contain vector paths; loading one through <code>fundsachen()</code> rasterises it at the catalogue dimensions for fragment operations. Use the SVG file directly for vector editing and large-scale output.</p><p><a href="fundsachen.html">Browse the catalogue</a> · <a href="../experiments/merz-fundsachen/">Complete sketch</a></p></main></body></html>

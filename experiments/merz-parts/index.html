@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>One letter, separate parts - p5.merz</title>
+    <link rel="stylesheet" href="../../docs/library.css?v=merz-study-4" />
+    <script defer src="../../vendor/p5-2.3.4.min.js"></script>
+    <script defer src="../../p5.merz.js"></script>
+    <script defer src="sketch.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script defer src="../../docs/example-source.js"></script>
+    <script src="../../docs/preview.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="../../index.html">p5.merz</a>
+      <span>A small study</span>
+    </header>
+    <nav class="study-nav" aria-label="p5.merz pages">
+      <a href="../../index.html">Showcase</a>
+      <a href="../../docs/examples.html">Examples</a>
+      <a href="../../docs/guide.html">Guide</a>
+      <a aria-current="true" href="../../docs/research.html">Research</a>
+      <a href="../../docs/about.html">About</a>
+      <a href="https://github.com/seb-prjcts-be/p5.merz">GitHub</a>
+    </nav>
+    <main class="wide">
+      <h1>One letter, separate parts</h1>
+      <p><a href="adapter.html">Try the named-parts adapter</a></p>
+      <p>
+        Change a crossbar's colour and repeat it with an ordinary p5 loop. The word
+        below uses stored elements.
+      </p>
+      <p>
+        <a href="sketch.js">Complete sketch</a>. Change word, partColour or repeats at
+        the top. Press S to save PNG.
+      </p>
+      <div class="demo-layout">
+        <section class="demo-code">
+          <h2>Complete sketch</h2>
+          <pre>
+<code class="language-javascript" data-source="sketch.js">Loading source…</code>
+</pre>
+        </section>
+        <section class="demo-right">
+          <div id="drawing" class="demo-canvas"></div>
+        </section>
+      </div>
+      <h2>What the geometry gives us</h2>
+      <p>
+        The current A has a separate crossbar path. We inspected that path and used it
+        directly. Other letters join several bars in one path, so this index is not a
+        general way to name parts. A useful alphabet module would need to make that
+        distinction explicit.
+      </p>
+      <p>
+        Stored elements make whole-word editing short. Geometry gives ordinary p5
+        control over available paths. Neither route currently names individual bars.
+        This example keeps that question visible.
+      </p>
+    </main>
+  </body>
+</html>

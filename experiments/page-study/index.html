@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page study - p5.merz</title><link rel="icon" href="data:,"><link rel="stylesheet" href="../shared/studies.css?v=merz-site-1"><script defer src="../../vendor/p5-2.3.4.min.js"></script><script defer src="../../p5.merz.js"></script><script defer src="../shared/bars.js"></script><script defer src="sketch.js"></script></head><body>
+<header><a class="brand" href="../../index.html">p5.merz</a><span>A page with three text roles</span></header>
+<nav class="study-nav" aria-label="p5.merz pages">
+      <a href="../../index.html">Showcase</a>
+      <a href="../../docs/examples.html">Examples</a>
+      <a href="../../docs/guide.html">Guide</a>
+      <a aria-current="true" href="../../docs/research.html">Research</a>
+      <a href="../../docs/about.html">About</a>
+      <a href="https://github.com/seb-prjcts-be/p5.merz">GitHub</a>
+    </nav>
+
+<main class="study-main"><section class="work"><div id="page"></div><p class="caption">A heading, small text and space between them.</p><p class="notes">Starting point: the different text sizes and open space in <a href="https://www.thefoundrytypes.com/wp-content/uploads/2020/08/VanDoes_magazine_klei_1920-1.jpg">Klei (1919)</a>. This page is our own composition, with new text, layout and colours.</p></section>
+<aside><h1>Page study</h1><p class="intro">Place the heading and small text yourself. Their sizes stay fixed when you change spacing or position.</p>
+<form id="layout"><label for="title">Heading</label><input id="title" name="title" type="text" maxlength="24" value="SPACE"><div class="fields"><label>Size<input id="size" type="number" min="25" max="160" value="100"></label><label>Spacing<input id="spacing" type="number" min="0" max="60" value="14"></label><label>Heading x<input id="x" type="number" min="0" max="900" value="75"></label><label>Heading y<input id="y" type="number" min="0" max="1100" value="140"></label></div>
+<label for="colour">Heading colour</label><input id="colour" type="color" value="#20201e">
+<label for="info">Small text</label><textarea id="info" rows="3" maxlength="180">A study of letters and planes.
+Free proportions, fixed sizes.</textarea>
+<div class="fields"><label>Small text x<input id="info-x" type="number" min="0" max="900" value="75"></label><label>Small text y<input id="info-y" type="number" min="0" max="1100" value="820"></label></div>
+<label for="direction">Side text direction</label><select id="direction"><option value="vertical">Vertical</option><option value="horizontal">Horizontal</option></select>
+<label for="panel">Colour plane</label><select id="panel"><option value="none">No plane</option><option value="red">Red</option><option value="blue">Blue</option><option value="yellow">Yellow</option></select>
+<label for="panel-y">Plane position</label><input id="panel-y" type="range" min="280" max="700" step="10" value="420">
+<p id="page-notice" role="status"></p><div class="actions"><button id="restart-page" type="button">Reset</button><button id="save-page" type="button">Save SVG</button></div></form>
+<details><summary>What SVG saves</summary><p>The heading uses editable vector paths. Small text remains ordinary text, so its appearance depends on the fonts available. Canvas and SVG clip everything at the page edge. Nothing is automatically scaled to fit.</p></details>
+</aside></main><footer>p5.merz in study<span>The source is a starting point. You decide how to compose the page.</span></footer></body></html>
+

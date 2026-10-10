@@ -1,0 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,400;0,600;1,400&display=swap");
+
+/* Documentation prose; headings, navigation and code keep their own type. */
+main p,
+main li,
+main blockquote {
+  font-family: "Platypi", Georgia, serif;
+  line-height: 1.65;
+}

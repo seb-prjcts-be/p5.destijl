@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Draw first, then change the ink - p5.merz</title>
+    <link rel="stylesheet" href="../../docs/library.css?v=merz-study-4" />
+    <script defer src="../../vendor/p5-2.3.4.min.js"></script>
+    <script defer src="../../p5.merz.js"></script>
+    <script defer src="../merz-print/ink.js"></script>
+    <script defer src="surface.js"></script>
+    <script defer src="draw-ink.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"
+    ></script>
+    <script defer src="../../docs/example-source.js"></script>
+    <script src="../../docs/preview.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="../../index.html">p5.merz</a>
+      <span>A small study</span>
+    </header>
+    <nav class="study-nav" aria-label="p5.merz pages">
+      <a href="../../index.html">Showcase</a>
+      <a href="../../docs/examples.html">Examples</a>
+      <a href="../../docs/guide.html">Guide</a>
+      <a aria-current="true" href="../../docs/research.html">Research</a>
+      <a href="../../docs/about.html">About</a>
+      <a href="https://github.com/seb-prjcts-be/p5.merz">GitHub</a>
+    </nav>
+    <main class="wide">
+      <h1>Draw first, then change the ink</h1>
+      <p>
+        The drawing is all here: a word, a rectangle, ordinary p5 text and a line.
+        Change them in the sketch. The two surface helpers work on the layer you draw.
+      </p>
+      <p>
+        Start with <code>printAmount = 0</code> and <code>ageAmount = 0</code> for clean
+        ink. Try printing at 0.15, then change ageAmount on its own. Each seed chooses a
+        separate pattern; changing an amount keeps that pattern in place.
+      </p>
+      <div class="demo-layout">
+        <section class="demo-code">
+          <h2>Complete sketch</h2>
+          <pre><code class="language-javascript" data-source="draw-ink.js">Loading source...</code></pre>
+        </section>
+        <section class="demo-right">
+          <div id="drawing" class="demo-canvas"></div>
+        </section>
+      </div>
+      <h2>Run it in your own page</h2>
+      <p>
+        Load p5.js, <a href="../../p5.merz.js">p5.merz.js</a>,
+        <a href="../merz-print/ink.js">ink.js</a> and
+        <a href="surface.js">surface.js</a>, followed by
+        <a href="draw-ink.js">this sketch</a>. No controls or shared composition file
+        are needed.
+      </p>
+      <p>
+        The surface helpers are research code. They change pixels on the transparent ink
+        layer; the paper is drawn underneath. Press S to save PNG. This sketch does not
+        export SVG. The ageing effect remains an ink-loss hypothesis.
+      </p>
+      <p><a href="index.html">Compare the surface studies</a></p>
+    </main>
+  </body>
+</html>

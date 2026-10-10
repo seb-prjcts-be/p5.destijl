@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Printing and ageing - p5.merz</title>
+    <link rel="stylesheet" href="../../docs/library.css?v=merz-study-4" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="../../index.html">p5.merz</a>
+      <span>A surface study</span>
+    </header>
+    <nav class="study-nav" aria-label="p5.merz pages">
+      <a href="../../index.html">Showcase</a>
+      <a href="../../docs/examples.html">Examples</a>
+      <a href="../../docs/guide.html">Guide</a>
+      <a aria-current="true" href="../../docs/research.html">Research</a>
+      <a href="../../docs/about.html">About</a>
+      <a href="https://github.com/seb-prjcts-be/p5.merz">GitHub</a>
+    </nav>
+    <main class="wide">
+      <h1>Printing and ageing</h1>
+      <p><a href="edge-comparison.html">New study: ink at the edges</a> - small interruptions and excess ink on the same drawing.</p>
+      <p>
+        The composition stays fixed. Printing changes coverage across the sheet; the
+        ageing hypothesis removes ink in a few broad regions. These helpers are
+        experiments, not simulations of a historical printing process.
+      </p>
+      <p>
+        <a href="draw-ink.html">Start by writing the drawing</a>, or open the
+        <a href="sketch.js">shared comparison sketch</a>. Choose printAmount, ageAmount,
+        pattern and treatment separately. The pattern is fixed while an amount changes.
+      </p>
+      <h2>From clean to stronger coverage loss</h2>
+      <p>
+        The same page and seed 17, with print amounts 0, 0.15 and 0.8. Open each sketch
+        to inspect small text and thin rules at a larger size.
+      </p>
+      <div class="example-grid">
+        <section>
+          <h3>Clean</h3>
+          <iframe
+            title="Clean amount 0"
+            src="clean.html?preview=1"
+            style="width: 100%; aspect-ratio: 600/840; border: 0"
+            loading="lazy"
+          ></iframe>
+          <p>
+            Amount 0. <a href="clean.html">Open sketch</a> &middot;
+            <a href="clean.js">Code</a>
+          </p>
+        </section>
+        <section>
+          <h3>Light print</h3>
+          <iframe
+            title="Light print amount 0.15"
+            src="light-print.html?preview=1"
+            style="width: 100%; aspect-ratio: 600/840; border: 0"
+            loading="lazy"
+          ></iframe>
+          <p>
+            Amount 0.15. <a href="light-print.html">Open sketch</a> &middot;
+            <a href="light-print.js">Code</a>
+          </p>
+        </section>
+        <section>
+          <h3>Stronger print</h3>
+          <iframe
+            title="Stronger print amount 0.8"
+            src="strong-print.html?preview=1"
+            style="width: 100%; aspect-ratio: 600/840; border: 0"
+            loading="lazy"
+          ></iframe>
+          <p>
+            Amount 0.8. <a href="strong-print.html">Open sketch</a> &middot;
+            <a href="strong-print.js">Code</a>
+          </p>
+        </section>
+      </div>
+      <h2>Printing and ageing as separate choices</h2>
+      <div class="compare merz-comparison">
+        <section>
+          <h2>Clean</h2>
+          <iframe
+            title="Clean"
+            src="clean.html?preview=1"
+            style="width: 100%; aspect-ratio: 600/840; border: 0"
+            loading="lazy"
+          >
+          </iframe>
+          <p><a href="clean.html">Open</a> · <a href="clean.js">code</a></p>
+        </section>
+        <section>
+          <h2>Imperfect print</h2>
+          <iframe
+            title="Imperfect print"
+            src="print.html?preview=1"
+            style="width: 100%; aspect-ratio: 600/840; border: 0"
+            loading="lazy"
+          >
+          </iframe>
+          <p><a href="print.html">Open</a> · <a href="print.js">code</a></p>
+        </section>
+        <section>
+          <h2>Ageing only</h2>
+          <iframe
+            title="Ageing only"
+            src="age.html?preview=1"
+            style="width: 100%; aspect-ratio: 600/840; border: 0"
+            loading="lazy"
+          >
+          </iframe>
+          <p><a href="age.html">Open</a> · <a href="age.js">code</a></p>
+        </section>
+        <section>
+          <h2>Print and ageing</h2>
+          <iframe
+            title="Print and ageing"
+            src="both.html?preview=1"
+            style="width: 100%; aspect-ratio: 600/840; border: 0"
+            loading="lazy"
+          >
+          </iframe>
+          <p><a href="both.html">Open</a> · <a href="both.js">code</a></p>
+        </section>
+        <section>
+          <h2>Printing per element</h2>
+          <iframe
+            title="Printing per element"
+            src="element-print.html?preview=1"
+            style="width: 100%; aspect-ratio: 600/840; border: 0"
+            loading="lazy"
+          >
+          </iframe>
+          <p>
+            <a href="element-print.html">Open</a> · <a href="element-print.js">code</a>
+          </p>
+        </section>
+      </div>
+      <h2 id="similar-loss">Similar ink loss, different distribution</h2>
+      <p>At these fixed settings, light printing lost 2.70% of the clean ink alpha
+        in our browser check; the ageing study lost 2.64%. Compare the spread of the
+        missing ink, rather than just how much is missing. Other seeds and fonts can
+        change these measurements.</p>
+      <div class="compare merz-comparison">
+        <section><h3>Light printing</h3>
+          <iframe title="Light printing at similar ink loss" src="light-print.html?preview=1" style="width:100%;aspect-ratio:600/840;border:0" loading="lazy"></iframe>
+          <p><a href="light-print.html">Print amount 0.15, seed 17</a></p>
+        </section>
+        <section><h3>Local ink loss</h3>
+          <iframe title="Local ink loss at similar strength" src="age.html?preview=1" style="width:100%;aspect-ratio:600/840;border:0" loading="lazy"></iframe>
+          <p><a href="age.html">Age amount 0.65, seed 17</a></p>
+        </section>
+      </div>
+      <p>The distributions differ, but missing ink alone does not tell us whether
+        a mark was printed that way or changed later. For now, the ageing model
+        stays a study of local ink loss. It is not ready to become a library ageing function.</p>
+      <h2>One surface or separate mark groups</h2>
+      <p>
+        These two ageing studies use amount 0.65 and base seed 17. On the sheet, all
+        marks meet the same field. The other version gives each of four mark groups its
+        own field. Open either sketch to see its measured coverage loss; equal amounts
+        do not guarantee equal total loss.
+      </p>
+      <div class="compare merz-comparison">
+        <section>
+          <h3>Across the sheet</h3>
+          <iframe
+            title="Ageing across the sheet"
+            src="age.html?preview=1"
+            style="width: 100%; aspect-ratio: 600/840; border: 0"
+            loading="lazy"
+          ></iframe>
+          <p><a href="age.html">Open sheet study</a></p>
+        </section>
+        <section>
+          <h3>Per mark group</h3>
+          <iframe
+            title="Ageing per mark group"
+            src="element-age.html?preview=1"
+            style="width: 100%; aspect-ratio: 600/840; border: 0"
+            loading="lazy"
+          ></iframe>
+          <p>
+            <a href="element-age.html">Open mark-group study</a> &middot;
+            <a href="element-age.js">Code</a>
+          </p>
+        </section>
+      </div>
+      <h2>What remains open</h2>
+      <p>
+        The per-element version uses an independent seed for each mark group. Amounts
+        match, but total coverage loss may differ. Measure that loss before judging
+        spatial relationships. The broad-region model is a proposed way to study ageing.
+        If it reads as another printing defect, we should reconsider it.
+      </p>
+      <p>
+        Paper discolouration and contour changes are not included. PNG preserves these
+        pixels. This study offers no SVG export. System fonts may differ between
+        computers.
+      </p>
+    </main>
+  </body>
+</html>
