@@ -330,15 +330,32 @@
     });
   }
   // Repeat supplied material at explicit positions, within the caller's p5 transform.
-  function stempel(source, placements, p=root) {
+  function stempel(source, placements, p=root, options={}, context=root) {
+    if(typeof placements==='number'){
+      if(!options||typeof options!=='object'||Array.isArray(options))throw new TypeError('stempel options must be an object');
+      if('x' in options||'y' in options)throw new RangeError('Pass x and y before the options');
+      placements=[{...options,x:placements,y:p}];
+      p=context;
+    }
     const paths=Array.isArray(source)?source.flatMap(part=>part?.paths||[]):source?.paths;
+    const isText=typeof source==='string';
     const isFragment=fragmentData.has(source);
-    if(!isFragment&&(!Array.isArray(paths)||!paths.length||paths.some(path=>!path||!Number.isFinite(path.width)||path.width<=0||!Array.isArray(path.points)||path.points.length<2||path.points.some(point=>!Array.isArray(point)||point.length!==2||!point.every(Number.isFinite)))))throw new TypeError('stempel needs geometry, parts or a fragment');
+    if(!isText&&!isFragment&&(!Array.isArray(paths)||!paths.length||paths.some(path=>!path||!Number.isFinite(path.width)||path.width<=0||!Array.isArray(path.points)||path.points.length<2||path.points.some(point=>!Array.isArray(point)||point.length!==2||!point.every(Number.isFinite)))))throw new TypeError('stempel needs text, geometry, parts or a fragment');
+    if(placements && typeof placements==='object' && !Array.isArray(placements))placements=[placements];
     if(!Array.isArray(placements))throw new TypeError('placements must be an array');
     const copies=placements.map(item=>{
       if(!item||typeof item!=='object')throw new TypeError('Each placement needs x and y');
-      for(const key of Object.keys(item))if(!['x','y','angle','scale','color'].includes(key))throw new RangeError('Unknown placement option: '+key);
-      return {x:number(item.x,'x'),y:number(item.y,'y'),angle:number(item.angle??0,'angle'),scale:number(item.scale??1,'scale',.001),color:colour(item.color??palette.ink)};
+      for(const key of Object.keys(item))if(!(isText?['x','y','angle','scale','color','size','font','rows','leading']:['x','y','angle','scale','color']).includes(key))throw new RangeError('Unknown placement option: '+key);
+      const textOptions={};
+      if(isText){
+        textOptions.size=number(item.size??32,'size',.001);
+        textOptions.font=item.font??'Georgia';
+        if(typeof textOptions.font!=='string'||!textOptions.font.trim())throw new TypeError('font must be a font family name');
+        textOptions.rows=item.rows??1;
+        if(!Number.isSafeInteger(textOptions.rows)||textOptions.rows<1||textOptions.rows>1024)throw new RangeError('rows must be a whole number from 1 to 1024');
+        textOptions.leading=number(item.leading??textOptions.size*1.2,'leading',.001);
+      }
+      return {...textOptions,x:number(item.x,'x'),y:number(item.y,'y'),angle:number(item.angle??0,'angle'),scale:number(item.scale??1,'scale',.001),color:colour(item.color??palette.ink)};
     });
     if(!p||typeof p.push!=='function'||typeof p.applyMatrix!=='function')throw new TypeError('stempel needs a p5 drawing context');
     const images=new Map();
@@ -347,7 +364,12 @@
       p.push();try{
         const a=item.angle*Math.PI/180,c=Math.cos(a)*item.scale,s=Math.sin(a)*item.scale;
         p.applyMatrix(c,s,-s,c,item.x,item.y);
-        if(isFragment){p.imageMode(p.CORNER??'corner');p.noTint();p.image(images.get(item.color),0,0);}
+        if(isText){
+          p.noStroke();p.fill(item.color);p.textFont(item.font);p.textSize(item.size);
+          p.textStyle(p.NORMAL??'normal');p.textAlign(p.LEFT??'left',p.BASELINE??'alphabetic');p.textLeading(item.leading);
+          for(let row=0;row<item.rows;row++)p.text(source,0,row*item.leading);
+        }
+        else if(isFragment){p.imageMode(p.CORNER??'corner');p.noTint();p.image(images.get(item.color),0,0);}
         else {
           p.noFill();p.stroke(item.color);p.strokeCap(p.PROJECT??'square');p.strokeJoin(p.MITER??'miter');
           for(const path of paths){p.strokeWeight(path.width);p.beginShape();for(const point of path.points)p.vertex(...point);p.endShape();}

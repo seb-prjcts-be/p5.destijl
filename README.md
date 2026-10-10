@@ -121,6 +121,8 @@ For a downloaded sample use `await Merz.fundsachen('022', { url: 'merz-8-cover-n
 
 ## Development
 
+`Merz.stempel('rrrt', 28, 98)` draws text. Add options when needed: `Merz.stempel('rrrt', 28, 98, { size: 105 })`. The same short form accepts geometry, parts and fragments. In instance mode, pass options and the context as the fourth and fifth arguments.
+
 `Merz.stempel(source, placements, p)` repeats geometry, letter parts or a fragment at explicit positions. Each placement sets `x`, `y` and optionally `angle`, `scale` and `color`. Use ordinary p5 drawing before and after it. See [three sketches](experiments/merz-stempel/index.html) and the [reference](docs/guide.html#stempel). This addition is available in the local development build.
 
 ```sh

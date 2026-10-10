@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Guide - p5.merz</title><link rel="stylesheet" href="library.css?v=merz-site-1"><link rel="icon" href="data:,"><link rel="stylesheet" href="prose.css?v=1"></head><body><header><a class="brand" href="../index.html">p5.merz</a><span>Guide</span></header>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Guide - p5.merz</title><link rel="stylesheet" href="library.css?v=platypi-1"><link rel="icon" href="data:,"><script defer src="code-style.js"></script></head><body><header><a class="brand" href="../index.html">p5.merz</a><span>Guide</span></header>
 <nav class="study-nav" aria-label="p5.merz pages">
       <a href="../index.html">Showcase</a>
       <a href="examples.html">Examples</a>
@@ -112,7 +112,14 @@ work.bringToFront(title);
 work.sendToBack(title);
 work.remove(title);</pre><p><code>work.get(id)</code> and <code>work.items()</code> return copies of the settings. Keep ids to edit elements later. <code>clear()</code> removes all elements; new elements receive new ids. Invalid measurements or unknown update options leave the existing element unchanged. Adding order determines which element appears on top.</p>
 <h2>Drawing and export</h2><p>Use <code>work.draw()</code> in global mode or <code>work.draw(p)</code> in instance mode. The library preserves p5 drawing settings. The default background is paper white; set <code>background: null</code> to draw over an existing sketch.</p><p>Match the canvas size to the composition. SVG uses the composition dimensions and clips at the page edge. External p5 transforms do not appear automatically in SVG. Use the elements’ angle, scale and x/y for matching output. This version draws on a 2D canvas.</p><pre>work.downloadSVG('composition.svg');
-const source = work.exportSVG({ title: 'My composition' });</pre><p>SVG contains vector paths and colour planes, grouped by element id. No font files are needed. The export is an editable vector image.</p><h2>Geometry for your own drawing</h2><pre>const word = Merz.geometry('FORM', { size: 100, weight: 0.6 });</pre><p>Returns normalised text, paths, width and frame height. Draw these paths with your own p5 code. The geometry core and SVG export also run without p5.</p><p><a href="../examples/free-composition/">Complete example</a> · <a href="../experiments/letter-atlas/">Letter atlas</a></p><h2 id="stempel">Stempel</h2><pre>const word = Merz.geometry('MERZ', { size: 80 });
+const source = work.exportSVG({ title: 'My composition' });</pre><p>SVG contains vector paths and colour planes, grouped by element id. No font files are needed. The export is an editable vector image.</p><h2>Geometry for your own drawing</h2><pre>const word = Merz.geometry('FORM', { size: 100, weight: 0.6 });</pre><p>Returns normalised text, paths, width and frame height. Draw these paths with your own p5 code. The geometry core and SVG export also run without p5.</p><p><a href="../examples/free-composition/">Complete example</a> · <a href="../experiments/letter-atlas/">Letter atlas</a></p><h2 id="stempel">Stempel</h2>
+<p>Stamp a word with one call. Choose its position, size and colour; the default font is Georgia.</p>
+<pre><code>Merz.stempel('rrrt', 28, 98);
+Merz.stempel('rrrt', 28, 98, { size: 105, color: farbe.rot });
+Merz.stempel('ABFALL KLEBSTOFF MERZBILD', 28, 660, {
+  size: 16, font: 'monospace', rows: 4, leading: 20
+});</code></pre>
+<p>For text, x and y locate the left end of the first baseline. Size defaults to 32, rows to 1 and leading to 1.2 times the size. Font accepts a loaded font family name. Angle is in degrees. Use <code>stempel(source, x, y, options, p)</code> for one placement. Options are optional in global mode; in instance mode use <code>stempel(source, x, y, {}, p)</code> for the defaults. This short form also accepts geometry, parts and fragments. For several placements, use <code>stempel(source, placements, p)</code>. Text settings are restored after drawing. The return value counts placements.</p><pre>const word = Merz.geometry('MERZ', { size: 80 });
 Merz.stempel(word, [
   { x: 30, y: 40, color: '#b92d26' },
   { x: 60, y: 180, angle: -8, scale: 1.2 }

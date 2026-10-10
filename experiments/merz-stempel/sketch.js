@@ -28,10 +28,8 @@ function merzbild() {
   }
   Merz.stempel(word, impressions);
   noStroke(); fill(farbe.rot); rect(20, 620, 560, 103);
-  fill(farbe.grau); textFont('Georgia'); textSize(69); text('Fundsachen', 30, 693);
-  push(); translate(556, 54); rotate(HALF_PI);
-  fill(farbe.schwarz); textFont('monospace'); textSize(13);
-  text('01 02 03 04 05 06 07 08 09 10 11 12', 0, 0); pop();
+  Merz.stempel('Fundsachen', 30, 693, { size: 69, color: farbe.grau });
+  Merz.stempel('01 02 03 04 05 06 07 08 09 10 11 12', 556, 54, { size: 13, font: 'monospace', angle: 90, color: farbe.schwarz });
 }
 
 function splitWord() {
@@ -47,8 +45,8 @@ function splitWord() {
       color: i % 3 === 0 ? farbe.rot : farbe.schwarz
     }]);
   }
-  noStroke(); fill(farbe.schwarz); textFont('Georgia'); textSize(81); text('splitter', 30, 705);
-  fill(farbe.rot); textFont('monospace'); textSize(15); text('17 / 41 / 103', 377, 703);
+  Merz.stempel('splitter', 30, 705, { size: 81, color: farbe.schwarz });
+  Merz.stempel('17 / 41 / 103', 377, 703, { size: 15, font: 'monospace', color: farbe.rot });
 }
 
 function rrrt() {
@@ -60,9 +58,10 @@ function rrrt() {
     }
   }
   Merz.stempel(bowl, impressions);
-  noStroke(); fill(farbe.rot); textFont('Georgia'); textSize(105); text('rrrt', 28, 98);
-  fill(farbe.schwarz); textFont('monospace'); textSize(16);
-  for (let row = 0; row < 4; row++) text('ABFALL  KLEBSTOFF  MERZBILD  ZWECKFREI', 28, 660 + row * 20);
+  Merz.stempel('rrrt', 28, 98, { size: 105, color: farbe.rot });
+  Merz.stempel('ABFALL  KLEBSTOFF  MERZBILD  ZWECKFREI', 28, 660, {
+    size: 16, font: 'monospace', color: farbe.schwarz, rows: 4, leading: 20
+  });
 }
 
 function keyPressed() {

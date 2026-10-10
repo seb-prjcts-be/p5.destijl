@@ -5,7 +5,7 @@
       const response = await fetch(code.dataset.source);
       if (!response.ok) throw new Error("Source could not load.");
       code.textContent = await response.text();
-      if (window.Prism) Prism.highlightElement(code);
+      code.dispatchEvent(new Event('merz:source-loaded', { bubbles: true }));
     } catch (error) {
       code.textContent = "Open the source sketch using the link above.";
     }
