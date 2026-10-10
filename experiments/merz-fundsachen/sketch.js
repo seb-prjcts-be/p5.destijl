@@ -1,10 +1,11 @@
-// Load p5.js and p5.merz.js. Keep assets/fundsachen beside the library.
+// With p5.js and p5.merz.js loaded, and assets/fundsachen beside the library.
 async function setup() {
   const farbe = Merz.settings();
   const canvas = createCanvas(600, 760);
   if (document.getElementById('drawing')) canvas.parent('drawing');
   pixelDensity(1); noLoop();
   const m = await Merz.fundsachen('001');
+  // A name works here too.
   const r = await Merz.fundsachen('merz-2-cover-r');
   const rule = await Merz.fundsachen('003');
   background(farbe.grau);

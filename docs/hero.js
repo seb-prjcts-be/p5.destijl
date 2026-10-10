@@ -1,5 +1,4 @@
-// A visual response to Kurt Schwitters' Ursonate, not a reproduction of its score.
-// Change the fragment, scales and positions; drawing stays in ordinary p5 code.
+// A few letters borrowed from Kurt Schwitters' Ursonate.
 const fragment = "Fümms";
 
 function setup() {
@@ -22,7 +21,7 @@ function draw() {
   const ink = "#20201e";
   const red = "#b92d26";
 
-  // The M is one material among ordinary text and lines.
+  // A large M behind the smaller letters.
   paint(
     Merz.geometry("M", { size: compact ? 220 : 310, weight: 0.48 }).paths,
     compact ? 290 : 805,

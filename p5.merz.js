@@ -339,11 +339,33 @@
     }
     const paths=Array.isArray(source)?source.flatMap(part=>part?.paths||[]):source?.paths;
     const isText=typeof source==='string';
-    const isFragment=fragmentData.has(source);
+    const fragmentSeries=Array.isArray(source)&&source.length>0&&source.every(piece=>fragmentData.has(piece));
+    const isFragment=fragmentSeries||fragmentData.has(source);
     if(!isText&&!isFragment&&(!Array.isArray(paths)||!paths.length||paths.some(path=>!path||!Number.isFinite(path.width)||path.width<=0||!Array.isArray(path.points)||path.points.length<2||path.points.some(point=>!Array.isArray(point)||point.length!==2||!point.every(Number.isFinite)))))throw new TypeError('stempel needs text, geometry, parts or a fragment');
     if(placements && typeof placements==='object' && !Array.isArray(placements))placements=[placements];
     if(!Array.isArray(placements))throw new TypeError('placements must be an array');
-    const copies=placements.map(item=>{
+    const expanded=[];
+    for(const item of placements){
+      if(!item||typeof item!=='object')throw new TypeError('Each placement needs x and y');
+      const {repeat=1,stepX=0,stepY=0,offsetX=0,...base}=item;
+      if(!Number.isSafeInteger(repeat)||repeat<1||expanded.length+repeat>1024)throw new RangeError('stempel allows up to 1024 impressions');
+      number(stepX,'stepX');number(stepY,'stepY');number(offsetX,'offsetX');
+      number(base.x,'x');number(base.y,'y');
+      for(const key of ['angle','scale','color']){
+        if(Array.isArray(base[key])){
+          if(!base[key].length)throw new RangeError(key+' pattern must not be empty');
+          for(const value of base[key]){
+            if(key==='color')colour(value);else number(value,key,key==='scale'?.001:-Infinity);
+          }
+        }
+      }
+      for(let i=0;i<repeat;i++){
+        const copy={...base,x:base.x+i*stepX+(i%2)*offsetX,y:base.y+i*stepY};
+        for(const key of ['angle','scale','color'])if(Array.isArray(base[key]))copy[key]=base[key][i%base[key].length];
+        expanded.push(copy);
+      }
+    }
+    const copies=expanded.map(item=>{
       if(!item||typeof item!=='object')throw new TypeError('Each placement needs x and y');
       for(const key of Object.keys(item))if(!(isText?['x','y','angle','scale','color','size','font','rows','leading']:['x','y','angle','scale','color']).includes(key))throw new RangeError('Unknown placement option: '+key);
       const textOptions={};
@@ -359,8 +381,12 @@
     });
     if(!p||typeof p.push!=='function'||typeof p.applyMatrix!=='function')throw new TypeError('stempel needs a p5 drawing context');
     const images=new Map();
-    for(const item of copies){
-      if(isFragment&&!images.has(item.color))images.set(item.color,source.bau(p,{color:item.color}));
+    for(const [index,item] of copies.entries()){
+      const material=fragmentSeries?source[index%source.length]:source;
+      if(isFragment){
+        if(!images.has(material))images.set(material,new Map());
+        if(!images.get(material).has(item.color))images.get(material).set(item.color,material.bau(p,{color:item.color}));
+      }
       p.push();try{
         const a=item.angle*Math.PI/180,c=Math.cos(a)*item.scale,s=Math.sin(a)*item.scale;
         p.applyMatrix(c,s,-s,c,item.x,item.y);
@@ -369,7 +395,7 @@
           p.textStyle(p.NORMAL??'normal');p.textAlign(p.LEFT??'left',p.BASELINE??'alphabetic');p.textLeading(item.leading);
           for(let row=0;row<item.rows;row++)p.text(source,0,row*item.leading);
         }
-        else if(isFragment){p.imageMode(p.CORNER??'corner');p.noTint();p.image(images.get(item.color),0,0);}
+        else if(isFragment){p.imageMode(p.CORNER??'corner');p.noTint();p.image(images.get(material).get(item.color),0,0);}
         else {
           p.noFill();p.stroke(item.color);p.strokeCap(p.PROJECT??'square');p.strokeJoin(p.MITER??'miter');
           for(const path of paths){p.strokeWeight(path.width);p.beginShape();for(const point of path.points)p.vertex(...point);p.endShape();}

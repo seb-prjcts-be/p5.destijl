@@ -48,6 +48,13 @@ for (const file of ['p5.merz.js', 'p5.merz.min.js']) {
   calls.length=0;
   for(const args of [[0,NaN],[0,0,null],[0,0,{x:4}],[0,0,{size:0}]])assert.throws(()=>m.stempel('x',...args));
   assert.equal(calls.length,0);
+  calls.length=0;
+  m.stempel(word,-10,42,{repeat:4,stepY:58,offsetX:-150,color:['#b92d26','#20201e']},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='applyMatrix').map(c=>c.slice(5)),[[-10,42],[-160,100],[-10,158],[-160,216]]);
+  assert.deepEqual(calls.filter(c=>c[0]==='stroke').map(c=>c[1]),['#b92d26','#20201e','#b92d26','#20201e']);
+  calls.length=0;
+  for(const options of [{repeat:0},{repeat:1025},{color:[]},{angle:[0,NaN]},{scale:[1,0]},{stepY:Infinity}])assert.throws(()=>m.stempel(word,0,0,options,p));
+  assert.equal(calls.length,0);
   const textBroken={...p,text(){throw new Error('text failed');}};
   assert.throws(()=>m.stempel('x',{x:0,y:0},textBroken));
   assert.equal(calls.at(-1)[0],'pop');

@@ -1,4 +1,4 @@
-// Load p5.js and p5.merz.js.
+// With p5.js and p5.merz.js loaded.
 async function setup() {
   const farbe = Merz.settings();
   const canvas = createCanvas(600, 760);
@@ -21,6 +21,7 @@ async function setup() {
   ]);
   Merz.stempel(kraft, [{ x: 170, y: 465, scale: 1.5 }]);
   Merz.stempel(rule, [{ x: 25, y: 250, scale: 0.66 }, { x: 25, y: 700, scale: 0.66 }]);
+  // Seven hands along the bottom. Perhaps fewer would do.
   const hands = [];
   for (let i = 0; i < 7; i++) hands.push({ x: 30 + i * 79, y: 565, scale: 1 });
   Merz.stempel(hand, hands);

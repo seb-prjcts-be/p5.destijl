@@ -1,5 +1,5 @@
 let farbe;
-// Load p5.js and the local p5.merz.js before this sketch.
+// With p5.js and p5.merz.js loaded.
 const amount = 0.7;
 const seed = 17;
 let cut;
@@ -13,6 +13,7 @@ async function setup() {
   const source = Merz.parts("R", { size: 150, weight: 0.85 }).find(
     (part) => part.id === "bowl"
   );
+  // The oval catches a little of the opening in R.
   const piece = Merz.rundschnitt(source, 30, 0, 115, 95);
   cut = Merz.tear(piece, { amount, seed }).bau(globalThis, { color: farbe.rot });
   describe(

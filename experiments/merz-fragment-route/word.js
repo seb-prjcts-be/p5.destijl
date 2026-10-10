@@ -1,5 +1,5 @@
 let farbe;
-// Load p5.js and the local p5.merz.js before this sketch.
+// With p5.js and p5.merz.js loaded.
 const amount = 0.7;
 const seed = 17;
 const strips = [];
@@ -11,6 +11,7 @@ async function setup() {
   pixelDensity(1);
   noLoop();
   const source = Merz.geometry("MERZ", { size: 180, spacing: 8 });
+  // Perhaps four narrower strips next time.
   const pieces = Merz.splitter(source, { rows: 3 });
   for (const [row, piece] of pieces.entries()) {
     strips.push(

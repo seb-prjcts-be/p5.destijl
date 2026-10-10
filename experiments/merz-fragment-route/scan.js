@@ -1,5 +1,5 @@
 let farbe;
-// Load p5.js and the local p5.merz.js before this sketch.
+// With p5.js and p5.merz.js loaded.
 const amount = 0.7;
 const seed = 17;
 let cut;
@@ -11,6 +11,7 @@ async function setup() {
   pixelDensity(1);
   noLoop();
   const source = await loadImage("../merz-fragments/assets/merz-2-cover.jpg");
+  // A little more height would bring more paper into the cut.
   const piece = Merz.ausschnitt(source, 8, 48, 286, 167);
   cut = Merz.tear(piece, { amount, seed }).bau();
   describe(

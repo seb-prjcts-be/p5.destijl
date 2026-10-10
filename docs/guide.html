@@ -119,6 +119,12 @@ Merz.stempel('rrrt', 28, 98, { size: 105, color: farbe.rot });
 Merz.stempel('ABFALL KLEBSTOFF MERZBILD', 28, 660, {
   size: 16, font: 'monospace', rows: 4, leading: 20
 });</code></pre>
+<p>A repeated layout can stay in one call. <code>repeat</code> sets the count, <code>stepX</code> and <code>stepY</code> the distance between copies. <code>offsetX</code> shifts every second copy sideways. Lists of colours, angles or scales repeat in order.</p>
+<pre><code>Merz.stempel(pieces, -10, 42, {
+  repeat: 10, stepY: 58, offsetX: -150,
+  color: [farbe.rot, farbe.schwarz, farbe.schwarz]
+});</code></pre>
+<p>An array of fragments cycles through the pieces. An array of letter parts still draws the parts together. At most 1024 impressions can be placed in one call. Text can also use these placement options; its rows and leading describe lines within each impression.</p>
 <p>For text, x and y locate the left end of the first baseline. Size defaults to 32, rows to 1 and leading to 1.2 times the size. Font accepts a loaded font family name. Angle is in degrees. Use <code>stempel(source, x, y, options, p)</code> for one placement. Options are optional in global mode; in instance mode use <code>stempel(source, x, y, {}, p)</code> for the defaults. This short form also accepts geometry, parts and fragments. For several placements, use <code>stempel(source, placements, p)</code>. Text settings are restored after drawing. The return value counts placements.</p><pre>const word = Merz.geometry('MERZ', { size: 80 });
 Merz.stempel(word, [
   { x: 30, y: 40, color: '#b92d26' },

@@ -1,4 +1,5 @@
-// Load p5.js and p5.merz.js. Change study to 0, 1 or 2.
+// With p5.js and p5.merz.js loaded.
+// 0 for Merzbild, 1 for Splitter, 2 for Rrrt.
 let study = 0;
 let farbe;
 
@@ -8,7 +9,7 @@ function setup() {
   if (document.getElementById('drawing')) canvas.parent('drawing');
   pixelDensity(1);
   noLoop();
-  // The comparison page selects each sketch through its URL.
+  // For the three views on the example page.
   const selected = new URLSearchParams(location.search).get('study');
   if (selected !== null) study = Number(selected);
 }
@@ -21,6 +22,7 @@ function draw() {
 }
 
 function merzbild() {
+  // A longer word might run off the page.
   const word = Merz.geometry('MERZ', { size: 106, weight: 0.7, spacing: 6 });
   const impressions = [];
   for (let i = 0; i < 5; i++) {
@@ -34,22 +36,23 @@ function merzbild() {
 
 function splitWord() {
   const word = Merz.geometry('SPLITTER', { size: 110, weight: 0.85, spacing: 8 });
+  // Two strips might leave more of the word intact.
   const pieces = Merz.splitter(word, { rows: 3 });
   const torn = pieces.map((piece, i) => Merz.tear(piece, { amount: 0.16, seed: 17 + i }));
-  for (let i = 0; i < 10; i++) {
-    Merz.stempel(torn[i % torn.length], [{
-      x: i % 2 ? -160 : -10,
-      y: 42 + i * 58,
-      scale: 0.9,
-      angle: i % 3 === 0 ? -4 : 0,
-      color: i % 3 === 0 ? farbe.rot : farbe.schwarz
-    }]);
-  }
+  Merz.stempel(torn, -10, 42, {
+    repeat: 10,
+    stepY: 58,
+    offsetX: -150,
+    scale: 0.9,
+    angle: [-4, 0, 0],
+    color: [farbe.rot, farbe.schwarz, farbe.schwarz]
+  });
   Merz.stempel('splitter', 30, 705, { size: 81, color: farbe.schwarz });
   Merz.stempel('17 / 41 / 103', 377, 703, { size: 15, font: 'monospace', color: farbe.rot });
 }
 
 function rrrt() {
+  // A small piece of R, with room to repeat.
   const bowl = Merz.parts('R', { size: 96, weight: 0.6 }).find(part => part.id === 'bowl');
   const impressions = [];
   for (let row = 0; row < 8; row++) {
