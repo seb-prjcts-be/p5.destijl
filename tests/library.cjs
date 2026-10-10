@@ -10,6 +10,15 @@ const letters=new Set();for(const char of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'){const ge
 const a=Merz.geometry('NN',{spacing:10}),b=Merz.geometry('NN',{spacing:40});assert.equal(JSON.stringify(a.paths[0]),JSON.stringify(b.paths[0]));assert.equal(b.paths[1].points[0][0]-a.paths[1].points[0][0],30);
 assert.equal(Merz.geometry('één').text,'EEN');assert.equal(Merz.geometry('A\nA',{size:100,leading:130}).height,230);
 const svg=c.exportSVG({title:'<A&B>'});assert.ok(svg.includes('&lt;A&amp;B&gt;'));assert.ok(svg.includes('clip-path'));assert.equal((svg.match(/<g id=/g)||[]).length,3);
+const other=Merz.create({width:120,height:80});other.text('B',0,0);
+const next=c.exportSVG(), second=other.exportSVG();
+const svgIds=value=>Array.from(value.matchAll(/ id="([^"]+)"/g),match=>match[1]);
+const allIds=[...svgIds(svg),...svgIds(next),...svgIds(second)];
+assert.equal(new Set(allIds).size,allIds.length,'Inline SVG exports must not share ids');
+for(const value of [svg,next,second])assert.ok(svgIds(value).includes(value.match(/clip-path="url\(#([^)]*)\)"/)[1]));
+assert.equal(c.get(word).id,word);
+c.update(word,{text:'xé'});assert.equal(c.get(word).text,'XE');
+const normalized=JSON.stringify(c.get(word));assert.throws(()=>c.update(word,{text:'🙂'}));assert.equal(JSON.stringify(c.get(word)),normalized);
 const calls=[];const p=new Proxy({CORNER:'corner',PROJECT:'square',MITER:'miter'},{get:(obj,key)=>key in obj?obj[key]:(...args)=>calls.push([key,...args])});c.draw(p);assert.equal(calls.filter(a=>a[0]==='push').length,calls.filter(a=>a[0]==='pop').length);assert.ok(calls.some(a=>a[0]==='applyMatrix'));
 const graphicsCalls=[];const graphics=new Proxy({}, {get:(_,key)=>['CORNER','PROJECT','MITER'].includes(key)?undefined:(...args)=>graphicsCalls.push([key,...args])});c.draw(graphics);
 assert.ok(graphicsCalls.some(a=>a[0]==='rectMode'&&a[1]==='corner'));

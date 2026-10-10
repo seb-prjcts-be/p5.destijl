@@ -131,6 +131,8 @@ npm run build:min
 npm test
 ```
 
+After editing `assets/fundsachen/catalogue.json`, run `npm run sync:fundsachen` to update its readable copy in the library. The min-build checks that both copies agree and writes only `p5.merz.min.js`.
+
 Checks cover letter geometry, stable ids, atomic updates, drawing order,
 spacing, SVG, renderer settings and repeatable ink coverage. Source and
 min-build produce the same SVG. The bundled p5.js 2.3.4 has its own licence.

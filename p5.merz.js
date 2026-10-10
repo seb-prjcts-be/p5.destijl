@@ -4,9 +4,615 @@
  */
 (function (root) {
   'use strict';
-  const libraryURL = root.document?.currentScript?.src || root.location?.href;
+  const libraryURL = root.document?.currentScript?.src || null;
   // BEGIN FUNDSACHEN CATALOGUE
-  const foundItems = [{"id":"001","name":"merz-2-cover-m","label":"M","file":"merz-2-cover-m.png","width":70,"height":140,"crop":[10,55,70,140],"category":"letter","issue":"2","page":"Merz 2, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"../../experiments/merz-fragments/assets/merz-2-cover.jpg","inkFile":"merz-2-cover-m-ink.png","svgFile":"merz-2-cover-m.svg"},{"id":"002","name":"merz-2-cover-r","label":"R","file":"merz-2-cover-r.png","width":58,"height":140,"crop":[171,55,58,140],"category":"letter","issue":"2","page":"Merz 2, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"../../experiments/merz-fragments/assets/merz-2-cover.jpg","inkFile":"merz-2-cover-r-ink.png","svgFile":"merz-2-cover-r.svg"},{"id":"003","name":"merz-2-cover-rule","label":"Rule","file":"merz-2-cover-rule.png","width":282,"height":7,"crop":[12,30,282,7],"category":"rule","issue":"2","page":"Merz 2, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"../../experiments/merz-fragments/assets/merz-2-cover.jpg","inkFile":"merz-2-cover-rule-ink.png","svgFile":"merz-2-cover-rule.svg"},{"id":"004","name":"merz-2-cover-e","label":"E","file":"merz-2-cover-e.png","width":117,"height":377,"crop":[282,145,117,377],"category":"letter","issue":"2","page":"Merz 2, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-cover.png","inkFile":"merz-2-cover-e-ink.png","svgFile":"merz-2-cover-e.svg"},{"id":"005","name":"merz-2-cover-z","label":"Z","file":"merz-2-cover-z.png","width":133,"height":380,"crop":[670,146,133,380],"category":"letter","issue":"2","page":"Merz 2, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-cover.png","inkFile":"merz-2-cover-z-ink.png","svgFile":"merz-2-cover-z.svg"},{"id":"006","name":"merz-2-cover-two","label":"2","file":"merz-2-cover-two.png","width":122,"height":167,"crop":[25,535,122,167],"category":"number","issue":"2","page":"Merz 2, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-cover.png","inkFile":"merz-2-cover-two-ink.png","svgFile":"merz-2-cover-two.svg"},{"id":"007","name":"merz-2-cover-nummer","label":"NUMMER","file":"merz-2-cover-nummer.png","width":523,"height":80,"crop":[27,748,523,80],"category":"word","issue":"2","page":"Merz 2, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-cover.png","inkFile":"merz-2-cover-nummer-ink.png"},{"id":"008","name":"merz-2-cover-i","label":"i","file":"merz-2-cover-i.png","width":260,"height":266,"crop":[552,572,260,266],"category":"letter","issue":"2","page":"Merz 2, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-cover.png","inkFile":"merz-2-cover-i-ink.png","svgFile":"merz-2-cover-i.svg"},{"id":"009","name":"merz-2-cover-boat","label":"Boat","file":"merz-2-cover-boat.png","width":232,"height":190,"crop":[18,841,232,190],"category":"image","issue":"2","page":"Merz 2, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-cover.png","inkFile":"merz-2-cover-boat-ink.png"},{"id":"010","name":"merz-2-cover-hand","label":"Pointing hand","file":"merz-2-cover-hand.png","width":94,"height":217,"crop":[19,1039,94,217],"category":"image","issue":"2","page":"Merz 2, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-cover.png","inkFile":"merz-2-cover-hand-ink.png"},{"id":"011","name":"merz-2-cover-april-1923","label":"APRIL 1923","file":"merz-2-cover-april-1923.png","width":228,"height":45,"crop":[125,1126,228,45],"category":"text","issue":"2","page":"Merz 2, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-cover.png","inkFile":"merz-2-cover-april-1923-ink.png"},{"id":"012","name":"merz-2-17-i","label":"i","file":"merz-2-17-i.png","width":315,"height":249,"crop":[115,22,315,249],"category":"letter","issue":"2","page":"Merz 2, page 17","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/17.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-17.png","inkFile":"merz-2-17-i-ink.png","svgFile":"merz-2-17-i.svg"},{"id":"013","name":"merz-2-17-seventeen","label":"17","file":"merz-2-17-seventeen.png","width":100,"height":94,"crop":[691,72,100,94],"category":"number","issue":"2","page":"Merz 2, page 17","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/17.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-17.png","inkFile":"merz-2-17-seventeen-ink.png","svgFile":"merz-2-17-seventeen.svg"},{"id":"014","name":"merz-2-17-kuenstler","label":"Künstler","file":"merz-2-17-kuenstler.png","width":135,"height":42,"crop":[380,1104,135,42],"category":"word","issue":"2","page":"Merz 2, page 17","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/17.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-17.png","inkFile":"merz-2-17-kuenstler-ink.png"},{"id":"015","name":"merz-2-17-gestempelt","label":"gestempelt","file":"merz-2-17-gestempelt.png","width":112,"height":35,"crop":[257,977,112,35],"category":"word","issue":"2","page":"Merz 2, page 17","source":"https://sdrc.lib.uiowa.edu/dada/merz/2/pages/17.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-2-17.png","inkFile":"merz-2-17-gestempelt-ink.png"},{"id":"016","name":"merz-8-cover-m","label":"M","file":"merz-8-cover-m.png","width":159,"height":319,"crop":[244,91,159,319],"category":"letter","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-m-ink.png","svgFile":"merz-8-cover-m.svg"},{"id":"017","name":"merz-8-cover-e","label":"E","file":"merz-8-cover-e.png","width":105,"height":320,"crop":[452,91,105,320],"category":"letter","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-e-ink.png","svgFile":"merz-8-cover-e.svg"},{"id":"018","name":"merz-8-cover-r","label":"R","file":"merz-8-cover-r.png","width":136,"height":321,"crop":[601,90,136,321],"category":"letter","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-r-ink.png","svgFile":"merz-8-cover-r.svg"},{"id":"019","name":"merz-8-cover-z","label":"Z","file":"merz-8-cover-z.png","width":115,"height":319,"crop":[773,92,115,319],"category":"letter","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-z-ink.png","svgFile":"merz-8-cover-z.svg"},{"id":"020","name":"merz-8-cover-eight","label":"8","file":"merz-8-cover-eight.png","width":140,"height":208,"crop":[78,202,140,208],"category":"number","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-eight-ink.png","svgFile":"merz-8-cover-eight.svg"},{"id":"021","name":"merz-8-cover-nine","label":"9","file":"merz-8-cover-nine.png","width":135,"height":208,"crop":[906,203,135,208],"category":"number","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-nine-ink.png","svgFile":"merz-8-cover-nine.svg"},{"id":"022","name":"merz-8-cover-nasci","label":"NASCI","file":"merz-8-cover-nasci.png","width":344,"height":109,"crop":[693,566,344,109],"category":"word","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-nasci-ink.png"},{"id":"023","name":"merz-8-cover-natur","label":"NATUR","file":"merz-8-cover-natur.png","width":225,"height":59,"crop":[291,616,225,59],"category":"word","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-natur-ink.png"},{"id":"024","name":"merz-8-cover-kraft","label":"KRAFT","file":"merz-8-cover-kraft.png","width":251,"height":60,"crop":[291,1051,251,60],"category":"word","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-kraft-ink.png"},{"id":"025","name":"merz-8-cover-rule","label":"Blue rule","file":"merz-8-cover-rule.png","width":830,"height":22,"crop":[260,678,830,22],"category":"rule","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-rule-ink.png","svgFile":"merz-8-cover-rule.svg"},{"id":"026","name":"merz-8-cover-hand","label":"Pointing hand","file":"merz-8-cover-hand.png","width":54,"height":103,"crop":[79,1052,54,103],"category":"image","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-hand-ink.png"},{"id":"027","name":"merz-8-cover-1924","label":"1924","file":"merz-8-cover-1924.png","width":145,"height":48,"crop":[74,1339,145,48],"category":"number","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-1924-ink.png","svgFile":"merz-8-cover-1924.svg"},{"id":"028","name":"merz-8-cover-gestaltet","label":"GESTALTET UND BEWEGT","file":"merz-8-cover-gestaltet.png","width":745,"height":61,"crop":[293,1138,745,61],"category":"text","issue":"8/9","page":"Merz 8/9, cover","source":"https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm","credit":"International Dada Archive, University of Iowa Libraries","scan":"source-scans/merz-8-cover.png","inkFile":"merz-8-cover-gestaltet-ink.png"}].map(item=>Object.freeze({...item,crop:Object.freeze(item.crop)}));
+  const foundItems = [
+  {
+    "id": "001",
+    "name": "merz-2-cover-m",
+    "label": "M",
+    "file": "merz-2-cover-m.png",
+    "width": 70,
+    "height": 140,
+    "crop": [
+      10,
+      55,
+      70,
+      140
+    ],
+    "category": "letter",
+    "issue": "2",
+    "page": "Merz 2, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "../../experiments/merz-fragments/assets/merz-2-cover.jpg",
+    "inkFile": "merz-2-cover-m-ink.png",
+    "svgFile": "merz-2-cover-m.svg"
+  },
+  {
+    "id": "002",
+    "name": "merz-2-cover-r",
+    "label": "R",
+    "file": "merz-2-cover-r.png",
+    "width": 58,
+    "height": 140,
+    "crop": [
+      171,
+      55,
+      58,
+      140
+    ],
+    "category": "letter",
+    "issue": "2",
+    "page": "Merz 2, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "../../experiments/merz-fragments/assets/merz-2-cover.jpg",
+    "inkFile": "merz-2-cover-r-ink.png",
+    "svgFile": "merz-2-cover-r.svg"
+  },
+  {
+    "id": "003",
+    "name": "merz-2-cover-rule",
+    "label": "Rule",
+    "file": "merz-2-cover-rule.png",
+    "width": 282,
+    "height": 7,
+    "crop": [
+      12,
+      30,
+      282,
+      7
+    ],
+    "category": "rule",
+    "issue": "2",
+    "page": "Merz 2, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "../../experiments/merz-fragments/assets/merz-2-cover.jpg",
+    "inkFile": "merz-2-cover-rule-ink.png",
+    "svgFile": "merz-2-cover-rule.svg"
+  },
+  {
+    "id": "004",
+    "name": "merz-2-cover-e",
+    "label": "E",
+    "file": "merz-2-cover-e.png",
+    "width": 117,
+    "height": 377,
+    "crop": [
+      282,
+      145,
+      117,
+      377
+    ],
+    "category": "letter",
+    "issue": "2",
+    "page": "Merz 2, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-cover.png",
+    "inkFile": "merz-2-cover-e-ink.png",
+    "svgFile": "merz-2-cover-e.svg"
+  },
+  {
+    "id": "005",
+    "name": "merz-2-cover-z",
+    "label": "Z",
+    "file": "merz-2-cover-z.png",
+    "width": 133,
+    "height": 380,
+    "crop": [
+      670,
+      146,
+      133,
+      380
+    ],
+    "category": "letter",
+    "issue": "2",
+    "page": "Merz 2, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-cover.png",
+    "inkFile": "merz-2-cover-z-ink.png",
+    "svgFile": "merz-2-cover-z.svg"
+  },
+  {
+    "id": "006",
+    "name": "merz-2-cover-two",
+    "label": "2",
+    "file": "merz-2-cover-two.png",
+    "width": 122,
+    "height": 167,
+    "crop": [
+      25,
+      535,
+      122,
+      167
+    ],
+    "category": "number",
+    "issue": "2",
+    "page": "Merz 2, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-cover.png",
+    "inkFile": "merz-2-cover-two-ink.png",
+    "svgFile": "merz-2-cover-two.svg"
+  },
+  {
+    "id": "007",
+    "name": "merz-2-cover-nummer",
+    "label": "NUMMER",
+    "file": "merz-2-cover-nummer.png",
+    "width": 523,
+    "height": 80,
+    "crop": [
+      27,
+      748,
+      523,
+      80
+    ],
+    "category": "word",
+    "issue": "2",
+    "page": "Merz 2, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-cover.png",
+    "inkFile": "merz-2-cover-nummer-ink.png"
+  },
+  {
+    "id": "008",
+    "name": "merz-2-cover-i",
+    "label": "i",
+    "file": "merz-2-cover-i.png",
+    "width": 260,
+    "height": 266,
+    "crop": [
+      552,
+      572,
+      260,
+      266
+    ],
+    "category": "letter",
+    "issue": "2",
+    "page": "Merz 2, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-cover.png",
+    "inkFile": "merz-2-cover-i-ink.png",
+    "svgFile": "merz-2-cover-i.svg"
+  },
+  {
+    "id": "009",
+    "name": "merz-2-cover-boat",
+    "label": "Boat",
+    "file": "merz-2-cover-boat.png",
+    "width": 232,
+    "height": 190,
+    "crop": [
+      18,
+      841,
+      232,
+      190
+    ],
+    "category": "image",
+    "issue": "2",
+    "page": "Merz 2, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-cover.png",
+    "inkFile": "merz-2-cover-boat-ink.png"
+  },
+  {
+    "id": "010",
+    "name": "merz-2-cover-hand",
+    "label": "Pointing hand",
+    "file": "merz-2-cover-hand.png",
+    "width": 94,
+    "height": 217,
+    "crop": [
+      19,
+      1039,
+      94,
+      217
+    ],
+    "category": "image",
+    "issue": "2",
+    "page": "Merz 2, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-cover.png",
+    "inkFile": "merz-2-cover-hand-ink.png"
+  },
+  {
+    "id": "011",
+    "name": "merz-2-cover-april-1923",
+    "label": "APRIL 1923",
+    "file": "merz-2-cover-april-1923.png",
+    "width": 228,
+    "height": 45,
+    "crop": [
+      125,
+      1126,
+      228,
+      45
+    ],
+    "category": "text",
+    "issue": "2",
+    "page": "Merz 2, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-cover.png",
+    "inkFile": "merz-2-cover-april-1923-ink.png"
+  },
+  {
+    "id": "012",
+    "name": "merz-2-17-i",
+    "label": "i",
+    "file": "merz-2-17-i.png",
+    "width": 315,
+    "height": 249,
+    "crop": [
+      115,
+      22,
+      315,
+      249
+    ],
+    "category": "letter",
+    "issue": "2",
+    "page": "Merz 2, page 17",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/17.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-17.png",
+    "inkFile": "merz-2-17-i-ink.png",
+    "svgFile": "merz-2-17-i.svg"
+  },
+  {
+    "id": "013",
+    "name": "merz-2-17-seventeen",
+    "label": "17",
+    "file": "merz-2-17-seventeen.png",
+    "width": 100,
+    "height": 94,
+    "crop": [
+      691,
+      72,
+      100,
+      94
+    ],
+    "category": "number",
+    "issue": "2",
+    "page": "Merz 2, page 17",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/17.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-17.png",
+    "inkFile": "merz-2-17-seventeen-ink.png",
+    "svgFile": "merz-2-17-seventeen.svg"
+  },
+  {
+    "id": "014",
+    "name": "merz-2-17-kuenstler",
+    "label": "Künstler",
+    "file": "merz-2-17-kuenstler.png",
+    "width": 135,
+    "height": 42,
+    "crop": [
+      380,
+      1104,
+      135,
+      42
+    ],
+    "category": "word",
+    "issue": "2",
+    "page": "Merz 2, page 17",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/17.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-17.png",
+    "inkFile": "merz-2-17-kuenstler-ink.png"
+  },
+  {
+    "id": "015",
+    "name": "merz-2-17-gestempelt",
+    "label": "gestempelt",
+    "file": "merz-2-17-gestempelt.png",
+    "width": 112,
+    "height": 35,
+    "crop": [
+      257,
+      977,
+      112,
+      35
+    ],
+    "category": "word",
+    "issue": "2",
+    "page": "Merz 2, page 17",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/17.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-2-17.png",
+    "inkFile": "merz-2-17-gestempelt-ink.png"
+  },
+  {
+    "id": "016",
+    "name": "merz-8-cover-m",
+    "label": "M",
+    "file": "merz-8-cover-m.png",
+    "width": 159,
+    "height": 319,
+    "crop": [
+      244,
+      91,
+      159,
+      319
+    ],
+    "category": "letter",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-m-ink.png",
+    "svgFile": "merz-8-cover-m.svg"
+  },
+  {
+    "id": "017",
+    "name": "merz-8-cover-e",
+    "label": "E",
+    "file": "merz-8-cover-e.png",
+    "width": 105,
+    "height": 320,
+    "crop": [
+      452,
+      91,
+      105,
+      320
+    ],
+    "category": "letter",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-e-ink.png",
+    "svgFile": "merz-8-cover-e.svg"
+  },
+  {
+    "id": "018",
+    "name": "merz-8-cover-r",
+    "label": "R",
+    "file": "merz-8-cover-r.png",
+    "width": 136,
+    "height": 321,
+    "crop": [
+      601,
+      90,
+      136,
+      321
+    ],
+    "category": "letter",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-r-ink.png",
+    "svgFile": "merz-8-cover-r.svg"
+  },
+  {
+    "id": "019",
+    "name": "merz-8-cover-z",
+    "label": "Z",
+    "file": "merz-8-cover-z.png",
+    "width": 115,
+    "height": 319,
+    "crop": [
+      773,
+      92,
+      115,
+      319
+    ],
+    "category": "letter",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-z-ink.png",
+    "svgFile": "merz-8-cover-z.svg"
+  },
+  {
+    "id": "020",
+    "name": "merz-8-cover-eight",
+    "label": "8",
+    "file": "merz-8-cover-eight.png",
+    "width": 140,
+    "height": 208,
+    "crop": [
+      78,
+      202,
+      140,
+      208
+    ],
+    "category": "number",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-eight-ink.png",
+    "svgFile": "merz-8-cover-eight.svg"
+  },
+  {
+    "id": "021",
+    "name": "merz-8-cover-nine",
+    "label": "9",
+    "file": "merz-8-cover-nine.png",
+    "width": 135,
+    "height": 208,
+    "crop": [
+      906,
+      203,
+      135,
+      208
+    ],
+    "category": "number",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-nine-ink.png",
+    "svgFile": "merz-8-cover-nine.svg"
+  },
+  {
+    "id": "022",
+    "name": "merz-8-cover-nasci",
+    "label": "NASCI",
+    "file": "merz-8-cover-nasci.png",
+    "width": 344,
+    "height": 109,
+    "crop": [
+      693,
+      566,
+      344,
+      109
+    ],
+    "category": "word",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-nasci-ink.png"
+  },
+  {
+    "id": "023",
+    "name": "merz-8-cover-natur",
+    "label": "NATUR",
+    "file": "merz-8-cover-natur.png",
+    "width": 225,
+    "height": 59,
+    "crop": [
+      291,
+      616,
+      225,
+      59
+    ],
+    "category": "word",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-natur-ink.png"
+  },
+  {
+    "id": "024",
+    "name": "merz-8-cover-kraft",
+    "label": "KRAFT",
+    "file": "merz-8-cover-kraft.png",
+    "width": 251,
+    "height": 60,
+    "crop": [
+      291,
+      1051,
+      251,
+      60
+    ],
+    "category": "word",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-kraft-ink.png"
+  },
+  {
+    "id": "025",
+    "name": "merz-8-cover-rule",
+    "label": "Blue rule",
+    "file": "merz-8-cover-rule.png",
+    "width": 830,
+    "height": 22,
+    "crop": [
+      260,
+      678,
+      830,
+      22
+    ],
+    "category": "rule",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-rule-ink.png",
+    "svgFile": "merz-8-cover-rule.svg"
+  },
+  {
+    "id": "026",
+    "name": "merz-8-cover-hand",
+    "label": "Pointing hand",
+    "file": "merz-8-cover-hand.png",
+    "width": 54,
+    "height": 103,
+    "crop": [
+      79,
+      1052,
+      54,
+      103
+    ],
+    "category": "image",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-hand-ink.png"
+  },
+  {
+    "id": "027",
+    "name": "merz-8-cover-1924",
+    "label": "1924",
+    "file": "merz-8-cover-1924.png",
+    "width": 145,
+    "height": 48,
+    "crop": [
+      74,
+      1339,
+      145,
+      48
+    ],
+    "category": "number",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-1924-ink.png",
+    "svgFile": "merz-8-cover-1924.svg"
+  },
+  {
+    "id": "028",
+    "name": "merz-8-cover-gestaltet",
+    "label": "GESTALTET UND BEWEGT",
+    "file": "merz-8-cover-gestaltet.png",
+    "width": 745,
+    "height": 61,
+    "crop": [
+      293,
+      1138,
+      745,
+      61
+    ],
+    "category": "text",
+    "issue": "8/9",
+    "page": "Merz 8/9, cover",
+    "source": "https://sdrc.lib.uiowa.edu/dada/merz/8/pages/00cover.htm",
+    "credit": "International Dada Archive, University of Iowa Libraries",
+    "scan": "source-scans/merz-8-cover.png",
+    "inkFile": "merz-8-cover-gestaltet-ink.png"
+  }
+].map(item=>Object.freeze({...item,crop:Object.freeze(item.crop)}));
   // END FUNDSACHEN CATALOGUE
   const foundImages = new WeakMap();
   async function fundsachen(id, options={}, p=root, width, context=root) {
@@ -28,7 +634,7 @@
     if(!file)throw new RangeError('No '+variant+' variant for '+item.id);
     if(options.url!==undefined&&options.baseURL!==undefined)throw new TypeError('Choose url or baseURL');
     const base=options.baseURL??(libraryURL?new URL('assets/fundsachen/',libraryURL).href:null);
-    if(!base&&options.url===undefined)throw new TypeError('Provide baseURL for the Fundsachen image folder');
+    if(!base&&options.url===undefined)throw new TypeError('Cannot locate the p5.merz script. Provide baseURL for the Fundsachen image folder, or url for one image');
     if(options.url!==undefined&&(typeof options.url!=='string'||!options.url.trim()))throw new TypeError('url must name an image file');
     const url=options.url===undefined?new URL(file,base).href:new URL(options.url,root.document?.baseURI||root.location?.href).href;
     let cache=foundImages.get(p);if(!cache){cache=new Map();foundImages.set(p,cache);}
@@ -156,7 +762,7 @@
   }
   function validate(item){
     for(const k of ['x','y','angle'])number(item[k],k);number(item.scale,'scale',.001);colour(item.color);
-    if(item.type==='text')geometry(item.text,item);
+    if(item.type==='text')item.text=geometry(item.text,item).text;
     if(item.type==='line'){number(item.x2,'x2');number(item.y2,'y2');number(item.strokeWeight,'strokeWeight',.01);}
     if(item.type==='plane'){number(item.width,'width',.01);number(item.height,'height',.01);}
     return item;
@@ -192,12 +798,16 @@
       }finally{p.pop();}return this;
     }
     exportSVG({title='p5.merz composition'}={}){
+      // Shared across library copies loaded in the same JavaScript realm.
+      const counter=Symbol.for('p5.merz.svg-export');
+      root[counter]=(root[counter]||0)+1;
+      const prefix='merz-svg-'+root[counter]+'-';
       const shape=item=>{
         if(item.type==='plane')return `<rect width="${item.width}" height="${item.height}" fill="${item.color}"/>`;
         if(item.type==='line')return `<path d="M0 0 L${item.x2} ${item.y2}" fill="none" stroke="${item.color}" stroke-width="${item.strokeWeight}" stroke-linecap="square"/>`;
         return geometry(item.text,item).paths.map(line=>`<path d="${line.points.map((v,i)=>(i?'L':'M')+v.join(' ')).join(' ')}" fill="none" stroke="${item.color}" stroke-width="${line.width}" stroke-linecap="square" stroke-linejoin="miter"/>`).join('');
       };
-      return `<svg xmlns="http://www.w3.org/2000/svg" width="${this.width}" height="${this.height}" viewBox="0 0 ${this.width} ${this.height}"><title>${escape(title)}</title><defs><clipPath id="destijl-page"><rect width="${this.width}" height="${this.height}"/></clipPath></defs><g clip-path="url(#destijl-page)">`+(this.background===null?'':`<rect width="${this.width}" height="${this.height}" fill="${this.background}"/>`)+this._items.map(item=>`<g id="${item.id}" transform="translate(${item.x} ${item.y}) rotate(${item.angle}) scale(${item.scale})">${shape(item)}</g>`).join('')+'</g></svg>';
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="${this.width}" height="${this.height}" viewBox="0 0 ${this.width} ${this.height}"><title>${escape(title)}</title><defs><clipPath id="${prefix}page"><rect width="${this.width}" height="${this.height}"/></clipPath></defs><g clip-path="url(#${prefix}page)">`+(this.background===null?'':`<rect width="${this.width}" height="${this.height}" fill="${this.background}"/>`)+this._items.map(item=>`<g id="${prefix}${item.id}" transform="translate(${item.x} ${item.y}) rotate(${item.angle}) scale(${item.scale})">${shape(item)}</g>`).join('')+'</g></svg>';
     }
     downloadSVG(filename='p5.merz.svg'){if(!root.document)throw new Error('downloadSVG() needs a browser');const url=URL.createObjectURL(new Blob([this.exportSVG()],{type:'image/svg+xml;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
   }
