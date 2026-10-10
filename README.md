@@ -21,15 +21,20 @@ Cut images, graphics, geometry or letter parts with the same three calls:
 - `Merz.fragment(source, points)` cuts your own convex outline.
 
 The first two use the top-left corner in source coordinates. Each returns a
-fragment for `tear()`, `stempel()` or `toImage()`.
+fragment for `tear()`, `stempel()` or `bau()`.
 
 ```js
 const piece = Merz.ausschnitt(source, 8, 48, 286, 167);
-const cut = Merz.tear(piece, { amount: 0.3, seed: 17 }).toImage();
+const cut = Merz.tear(piece, { amount: 0.3, seed: 17 }).bau();
 image(cut, 40, 80);
 ```
 
-`toImage()` uses global p5. In instance mode, use `toImage(p)`.
+`bau()` uses global p5. In instance mode, use `bau(p)`.
+Divide a source into several pieces with `Merz.splitter(source, { rows: 3 })`.
+Use `{ columns: 4 }` for vertical strips or `{ rows: 3, columns: 4 }` for a grid.
+The array runs left to right, then top to bottom. Each piece works with
+`tear()`, `stempel()` and `bau()`.
+
 See [three fragment examples](docs/examples.html#fragment-scan) and the
 [cutting guide](docs/guide.html#fragments).
 `Merz.surface(image, { ink: 0.12, paper: 0, seed: 17 })` adds quiet surface

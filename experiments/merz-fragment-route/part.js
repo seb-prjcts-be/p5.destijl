@@ -11,10 +11,10 @@ async function setup() {
   const source = Merz.parts("R", { size: 150, weight: 0.85 }).find(
     (part) => part.id === "bowl"
   );
-  const piece = Merz.ausschnitt(source, 30, 0, 115, 95);
-  cut = Merz.tear(piece, { amount, seed }).toImage(globalThis, { color: "#b92d26" });
+  const piece = Merz.rundschnitt(source, 30, 0, 115, 95);
+  cut = Merz.tear(piece, { amount, seed }).bau(globalThis, { color: "#b92d26" });
   describe(
-    "Change the letter part, amount and seed. One cropped R bowl becomes a repeated field, with placement and rotation in p5."
+    "Change the letter part, amount and seed. An oval cut from an R bowl becomes a repeated field, with placement and rotation in p5."
   );
 }
 

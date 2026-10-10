@@ -1,10 +1,13 @@
 // Load p5.js and p5.merz.js before this sketch.
 const seed = 17;
 const ticketNumber = "038 / 72";
-let cover;
+let clipping;
 
 async function setup() {
-  cover = await loadImage("../merz-fragments/assets/merz-2-cover.jpg");
+  const cover = await loadImage("../merz-fragments/assets/merz-2-cover.jpg");
+  const outline = [[0, 12], [245, 0], [232, 367], [15, 350]];
+  const points = outline.map(([x, y]) => [x * cover.width / 245, y * cover.height / 375]);
+  clipping = Merz.fragment(cover, points).bau();
   const canvas = createCanvas(600, 720);
   if (document.getElementById("drawing")) canvas.parent("drawing");
   pixelDensity(1);
@@ -21,16 +24,7 @@ function draw() {
   push();
   translate(52, 54);
   rotate(-0.08);
-  drawingContext.save();
-  drawingContext.beginPath();
-  drawingContext.moveTo(0, 12);
-  drawingContext.lineTo(245, 0);
-  drawingContext.lineTo(232, 367);
-  drawingContext.lineTo(15, 350);
-  drawingContext.closePath();
-  drawingContext.clip();
-  image(cover, 0, 0, 245, 375);
-  drawingContext.restore();
+  image(clipping, 0, 0, 245, 367);
   pop();
 
   push();

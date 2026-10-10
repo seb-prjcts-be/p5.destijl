@@ -4,22 +4,22 @@ async function setup() {
   try {
     const a=await Merz.fundsachen('001');
     const b=await Merz.fundsachen('merz-2-cover-m');
-    const imageA=a.toImage(globalThis),imageB=b.toImage(globalThis);
+    const imageA=a.bau(globalThis),imageB=b.bau(globalThis);
     imageA.loadPixels();imageB.loadPixels();
     results.push(['number/name pixel parity',imageA.pixels.every((v,i)=>v===imageB.pixels[i])]);
     const local=await Merz.fundsachen('001',{url:'../assets/fundsachen/merz-2-cover-m-ink.png'});
-    const localImage=local.toImage(globalThis);localImage.loadPixels();
+    const localImage=local.bau(globalThis);localImage.loadPixels();
     results.push(['downloaded-file route',imageA.pixels.every((v,i)=>v===localImage.pixels[i])]);
     const list=Merz.fundsachen.list();
     for(let i=0;i<list.length;i++){
       const item=list[i],piece=await Merz.fundsachen(item.id);
       results.push([item.id+' dimensions',piece.width===item.width&&piece.height===item.height]);
-      const ink=piece.toImage(globalThis);ink.loadPixels();
+      const ink=piece.bau(globalThis);ink.loadPixels();
       results.push([item.id+' transparent and opaque pixels',ink.pixels.some((v,i)=>i%4===3&&v===0)&&ink.pixels.some((v,i)=>i%4===3&&v===255)]);
-      const scan=(await Merz.fundsachen(item.id,{variant:'scan'})).toImage(globalThis);scan.loadPixels();
+      const scan=(await Merz.fundsachen(item.id,{variant:'scan'})).bau(globalThis);scan.loadPixels();
       results.push([item.id+' original scan opaque',scan.pixels.every((v,i)=>i%4!==3||v===255)]);
       if(item.svgFile){
-        const vector=(await Merz.fundsachen(item.id,{variant:'svg'})).toImage(globalThis);vector.loadPixels();
+        const vector=(await Merz.fundsachen(item.id,{variant:'svg'})).bau(globalThis);vector.loadPixels();
         let mismatch=0;
         for(let j=3;j<ink.pixels.length;j+=4)if((ink.pixels[j]>=128)!==(vector.pixels[j]>=128))mismatch++;
         results.push([item.id+' SVG silhouette agreement',mismatch/(piece.width*piece.height)<.04]);
@@ -28,7 +28,7 @@ async function setup() {
     }
     await new Promise((resolve,reject)=>new p5(p=>{p.setup=async()=>{try{
       p.createCanvas(90,150);p.pixelDensity(1);p.noLoop();
-      const piece=await Merz.fundsachen(1,{},p);const image=piece.toImage(p);image.loadPixels();
+      const piece=await Merz.fundsachen(1,{},p);const image=piece.bau(p);image.loadPixels();
       results.push(['instance pixels',imageA.pixels.every((v,i)=>v===image.pixels[i])]);
       Merz.stempel(piece,[{x:0,y:0}],p);resolve();
     }catch(error){reject(error);}};}));

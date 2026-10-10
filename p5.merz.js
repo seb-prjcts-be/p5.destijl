@@ -319,7 +319,7 @@
     if(!p||typeof p.push!=='function'||typeof p.applyMatrix!=='function')throw new TypeError('stempel needs a p5 drawing context');
     const images=new Map();
     for(const item of copies){
-      if(isFragment&&!images.has(item.color))images.set(item.color,source.toImage(p,{color:item.color}));
+      if(isFragment&&!images.has(item.color))images.set(item.color,source.bau(p,{color:item.color}));
       p.push();try{
         const a=item.angle*Math.PI/180,c=Math.cos(a)*item.scale,s=Math.sin(a)*item.scale;
         p.applyMatrix(c,s,-s,c,item.x,item.y);
@@ -354,6 +354,45 @@
       return [x + width * (1 + cx) / 2, y + height * (1 + cy) / 2];
     });
     return fragment(source, outline);
+  }
+  function splitter(source, options = {}) {
+    if (!options || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('splitter options must be an object');
+    for (const key of Object.keys(options)) if (!['rows', 'columns'].includes(key)) throw new RangeError('Unknown splitter option: ' + key);
+    const rows = options.rows ?? 1, columns = options.columns ?? 1;
+    if (![rows, columns].every(n => Number.isSafeInteger(n) && n >= 1) || rows * columns > 1024) throw new RangeError('splitter needs positive whole counts, at most 1024 pieces');
+    let x = 0, y = 0, width = source?.width, height = source?.height;
+    if (width === undefined || height === undefined) {
+      const paths = Array.isArray(source) ? source.flatMap(part => part?.paths || []) : source?.paths;
+      if (!Array.isArray(paths) || !paths.length) throw new TypeError('splitter needs an image, geometry or letter parts');
+      let right = -Infinity, bottom = -Infinity;
+      x = Infinity; y = Infinity;
+      for (const path of paths) {
+        number(path.width, 'path width', Number.MIN_VALUE);
+        if (!Array.isArray(path.points) || path.points.length < 2) throw new TypeError('source needs valid paths');
+        for (const point of path.points) {
+          if (!Array.isArray(point) || point.length !== 2 || !point.every(Number.isFinite)) throw new TypeError('source needs finite points');
+          const half = path.width / 2;
+          x = Math.min(x, point[0] - half); y = Math.min(y, point[1] - half);
+          right = Math.max(right, point[0] + half); bottom = Math.max(bottom, point[1] + half);
+        }
+      }
+      width = right - x; height = bottom - y;
+    }
+    cutBounds(x, y, width, height);
+    if (width / columns < 1 || height / rows < 1) throw new RangeError('Each splitter piece must be at least one source unit wide and high');
+    // Snapshot once; pieces share private, immutable material, not mutable source data.
+    const whole = ausschnitt(source, x, y, width, height);
+    const material = fragmentData.get(whole).material;
+    const pieces = [];
+    for (let row = 0; row < rows; row++) {
+      for (let column = 0; column < columns; column++) {
+        const left = x + column * width / columns, top = y + row * height / rows;
+        const right = x + (column + 1) * width / columns, bottom = y + (row + 1) * height / rows;
+        const outline = [[left, top], [right, top], [right, bottom], [left, bottom]];
+        pieces.push(makeFragment(material, outline, outline));
+      }
+    }
+    return pieces;
   }
   // Fragments keep source coordinates; rendering places the crop at image origin.
   function fragment(source, outline) {
@@ -391,10 +430,10 @@
     const x=Math.min(...xs),y=Math.min(...ys);
     const width=Math.ceil(Math.max(...xs)-x),height=Math.ceil(Math.max(...ys)-y);
     if (width < 1 || height < 1 || width*height > 16000000) throw new RangeError('fragment must fit within 16 million pixels');
-    const result = Object.freeze({ x,y,width,height,
+    const result = { x,y,width,height,
       outline: () => copy(edge),
-      toImage(p = root, options = {}) {
-        if (!p || typeof p.createImage !== 'function') throw new TypeError('toImage needs a p5 instance or globalThis');
+      bau(p = root, options = {}) {
+        if (!p || typeof p.createImage !== 'function') throw new TypeError('bau needs a p5 instance or globalThis');
         const canvas=root.document.createElement('canvas');
         canvas.width=width;canvas.height=height;
         const ctx=canvas.getContext('2d',{willReadFrequently:true});
@@ -421,7 +460,9 @@
           return image;
         }
       }
-    });
+    };
+    result.toImage = result.bau;
+    Object.freeze(result);
     fragmentData.set(result,{material,clean});return result;
   }
   function tear(piece, options = {}) {
@@ -574,7 +615,7 @@
   if(root.p5&&typeof root.p5.registerAddon==='function')root.p5.registerAddon((P5,prototype,hooks)=>{
     hooks.remove=function(){const worker=surfaceWorkers.get(this);if(worker){worker.remove();surfaceWorkers.delete(this);}};
   });
-  root.Merz=Object.freeze({version:'0.2.0',palette,geometry,parts,ausschnitt,rundschnitt,fragment,tear,surface,stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
+  root.Merz=Object.freeze({version:'0.2.0',palette,geometry,parts,ausschnitt,rundschnitt,splitter,fragment,tear,surface,stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
   root.MerzComposition=MerzComposition;
   // Compatibility with sketches written before the technical rename.
   root.DeStijl=root.Merz;

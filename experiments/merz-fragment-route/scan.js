@@ -10,7 +10,7 @@ async function setup() {
   noLoop();
   const source = await loadImage("../merz-fragments/assets/merz-2-cover.jpg");
   const piece = Merz.ausschnitt(source, 8, 48, 286, 167);
-  cut = Merz.tear(piece, { amount, seed }).toImage();
+  cut = Merz.tear(piece, { amount, seed }).bau();
   describe(
     "Change amount and seed, or change the crop position and size. The library cuts the scan and changes its edge; p5 places the pieces."
   );

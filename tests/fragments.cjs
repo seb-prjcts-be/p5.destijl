@@ -6,6 +6,26 @@ for (const file of ["p5.merz.js", "p5.merz.min.js"]) {
   const ctx = {};
   vm.runInNewContext(fs.readFileSync(file, "utf8"), ctx);
   const api = ctx.Merz;
+  const word = api.geometry('MERZ', { size: 180 });
+  const strips = api.splitter(word, { rows: 3 });
+  assert.equal(typeof strips[0].bau, 'function');
+  assert.equal(strips[0].bau, strips[0].toImage);
+  assert.equal(strips.length, 3);
+  assert.deepEqual(Array.from(strips, p => [p.x, p.y, p.width, p.height]),
+    [0, 60, 120].map(y => [0, y, Math.ceil(word.width), 60]));
+  const grid = api.splitter(word, { rows: 2, columns: 3 });
+  assert.equal(grid.length, 6);
+  assert.equal(grid[1].x, word.width / 3);
+  assert.equal(grid[3].y, 90);
+  assert.equal(grid[2].outline()[1][0], word.width);
+  for (const source of [api.parts('R'), api.parts('R')[1]]) assert.equal(api.splitter(source, { columns: 2 }).length, 2);
+  let snapshots = 0;
+  api.splitter({ width: 100, height: 80, get() { snapshots++; return {}; } }, { rows: 4, columns: 5 });
+  assert.equal(snapshots, 1);
+  for (const options of [{ rows: 0 }, { columns: 1.5 }, { rows: 1025 }, { rows: 181 }, { cols: 3 }, null]) {
+    assert.throws(() => api.splitter(word, options));
+  }
+  assert.throws(() => api.splitter(api.geometry('')));
   const outline = [
     [0, 0],
     [180, 0],
@@ -61,7 +81,8 @@ for (const file of ["p5.merz.js", "p5.merz.min.js"]) {
   assert.throws(() => api.fragment({}, outline));
   const result = JSON.stringify(
     [api.tear(api.fragment(api.geometry("A"), outline), { amount: 0.8, seed: 42 }).outline(),
-     api.tear(api.rundschnitt(api.geometry("A"), 0, 0, 180, 120), { amount: 0.8, seed: 42 }).outline()]
+     api.tear(api.rundschnitt(api.geometry("A"), 0, 0, 180, 120), { amount: 0.8, seed: 42 }).outline(),
+     api.splitter(word, { rows: 3, columns: 2 }).map(p => p.outline())]
   );
   if (reference) assert.equal(result, reference);
   reference = result;

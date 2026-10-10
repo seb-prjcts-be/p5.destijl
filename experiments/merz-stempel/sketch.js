@@ -16,7 +16,7 @@ function setup() {
 function draw() {
   background('#f7f7f2');
   if (study === 0) merzbild();
-  if (study === 1) splitter();
+  if (study === 1) splitWord();
   if (study === 2) rrrt();
 }
 
@@ -34,15 +34,19 @@ function merzbild() {
   text('01 02 03 04 05 06 07 08 09 10 11 12', 0, 0); pop();
 }
 
-function splitter() {
+function splitWord() {
   const word = Merz.geometry('SPLITTER', { size: 110, weight: 0.85, spacing: 8 });
-  const piece = Merz.ausschnitt(word, 0, 22, word.width, 45);
-  const torn = Merz.tear(piece, { amount: 0.16, seed: 17 });
-  const impressions = [];
+  const pieces = Merz.splitter(word, { rows: 3 });
+  const torn = pieces.map((piece, i) => Merz.tear(piece, { amount: 0.16, seed: 17 + i }));
   for (let i = 0; i < 10; i++) {
-    impressions.push({ x: i % 2 ? -160 : -10, y: 42 + i * 58, scale: 0.9, angle: i % 3 === 0 ? -4 : 0, color: i % 3 === 0 ? red : black });
+    Merz.stempel(torn[i % torn.length], [{
+      x: i % 2 ? -160 : -10,
+      y: 42 + i * 58,
+      scale: 0.9,
+      angle: i % 3 === 0 ? -4 : 0,
+      color: i % 3 === 0 ? red : black
+    }]);
   }
-  Merz.stempel(torn, impressions);
   noStroke(); fill(black); textFont('Georgia'); textSize(81); text('splitter', 30, 705);
   fill(red); textFont('monospace'); textSize(15); text('17 / 41 / 103', 377, 703);
 }

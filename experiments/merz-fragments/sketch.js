@@ -37,10 +37,11 @@ const positions = [
     width: 95
   }
 ];
-let source;
+let cut;
 
 async function setup() {
-  source = await loadImage("assets/merz-2-cover.jpg");
+  const source = await loadImage("assets/merz-2-cover.jpg");
+  cut = Merz.ausschnitt(source, crop.x, crop.y, crop.width, crop.height).bau();
   const canvas = createCanvas(600, 840);
   if (document.getElementById("drawing")) canvas.parent("drawing");
   pixelDensity(1);
@@ -54,17 +55,7 @@ function draw() {
   background("#f7f7f2");
   for (const place of positions) {
     const height = (place.width * crop.height) / crop.width;
-    image(
-      source,
-      place.x,
-      place.y,
-      place.width,
-      height,
-      crop.x,
-      crop.y,
-      crop.width,
-      crop.height
-    );
+    image(cut, place.x, place.y, place.width, height);
   }
   const work = Merz.create({
     width: 600,
@@ -90,7 +81,6 @@ function draw() {
 function keyPressed() {
   if (key === "s" || key === "S") saveCanvas("p5.merz-fragments", "png");
   if (key === "c" || key === "C") {
-    const fragment = source.get(crop.x, crop.y, crop.width, crop.height);
-    save(fragment, "merz-2-cover-" + selectedFragment + ".png");
+    save(cut, "merz-2-cover-" + selectedFragment + ".png");
   }
 }
