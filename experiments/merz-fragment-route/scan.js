@@ -1,11 +1,9 @@
-let farbe;
 // With p5.js and p5.merz.js loaded.
 const amount = 0.7;
 const seed = 17;
 let cut;
 
 async function setup() {
-  farbe = Merz.settings();
   const canvas = createCanvas(600, 680);
   if (document.getElementById("drawing")) canvas.parent("drawing");
   pixelDensity(1);
@@ -20,7 +18,7 @@ async function setup() {
 }
 
 function draw() {
-  background(farbe.grau);
+  background(Merz.farbe.grau);
   for (let i = 0; i < 3; i++) {
     push();
     translate(65 + i * 38, 65 + i * 170);

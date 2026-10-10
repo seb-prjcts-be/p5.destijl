@@ -956,10 +956,19 @@
     });
   }
   function bauteil(letter, name, options = {}) {
-    const available = bauteile(letter, options);
-    const selected = available.find(piece => piece.id === name);
-    if (!selected) throw new RangeError(letter + ' has these parts: ' + available.map(piece => piece.id).join(', '));
-    return selected;
+    if (typeof letter !== 'string' || !Object.hasOwn(descriptions, letter)) {
+      throw new RangeError('Choose one uppercase letter from A to Z.');
+    }
+    const whole = satz(letter, options);
+    const available = descriptions[letter];
+    const selected = available.find(([id]) => id === name);
+    if (!selected) throw new RangeError(letter + ' has these parts: ' + available.map(([id]) => id).join(', '));
+    const [id, pathIndex, start, end] = selected;
+    const source = whole.paths[pathIndex];
+    return { id, paths: [{
+      points: copy(start === undefined ? source.points : source.points.slice(start, end + 1)),
+      width: source.width
+    }] };
   }
   // Repeat supplied material at explicit positions, within the caller's p5 transform.
   function stempel(source, placements, p=root, options={}, context=root) {
@@ -1272,6 +1281,6 @@
     result.updatePixels();
     return result;
   }
-  root.Merz=Object.freeze({version:'0.3.0',palette,ready,settings,satz,bauteile,bauteil,ausschnitt,rundschnitt,splitter,schnitt,riss,andruck,stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
+  root.Merz=Object.freeze({version:'0.3.0',palette,farbe:settings(),ready,settings,satz,bauteile,bauteil,ausschnitt,rundschnitt,splitter,schnitt,riss,andruck,stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
   root.MerzComposition=MerzComposition;
 })(globalThis);

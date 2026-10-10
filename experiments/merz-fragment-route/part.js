@@ -1,11 +1,9 @@
-let farbe;
 // With p5.js and p5.merz.js loaded.
 const amount = 0.7;
 const seed = 17;
 let cut;
 
 async function setup() {
-  farbe = Merz.settings();
   const canvas = createCanvas(600, 680);
   if (document.getElementById("drawing")) canvas.parent("drawing");
   pixelDensity(1);
@@ -13,14 +11,14 @@ async function setup() {
   const source = Merz.bauteil("R", "bowl", { size: 150, weight: 0.85 });
   // The oval catches a little of the opening in R.
   const piece = Merz.rundschnitt(source, 30, 0, 115, 95);
-  cut = Merz.riss(piece, { amount, seed }).bau(globalThis, { color: farbe.rot });
+  cut = Merz.riss(piece, { amount, seed }).bau(globalThis, { color: Merz.farbe.rot });
   describe(
     "Change the letter part, amount and seed. An oval cut from an R bowl becomes a repeated field, with placement and rotation in p5."
   );
 }
 
 function draw() {
-  background(farbe.grau);
+  background(Merz.farbe.grau);
   for (let row = 0; row < 4; row++) {
     for (let col = 0; col < 4; col++) {
       push();

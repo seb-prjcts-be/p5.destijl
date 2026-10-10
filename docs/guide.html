@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Guide - p5.merz</title><link rel="stylesheet" href="library.css?v=platypi-1"><link rel="icon" href="data:,"><script defer src="code-style.js"></script></head><body><header><a class="brand" href="../index.html">p5.merz</a><span>Guide</span></header>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Guide - p5.merz</title><link rel="stylesheet" href="library.css?v=swatches-1"><link rel="icon" href="data:,"><script defer src="code-style.js"></script><script defer src="../docs/navigation.js"></script></head><body><header><a class="brand" href="../index.html">p5.merz</a><span>Guide</span></header>
 <nav class="study-nav" aria-label="p5.merz pages">
       <a href="../index.html">Showcase</a>
       <a href="examples.html">Examples</a>
@@ -11,24 +11,34 @@
 <main class="wide"><h1>Drawing with p5.merz</h1><p>Use p5.merz.js and the Merz API.</p><p>Load p5.js, then p5.merz.js and your own sketch. The examples use p5.js 2.3.4.</p><pre>&lt;script src="p5.js"&gt;&lt;/script&gt;
 &lt;script src="p5.merz.js"&gt;&lt;/script&gt;
 &lt;script src="sketch.js"&gt;&lt;/script&gt;</pre>
-<h2 id="settings">Choose your colours</h2>
-<pre>let farbe;
-
-function setup() {
+<p><a href="#api-reference">Function reference</a> lists the calls and their return values. The sections below include options and sketches.</p>
+<h2 id="settings">The default colo(u)rs</h2>
+<p>p5.merz includes five colours, ready to use through <code>Merz.farbe</code>. <code>grau</code> is the background colour at index 0.</p>
+<ul class="palette-swatches" aria-label="Default library colours">
+<li><span class="palette-swatch" style="--swatch:#f7f7f2" aria-hidden="true"></span><strong>Grau</strong></li>
+<li><span class="palette-swatch" style="--swatch:#b92d26" aria-hidden="true"></span><strong>Rot</strong></li>
+<li><span class="palette-swatch" style="--swatch:#20201e" aria-hidden="true"></span><strong>Schwarz</strong></li>
+<li><span class="palette-swatch" style="--swatch:#234b92" aria-hidden="true"></span><strong>Blau</strong></li>
+<li><span class="palette-swatch" style="--swatch:#e8bb32" aria-hidden="true"></span><strong>Gelb</strong></li>
+</ul>
+<p>Use a name such as <code>Merz.farbe.rot</code>, or its index, <code>Merz.farbe[1]</code>:</p>
+<pre>function setup() {
   createCanvas(600, 600);
-  farbe = Merz.settings();
   noLoop();
 }
 
 function draw() {
-  background(farbe.grau);
-  fill(farbe.rot);
+  background(Merz.farbe.grau);
+  fill(Merz.farbe.rot);
   rect(40, 40, 120, 80);
 }</pre>
-<p>Use the library colours, or replace any of them in setup():</p>
-<pre>farbe = Merz.settings({ rot: '#c4382d', grau: '#f1eddf' });</pre>
-<p>The names are <code>grau</code>, <code>rot</code>, <code>schwarz</code>, <code>blau</code> and <code>gelb</code>. The same colours are available as <code>farbe[0]</code> through <code>farbe[4]</code>, in that order. For example, <code>farbe[1]</code> is <code>farbe.rot</code>. Use six-digit hex colours for overrides.</p>
-<p>Each call returns its own fixed palette. Pass its colours to ordinary p5 calls or library options such as <code>{ color: farbe.schwarz }</code>. It does not repaint the canvas or change other sketches. Scanned Fundsachen keep their original colours.</p>
+<h3>Change a colour</h3>
+<p>Pass the colours you want to replace to <code>Merz.settings()</code> in setup(). The other colours keep their defaults:</p>
+<pre>const farbe = Merz.settings({ rot: '#c4382d', grau: '#f1eddf' });
+background(farbe.grau);
+fill(farbe.rot);</pre>
+<p>Use lowercase names and six-digit hex colours. The names and indices stay the same after an override.</p>
+
 <h2 id="geometry">Draw with geometry</h2>
 <p><code>Merz.satz(text, options)</code> returns normalised text, paths, width and frame height. Each path contains <code>points</code>, an array of [x, y] pairs, and <code>width</code>, its stroke thickness. Choose colour, placement and repetition in your sketch.</p>
 <pre>const word = Merz.satz('ROOM', { size: 100 });
@@ -146,4 +156,39 @@ Merz.stempel(word, [
 }</pre><p><code>fundsachen(id, x, y, width)</code> loads and draws a transparent sample by number or name. Width is in canvas units; height follows the original proportions. The image is cached. Use <code>await</code> in async setup() to keep drawing order. In instance mode, pass <code>p</code> as the fifth argument. Drawing uses the current p5 transform and restores drawing settings. To edit or repeatedly draw the material, use <code>const piece = await Merz.fundsachen('001')</code>, then <code>stempel()</code> or <code>bau()</code>.</p><p>Each item in the <a href="fundsachen.html">catalogue</a> has a transparent PNG download. Letters, numbers and rules also have SVG silhouettes. Keep just the samples you use in your sketch folder. The library can stay at its online URL.</p><pre>const piece = await Merz.fundsachen('022', {
   url: 'merz-8-cover-nasci-ink.png'
 });</pre><p><code>url</code> points to your downloaded image, relative to the sketch page. You can also use an absolute image URL. Choose either <code>url</code> for one file or <code>baseURL</code> for a folder. Hosted images need to allow cross-origin loading when used from another site.</p><pre>const piece = await Merz.fundsachen('001');
-Merz.stempel(piece, [{ x: 40, y: 60 }]);</pre><p>Load a catalogue sample by its fixed number or name. Use an async setup function with p5.js 2.x. The result is a fragment for <code>riss()</code>, <code>stempel()</code> or <code>bau()</code>. <code>Merz.fundsachen.list()</code> returns the entries, dimensions, crop coordinates and source links without loading images.</p><p>Keep <code>assets/fundsachen/</code> next to the library file. If the library is loaded as a module or evaluated without a script URL, provide baseURL or an explicit image url. The library reports the missing base instead of guessing from the page location. To host the images elsewhere, pass <code>{ baseURL: 'https://your-site.example/samples/' }</code> with the trailing slash. In instance mode use <code>await Merz.fundsachen('001', {}, p)</code>. Images load once per URL and p5 context; each call returns its own fragment. Failed loads can be retried. The default <code>variant: 'ink'</code> loads transparent ink. Choose <code>variant: 'scan'</code> for the original paper or <code>variant: 'svg'</code> for an available SVG silhouette. An unavailable variant raises an error. SVG downloads contain vector paths; loading one through <code>fundsachen()</code> rasterises it at the catalogue dimensions for fragment operations. Use the SVG file directly for vector editing and large-scale output.</p><p><a href="fundsachen.html">Browse the catalogue</a> · <a href="../experiments/merz-fundsachen/">Complete sketch</a></p></main></body></html>
+Merz.stempel(piece, [{ x: 40, y: 60 }]);</pre><p>Load a catalogue sample by its fixed number or name. Use an async setup function with p5.js 2.x. The result is a fragment for <code>riss()</code>, <code>stempel()</code> or <code>bau()</code>. <code>Merz.fundsachen.list()</code> returns the entries, dimensions, crop coordinates and source links without loading images.</p><p>Keep <code>assets/fundsachen/</code> next to the library file. If the library is loaded as a module or evaluated without a script URL, provide baseURL or an explicit image url. The library reports the missing base instead of guessing from the page location. To host the images elsewhere, pass <code>{ baseURL: 'https://your-site.example/samples/' }</code> with the trailing slash. In instance mode use <code>await Merz.fundsachen('001', {}, p)</code>. Images load once per URL and p5 context; each call returns its own fragment. Failed loads can be retried. The default <code>variant: 'ink'</code> loads transparent ink. Choose <code>variant: 'scan'</code> for the original paper or <code>variant: 'svg'</code> for an available SVG silhouette. An unavailable variant raises an error. SVG downloads contain vector paths; loading one through <code>fundsachen()</code> rasterises it at the catalogue dimensions for fragment operations. Use the SVG file directly for vector editing and large-scale output.</p><p><a href="fundsachen.html">Browse the catalogue</a> · <a href="../experiments/merz-fundsachen/">Complete sketch</a></p><h2 id="api-reference">Function reference</h2>
+<p>Options can be omitted unless shown otherwise. Coordinates use logical canvas units. Where a call accepts <code>p</code>, omit it for global mode or pass a p5 instance or graphics buffer.</p>
+<table><thead><tr><th>Call</th><th>Returns and behaviour</th></tr></thead><tbody>
+<tr><td><code>Merz.ready({ fontURL })</code></td><td>A Promise that resolves without a value when Archivo Black is loaded. The bundled URL is the default. Concurrent calls share the first load; a failed load can be retried. Requires browser font loading. <a href="#stempel">Font setup</a>.</td></tr>
+<tr><td><code>Merz.settings(options)</code></td><td>A fresh, frozen palette with named and numbered entries. Unknown names and invalid colours raise an error. <a href="#settings">Colours and defaults</a>.</td></tr>
+<tr><td><code>Merz.satz(text, options)</code></td><td>Fresh <code>{ text, paths, width, height }</code> data; no drawing. Empty text gives empty paths and zero dimensions. <a href="#geometry">Geometry</a>.</td></tr>
+<tr><td><code>Merz.bauteile(letter, options)</code><br><code>Merz.bauteil(letter, name, options)</code></td><td>All named parts, or one part, as fresh editable paths. Accepts one uppercase A–Z. Unknown part names report the available names. <a href="#geometry">Parts</a>.</td></tr>
+<tr><td><code>Merz.ausschnitt(source, x, y, width, height)</code><br><code>Merz.rundschnitt(source, x, y, width, height)</code><br><code>Merz.schnitt(source, points)</code></td><td>A fragment containing a copy of the source material. No drawing. The first two cut a rectangle or oval; the third needs a convex outline. <a href="#fragments">Cutting rules</a>.</td></tr>
+<tr><td><code>Merz.splitter(source, { rows, columns })</code></td><td>An array of fragments. Counts default to 1; at most 1024 pieces. Source material is copied once for the set. <a href="#splitter">Bounds and order</a>.</td></tr>
+<tr><td><code>Merz.riss(piece, { amount, seed })</code></td><td>A new fragment with an inward torn edge. Defaults: amount 0.3, seed 1. Amount is 0–1; seed is a safe integer. Starts from the clean cut each time. <a href="#fragments">Edges</a>.</td></tr>
+<tr><td><code>Merz.andruck(source, { ink, paper, seed }, p)</code></td><td>A new p5.Image; the source stays unchanged. Defaults: ink 0.12, paper 0, seed 17. Ink and paper are 0–1; seed is a safe integer. Preserves source density. <a href="#surface">Surface behaviour and limits</a>.</td></tr>
+<tr><td><code>Merz.stempel(source, x, y, options, p)</code><br><code>Merz.stempel(source, placements, p)</code></td><td>The number of impressions drawn. Preserves drawing settings. <a href="#stempel">Placement, repetition and text options</a>.</td></tr>
+<tr><td><code>Merz.fundsachen(id, options, p)</code></td><td>A Promise for a fresh fragment. Images are cached per URL and context. <a href="#fundsachen">Variants and loading</a>.</td></tr>
+<tr><td><code>Merz.fundsachen(id, x, y, width, p)</code></td><td>A Promise that resolves without a value after drawing the sample. Width must be at least 1; proportions are preserved.</td></tr>
+<tr><td><code>Merz.fundsachen.list()</code></td><td>A fresh array of catalogue entries, including copied crop coordinates. Does not load images.</td></tr>
+<tr><td><code>Merz.create({ width, height, background })</code></td><td>A new composition. Defaults: 600 × 600, background <code>#f7f7f2</code>. Dimensions must be at least 1; use <code>null</code> for no background. Does not create a canvas.</td></tr>
+</tbody></table>
+<h3>Fragment methods</h3>
+<p>A fragment has fixed <code>x</code>, <code>y</code>, <code>width</code> and <code>height</code>. Its position refers to the source; its raster image starts at the cropped top-left corner.</p>
+<table><thead><tr><th>Call</th><th>Returns and behaviour</th></tr></thead><tbody>
+<tr><td><code>piece.outline()</code></td><td>A fresh array of edge points in source coordinates. Editing these points does not change the fragment.</td></tr>
+<tr><td><code>piece.bau(p, { color })</code></td><td>A new p5.Image. Colour defaults to <code>#20201e</code> for paths; image material keeps its own colours. Omit both arguments for global defaults. For a colour in global mode, use <code>bau(globalThis, { color: farbe.rot })</code>. Each call rasterises again, so keep the result for repeated drawing. The limit is 16 million physical pixels. <a href="#surface">Pixel density</a>.</td></tr>
+</tbody></table>
+<h3>Composition methods</h3>
+<p>In this table, <code>work</code> is the result of <code>Merz.create()</code>. Element ids belong to that composition. Methods taking an id raise an error when it does not exist.</p>
+<table><thead><tr><th>Call</th><th>Returns and behaviour</th></tr></thead><tbody>
+<tr><td><code>work.text(text, x, y, options)</code><br><code>work.letter(letter, x, y, options)</code><br><code>work.line(x1, y1, x2, y2, options)</code><br><code>work.plane(x, y, width, height, options)</code></td><td>A new element id. Letter accepts one supported non-space character. Measurements and options are described under Letters, lines and planes above.</td></tr>
+<tr><td><code>work.get(id)</code><br><code>work.items()</code></td><td>A copy of one element, or an array of copies in drawing order. Editing the result does not change the composition.</td></tr>
+<tr><td><code>work.update(id, changes)</code><br><code>work.move(id, x, y)</code></td><td>The composition for chaining. Updates are validated before replacing an element; failed updates leave it unchanged.</td></tr>
+<tr><td><code>work.bringToFront(id)</code><br><code>work.sendToBack(id)</code><br><code>work.remove(id)</code><br><code>work.clear()</code></td><td>The composition for chaining. Reordering keeps the id. Clear removes every element without restarting the id counter.</td></tr>
+<tr><td><code>work.draw(p)</code></td><td>The composition after drawing. Preserves p5 settings and uses the outer transform. Text geometry is calculated on each draw.</td></tr>
+<tr><td><code>work.exportSVG({ title })</code></td><td>An SVG string. Default title: <code>p5.merz composition</code>. Uses the stored dimensions and elements; no browser or p5 context is required.</td></tr>
+<tr><td><code>work.downloadSVG(filename)</code></td><td>No return value. Requests a browser download; the default filename is <code>p5.merz.svg</code>.</td></tr>
+</tbody></table>
+<p><code>Merz.version</code> is the library version. <code>Merz.characters</code> lists supported glyphs, excluding spaces and newlines. <code>Merz.farbe</code> holds the default palette with German names and indices 0–4. <code>Merz.palette</code> holds the same base colours under <code>paper</code>, <code>ink</code>, <code>red</code>, <code>blue</code> and <code>yellow</code>; <code>settings(options)</code> returns a separate custom palette.</p>
+</main></body></html>

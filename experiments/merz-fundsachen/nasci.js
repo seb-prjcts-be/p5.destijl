@@ -1,6 +1,5 @@
 // With p5.js and p5.merz.js loaded.
 async function setup() {
-  const farbe = Merz.settings();
   const canvas = createCanvas(600, 760);
   if (document.getElementById('drawing')) canvas.parent('drawing');
   pixelDensity(1); noLoop();
@@ -9,7 +8,7 @@ async function setup() {
   );
   const paper = createGraphics(width, height);
   paper.pixelDensity(1);
-  paper.background(farbe.grau);
+  paper.background(Merz.farbe.grau);
   image(Merz.andruck(paper, { ink: 0, paper: 0.18, seed: 17 }), 0, 0);
   paper.remove();
   Merz.stempel(eight, [{ x: 25, y: 20, scale: 1.15 }]);

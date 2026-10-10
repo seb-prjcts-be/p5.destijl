@@ -102,15 +102,14 @@ A separate module for the geometric alphabet is a possibility to investigate. It
 
 ## Colours
 
-Set up a palette once in setup():
+The default colours are available directly:
 
 ```js
-const farbe = Merz.settings();
-background(farbe.grau);
-fill(farbe.rot); // also farbe[1]
+background(Merz.farbe.grau);
+fill(Merz.farbe.rot); // also Merz.farbe[1]
 ```
 
-Override only what you need: `Merz.settings({ rot: '#c4382d', grau: '#f1eddf' })`.
+For a custom palette, use `const farbe = Merz.settings({ rot: '#c4382d', grau: '#f1eddf' })`. The default `Merz.farbe` stays unchanged.
 The order is grau, rot, schwarz, blau, gelb (indices 0–4).
 Keep `farbe` outside setup when draw() also uses it.
 

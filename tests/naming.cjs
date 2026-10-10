@@ -9,6 +9,9 @@ for (const file of ['p5.merz.js','p5.merz.min.js']) {
   for (const name of ['satz', 'bauteile', 'bauteil', 'schnitt', 'riss', 'andruck', 'ausschnitt', 'rundschnitt']) assert.equal(typeof ctx.Merz[name], 'function');
   assert.equal(typeof ctx.Merz.riss,'function');
   const farbe = ctx.Merz.settings();
+  assert.deepEqual(ctx.Merz.farbe, farbe);
+  assert.ok(Object.isFrozen(ctx.Merz.farbe));
+  assert.equal(ctx.Merz.farbe, ctx.Merz.farbe);
   assert.equal(farbe.rot, ctx.Merz.palette.red);
   assert.equal(farbe.schwarz, ctx.Merz.palette.ink);
   assert.equal(farbe.grau, ctx.Merz.palette.paper);
@@ -22,6 +25,7 @@ for (const file of ['p5.merz.js','p5.merz.min.js']) {
   assert.equal(custom[1], '#c4382d');
   assert.equal(custom[0], '#f1eddf');
   assert.equal(custom.schwarz, farbe.schwarz);
+  assert.equal(ctx.Merz.farbe.rot, '#b92d26');
   assert.equal(ctx.Merz.settings().rot, farbe.rot);
   assert.notEqual(ctx.Merz.settings(), farbe);
   for (const invalid of [null, [], { red: '#ffffff' }, { rot: 'red' }, { grau: '#fff' }]) {

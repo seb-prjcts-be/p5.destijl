@@ -1,10 +1,8 @@
 // With p5.js and p5.merz.js loaded.
 // 0 for Merzbild, 1 for Splitter, 2 for Rrrt.
 let study = 0;
-let farbe;
 
 function setup() {
-  farbe = Merz.settings();
   const canvas = createCanvas(600, 760);
   if (document.getElementById('drawing')) canvas.parent('drawing');
   pixelDensity(1);
@@ -15,7 +13,7 @@ function setup() {
 }
 
 function draw() {
-  background(farbe.grau);
+  background(Merz.farbe.grau);
   if (study === 0) merzbild();
   if (study === 1) splitWord();
   if (study === 2) rrrt();
@@ -26,12 +24,12 @@ function merzbild() {
   const word = Merz.satz('MERZ', { size: 106, weight: 0.7, spacing: 6 });
   const impressions = [];
   for (let i = 0; i < 5; i++) {
-    impressions.push({ x: 28 + i * 13, y: 28 + i * 115, color: i % 2 ? farbe.rot : farbe.schwarz });
+    impressions.push({ x: 28 + i * 13, y: 28 + i * 115, color: i % 2 ? Merz.farbe.rot : Merz.farbe.schwarz });
   }
   Merz.stempel(word, impressions);
-  noStroke(); fill(farbe.rot); rect(20, 620, 560, 103);
-  Merz.stempel('Fundsachen', 30, 693, { size: 69, color: farbe.grau });
-  Merz.stempel('01 02 03 04 05 06 07 08 09 10 11 12', 556, 54, { size: 13, font: 'monospace', angle: 90, color: farbe.schwarz });
+  noStroke(); fill(Merz.farbe.rot); rect(20, 620, 560, 103);
+  Merz.stempel('Fundsachen', 30, 693, { size: 69, color: Merz.farbe.grau });
+  Merz.stempel('01 02 03 04 05 06 07 08 09 10 11 12', 556, 54, { size: 13, font: 'monospace', angle: 90, color: Merz.farbe.schwarz });
 }
 
 function splitWord() {
@@ -45,10 +43,10 @@ function splitWord() {
     offsetX: -150,
     scale: 0.9,
     angle: [-4, 0, 0],
-    color: [farbe.rot, farbe.schwarz, farbe.schwarz]
+    color: [Merz.farbe.rot, Merz.farbe.schwarz, Merz.farbe.schwarz]
   });
-  Merz.stempel('splitter', 30, 705, { size: 81, color: farbe.schwarz });
-  Merz.stempel('17 / 41 / 103', 377, 703, { size: 15, font: 'monospace', color: farbe.rot });
+  Merz.stempel('splitter', 30, 705, { size: 81, color: Merz.farbe.schwarz });
+  Merz.stempel('17 / 41 / 103', 377, 703, { size: 15, font: 'monospace', color: Merz.farbe.rot });
 }
 
 function rrrt() {
@@ -57,13 +55,13 @@ function rrrt() {
   const impressions = [];
   for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 6; col++) {
-      impressions.push({ x: 28 + col * 90, y: 120 + row * 63, scale: 0.72 + (col % 3) * 0.12, color: (row + col) % 5 === 0 ? farbe.rot : farbe.schwarz });
+      impressions.push({ x: 28 + col * 90, y: 120 + row * 63, scale: 0.72 + (col % 3) * 0.12, color: (row + col) % 5 === 0 ? Merz.farbe.rot : Merz.farbe.schwarz });
     }
   }
   Merz.stempel(bowl, impressions);
-  Merz.stempel('rrrt', 28, 98, { size: 105, color: farbe.rot });
+  Merz.stempel('rrrt', 28, 98, { size: 105, color: Merz.farbe.rot });
   Merz.stempel('ABFALL  KLEBSTOFF  MERZBILD  ZWECKFREI', 28, 660, {
-    size: 16, font: 'monospace', color: farbe.schwarz, rows: 4, leading: 20
+    size: 16, font: 'monospace', color: Merz.farbe.schwarz, rows: 4, leading: 20
   });
 }
 
