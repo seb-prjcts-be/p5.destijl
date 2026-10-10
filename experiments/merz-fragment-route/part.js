@@ -11,12 +11,7 @@ async function setup() {
   const source = Merz.parts("R", { size: 150, weight: 0.85 }).find(
     (part) => part.id === "bowl"
   );
-  const piece = Merz.fragment(source, [
-    [30, 0],
-    [145, 0],
-    [145, 95],
-    [30, 95]
-  ]);
+  const piece = Merz.ausschnitt(source, 30, 0, 115, 95);
   cut = Merz.tear(piece, { amount, seed }).toImage(globalThis, { color: "#b92d26" });
   describe(
     "Change the letter part, amount and seed. One cropped R bowl becomes a repeated field, with placement and rotation in p5."

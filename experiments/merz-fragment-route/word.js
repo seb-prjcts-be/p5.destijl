@@ -11,12 +11,7 @@ async function setup() {
   const source = Merz.geometry("MERZ", { size: 180, spacing: 8 });
   for (let row = 0; row < 3; row++) {
     const top = row * 60;
-    const piece = Merz.fragment(source, [
-      [0, top],
-      [source.width, top],
-      [source.width, top + 60],
-      [0, top + 60]
-    ]);
+    const piece = Merz.ausschnitt(source, 0, top, source.width, 60);
     strips.push(
       Merz.tear(piece, { amount, seed: seed + row }).toImage(globalThis, {
         color: row === 1 ? "#b92d26" : "#20201e"

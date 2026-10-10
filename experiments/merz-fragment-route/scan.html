@@ -30,7 +30,7 @@
     <main class="wide">
       <h1>A scan, cut and repeated</h1>
       <p>
-        Change amount and seed, or move the crop points. The library cuts the scan and
+        Change amount and seed, or change the crop position and size. The library cuts the scan and
         changes its edge; p5 places the pieces.
       </p>
       <div class="demo-layout">
@@ -43,7 +43,7 @@
         </section>
       </div>
       <p>
-        fragment() and tear() are local library additions. toImage() returns a
+        ausschnitt() makes the crop; tear() changes its edge. toImage() returns a
         transparent raster image; the stored-composition SVG exporter does not record
         this drawing.
       </p>

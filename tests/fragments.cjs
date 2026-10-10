@@ -13,6 +13,19 @@ for (const file of ["p5.merz.js", "p5.merz.min.js"]) {
     [0, 120]
   ];
   for (const source of [api.geometry("AB"), api.parts("R"), api.parts("R")[1]]) {
+    assert.equal(JSON.stringify(api.ausschnitt(source, 0, 0, 180, 120).outline()), JSON.stringify(outline));
+    const oval = api.rundschnitt(source, -12, 8, 80, 40);
+    assert.deepEqual([oval.x, oval.y, oval.width, oval.height], [-12, 8, 80, 40]);
+    for (const [x, y] of oval.outline()) {
+      assert.ok(Math.abs(((x - 28) / 40) ** 2 + ((y - 28) / 20) ** 2 - 1) < 1e-12);
+    }
+    assert.equal(JSON.stringify(api.rundschnitt(source, 0, 0, 40).outline()), JSON.stringify(api.rundschnitt(source, 0, 0, 40, 40).outline()));
+    assert.equal(JSON.stringify(api.tear(oval, { amount: 0 }).outline()), JSON.stringify(oval.outline()));
+    for (const method of [api.ausschnitt, api.rundschnitt]) {
+      for (const args of [[0,0,0,20], [0,0,20,-1], [NaN,0,20,20], [0,0,Infinity,20], [0,0,5000,5000]]) {
+        assert.throws(() => method(source, ...args));
+      }
+    }
     const piece = api.fragment(source, outline);
     const clean = JSON.stringify(piece.outline());
     const torn = api.tear(piece, { amount: 0.7, seed: 17 });
@@ -47,9 +60,8 @@ for (const file of ["p5.merz.js", "p5.merz.min.js"]) {
   );
   assert.throws(() => api.fragment({}, outline));
   const result = JSON.stringify(
-    api
-      .tear(api.fragment(api.geometry("A"), outline), { amount: 0.8, seed: 42 })
-      .outline()
+    [api.tear(api.fragment(api.geometry("A"), outline), { amount: 0.8, seed: 42 }).outline(),
+     api.tear(api.rundschnitt(api.geometry("A"), 0, 0, 180, 120), { amount: 0.8, seed: 42 }).outline()]
   );
   if (reference) assert.equal(result, reference);
   reference = result;

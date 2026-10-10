@@ -30,7 +30,7 @@
       pending.catch(()=>{if(cache.get(url)===pending)cache.delete(url);});
     }
     const image=await cache.get(url);
-    return fragment(image,[[0,0],[image.width,0],[image.width,image.height],[0,image.height]]);
+    return ausschnitt(image, 0, 0, image.width, image.height);
   }
   fundsachen.list=()=>foundItems.map(item=>({...item,crop:[...item.crop]}));
   Object.freeze(fundsachen);
@@ -332,6 +332,29 @@
     }
     return copies.length;
   }
+  // All cutting routes use source coordinates and return the same fragment type.
+  function cutBounds(x, y, width, height) {
+    number(x, 'x'); number(y, 'y');
+    number(width, 'width', 1); number(height, 'height', 1);
+    if (!Number.isFinite(x + width) || !Number.isFinite(y + height) ||
+        Math.ceil(width) * Math.ceil(height) > 16000000) {
+      throw new RangeError('cut must fit within 16 million pixels');
+    }
+  }
+  function ausschnitt(source, x, y, width, height) {
+    cutBounds(x, y, width, height);
+    return fragment(source, [[x,y], [x+width,y], [x+width,y+height], [x,y+height]]);
+  }
+  function rundschnitt(source, x, y, width, height = width) {
+    cutBounds(x, y, width, height);
+    const outline = Array.from({ length: 64 }, (_, i) => {
+      const angle = i * Math.PI / 32;
+      const cx = i === 16 || i === 48 ? 0 : Math.cos(angle);
+      const cy = i === 0 || i === 32 ? 0 : Math.sin(angle);
+      return [x + width * (1 + cx) / 2, y + height * (1 + cy) / 2];
+    });
+    return fragment(source, outline);
+  }
   // Fragments keep source coordinates; rendering places the crop at image origin.
   function fragment(source, outline) {
     if (!Array.isArray(outline) || outline.length < 3) throw new TypeError('outline needs at least three points');
@@ -370,7 +393,7 @@
     if (width < 1 || height < 1 || width*height > 16000000) throw new RangeError('fragment must fit within 16 million pixels');
     const result = Object.freeze({ x,y,width,height,
       outline: () => copy(edge),
-      toImage(p, options = {}) {
+      toImage(p = root, options = {}) {
         if (!p || typeof p.createImage !== 'function') throw new TypeError('toImage needs a p5 instance or globalThis');
         const canvas=root.document.createElement('canvas');
         canvas.width=width;canvas.height=height;
@@ -551,7 +574,7 @@
   if(root.p5&&typeof root.p5.registerAddon==='function')root.p5.registerAddon((P5,prototype,hooks)=>{
     hooks.remove=function(){const worker=surfaceWorkers.get(this);if(worker){worker.remove();surfaceWorkers.delete(this);}};
   });
-  root.Merz=Object.freeze({version:'0.2.0',palette,geometry,parts,fragment,tear,surface,stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
+  root.Merz=Object.freeze({version:'0.2.0',palette,geometry,parts,ausschnitt,rundschnitt,fragment,tear,surface,stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
   root.MerzComposition=MerzComposition;
   // Compatibility with sketches written before the technical rename.
   root.DeStijl=root.Merz;

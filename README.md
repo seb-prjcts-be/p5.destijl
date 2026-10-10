@@ -14,9 +14,24 @@ The local working copy also includes `Merz.parts('R', { size: 100 })`:
 named paths to draw, change and repeat in ordinary p5 code. `Merz.geometry()`
 returns whole-text paths and dimensions. See the [drawing guide](docs/guide.html#geometry)
 and [complete part sketch](experiments/merz-parts/module-parts.html).
-The local fragment route accepts images, geometry and parts: `fragment(source, outline)`,
-`tear(piece, { amount, seed })`, then `piece.toImage(p)` for ordinary p5 drawing.
-See [three fragment examples](docs/examples.html#fragment-scan).
+Cut images, graphics, geometry or letter parts with the same three calls:
+
+- `Merz.ausschnitt(source, x, y, width, height)` cuts a rectangle or strip.
+- `Merz.rundschnitt(source, x, y, width, height)` cuts an oval; omit height for a circle.
+- `Merz.fragment(source, points)` cuts your own convex outline.
+
+The first two use the top-left corner in source coordinates. Each returns a
+fragment for `tear()`, `stempel()` or `toImage()`.
+
+```js
+const piece = Merz.ausschnitt(source, 8, 48, 286, 167);
+const cut = Merz.tear(piece, { amount: 0.3, seed: 17 }).toImage();
+image(cut, 40, 80);
+```
+
+`toImage()` uses global p5. In instance mode, use `toImage(p)`.
+See [three fragment examples](docs/examples.html#fragment-scan) and the
+[cutting guide](docs/guide.html#fragments).
 `Merz.surface(image, { ink: 0.12, paper: 0, seed: 17 })` adds quiet surface
 variation to an image or graphics layer. Keep ink and paper on separate layers;
 ordinary p5 code still draws the result. See [Fundsachen](experiments/merz-sheet/)

@@ -33,6 +33,12 @@ async function setup() {
     for (const source of sources) {
       const piece = Merz.fragment(source, outline);
       const clean = piece.toImage(globalThis);
+      check(pixels(clean) === pixels(Merz.ausschnitt(source, 0, 0, 100, 85).toImage()), "cut matches polygon and default global rendering");
+      const oval = Merz.rundschnitt(source, 0, 0, 100, 85);
+      const ovalImage = oval.toImage();
+      check(pixels(ovalImage) === pixels(oval.toImage(instance)), "oval global/instance parity");
+      check(ovalImage.pixels[3] === 0, "oval corner is transparent");
+      check(Array.from(ovalImage.pixels).some((v, i) => i % 4 === 3 && v > 0), "oval retains ink");
       check(
         pixels(clean) ===
           pixels(Merz.tear(piece, { amount: 0 }).toImage(globalThis)),

@@ -9,15 +9,10 @@ async function setup() {
   pixelDensity(1);
   noLoop();
   const source = await loadImage("../merz-fragments/assets/merz-2-cover.jpg");
-  const piece = Merz.fragment(source, [
-    [8, 48],
-    [294, 48],
-    [294, 215],
-    [8, 215]
-  ]);
-  cut = Merz.tear(piece, { amount, seed }).toImage(globalThis, { color: "#b92d26" });
+  const piece = Merz.ausschnitt(source, 8, 48, 286, 167);
+  cut = Merz.tear(piece, { amount, seed }).toImage();
   describe(
-    "Change amount and seed, or move the crop points. The library cuts the scan and changes its edge; p5 places the pieces."
+    "Change amount and seed, or change the crop position and size. The library cuts the scan and changes its edge; p5 places the pieces."
   );
 }
 

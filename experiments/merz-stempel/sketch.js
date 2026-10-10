@@ -36,7 +36,7 @@ function merzbild() {
 
 function splitter() {
   const word = Merz.geometry('SPLITTER', { size: 110, weight: 0.85, spacing: 8 });
-  const piece = Merz.fragment(word, [[0, 22], [word.width, 22], [word.width, 67], [0, 67]]);
+  const piece = Merz.ausschnitt(word, 0, 22, word.width, 45);
   const torn = Merz.tear(piece, { amount: 0.16, seed: 17 });
   const impressions = [];
   for (let i = 0; i < 10; i++) {

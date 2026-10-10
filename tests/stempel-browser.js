@@ -3,7 +3,7 @@ function setup() {
   const results = [];
   const word = Merz.geometry('M', {size:50});
   const bowl = Merz.parts('R',{size:40})[0];
-  const piece = Merz.fragment(word,[[0,0],[50,0],[50,50],[0,50]]);
+  const piece = Merz.ausschnitt(word, 0, 0, 50, 50);
   const sites = [{x:20,y:10,angle:13,color:'#b92d26'},{x:105,y:20,scale:0.8}];
   function render(p) {
     p.clear(); p.push(); p.translate(9,12); p.angleMode(p.DEGREES);
