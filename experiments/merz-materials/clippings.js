@@ -7,7 +7,7 @@ async function setup() {
   const cover = await loadImage("../merz-fragments/assets/merz-2-cover.jpg");
   const outline = [[0, 12], [245, 0], [232, 367], [15, 350]];
   const points = outline.map(([x, y]) => [x * cover.width / 245, y * cover.height / 375]);
-  clipping = Merz.fragment(cover, points).bau();
+  clipping = Merz.schnitt(cover, points).bau();
   const canvas = createCanvas(600, 720);
   if (document.getElementById("drawing")) canvas.parent("drawing");
   pixelDensity(1);
@@ -63,7 +63,7 @@ function draw() {
   textSize(30);
   text("again", 373, 228);
   paint(
-    Merz.parts("R", { size: 140 }).find((part) => part.id === "bowl").paths,
+    Merz.bauteile("R", { size: 140 }).find((part) => part.id === "bowl").paths,
     70,
     480,
     "#20201e"

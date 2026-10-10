@@ -8,14 +8,14 @@ for (const file of ['p5.merz.js', 'p5.merz.min.js']) {
   for (const name of ['push','pop','applyMatrix','noFill','stroke','strokeCap','strokeJoin','strokeWeight','beginShape','vertex','endShape','noStroke','fill','textFont','textSize','textStyle','textAlign','textLeading','text']) p[name] = (...args) => calls.push([name,...args]);
   const ctx = { ...p }; vm.runInNewContext(fs.readFileSync(file,'utf8'), ctx);
   const m = ctx.Merz;
-  const word = m.geometry('MERZ'); const original = JSON.stringify(word);
+  const word = m.satz('MERZ'); const original = JSON.stringify(word);
   assert.equal(m.stempel(word, [{x:12,y:25,angle:90,scale:2,color:'#b92d26'}],p),1);
   const matrix = calls.find(c => c[0] === 'applyMatrix');
   assert.ok(Math.abs(matrix[1]) < 1e-12); assert.equal(matrix[2],2); assert.equal(matrix[3],-2);
   assert.deepEqual(matrix.slice(5),[12,25]);
   assert.equal(calls.at(-1)[0],'pop'); assert.equal(JSON.stringify(word),original);
   calls.length=0;
-  m.stempel(m.parts('R'),[{x:0,y:0}]); // Global mode.
+  m.stempel(m.bauteile('R'),[{x:0,y:0}]); // Global mode.
   const result=JSON.stringify(calls); if(baseline)assert.equal(result,baseline); baseline=result;
   calls.length=0;
   assert.throws(()=>m.stempel(word,[{x:0,y:0},{x:1,y:1,scale:0}],p));
@@ -26,14 +26,14 @@ for (const file of ['p5.merz.js', 'p5.merz.min.js']) {
   calls.length=0;
   assert.equal(m.stempel('rrrt',{x:28,y:98,size:105,color:'#b92d26',rows:4,leading:20},p),1);
   assert.deepEqual(calls.filter(c=>c[0]==='text'),[['text','rrrt',0,0],['text','rrrt',0,20],['text','rrrt',0,40],['text','rrrt',0,60]]);
-  assert.ok(calls.some(c=>c[0]==='textFont'&&c[1]==='Georgia'));
+  assert.ok(calls.some(c=>c[0]==='textFont'&&c[1]==='Archivo Black'));
   assert.equal(calls.at(-1)[0],'pop');
   calls.length=0;
   assert.throws(()=>m.stempel('x',[{x:0,y:0},{x:0,y:0,rows:1.5}],p));
   assert.equal(calls.length,0);
   m.stempel('global',{x:0,y:0});
   assert.ok(calls.some(c=>c[0]==='text'));
-  for(const source of ['rrrt',word,m.parts('R')]){
+  for(const source of ['rrrt',word,m.bauteile('R')]){
     calls.length=0;
     m.stempel(source,{x:28,y:98,color:'#b92d26'},p);
     const expected=JSON.stringify(calls);

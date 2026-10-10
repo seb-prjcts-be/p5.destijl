@@ -1,8 +1,8 @@
 function setup() {
   createCanvas(300, 240); pixelDensity(1); noLoop();
-  const results = [];
-  const word = Merz.geometry('M', {size:50});
-  const bowl = Merz.parts('R',{size:40})[0];
+  const results = [['Archivo Black loaded before setup', Array.from(document.fonts).some(face => face.family.replaceAll('"', '') === 'Archivo Black' && face.status === 'loaded')]];
+  const word = Merz.satz('M', {size:50});
+  const bowl = Merz.bauteile('R',{size:40})[0];
   const piece = Merz.ausschnitt(word, 0, 0, 50, 50);
   const sites = [{x:20,y:10,angle:13,color:'#b92d26'},{x:105,y:20,scale:0.8}];
   function render(p) {
@@ -13,6 +13,7 @@ function setup() {
     Merz.stempel(piece,sites,p);
     results.push(['transform restored', before===p.drawingContext.getTransform().toString()]);
     p.pop();
+    Merz.stempel('DADA Dada', 4, 235, {size: 15}, p);
   }
   render(globalThis);
   const a=drawingContext.getImageData(0,0,300,240).data;

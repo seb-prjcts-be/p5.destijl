@@ -15,35 +15,16 @@ function setup() {
 function draw() {
   background("#f7f7f2");
   const options = { size: 100, weight: 0.65 };
-  const whole = Merz.geometry(letter, options);
-  const available = Merz.parts(letter, options);
-  const chosen = available.find((part) => part.id === partName);
-  if (!chosen)
-    throw new Error("Choose one of: " + available.map((part) => part.id).join(", "));
-  paint(whole.paths, 55, 95, "#20201e");
-  paint(chosen.paths, 55, 95, "#b92d26");
+  const whole = Merz.satz(letter, options);
+  const chosen = Merz.bauteil(letter, partName, options);
+  Merz.stempel(whole, 55, 95, { color: "#20201e" });
+  Merz.stempel(chosen, 55, 95, { color: "#b92d26" });
   for (let i = 0; i < copies; i++) {
-    paint(chosen.paths, 350, 95 + i * 90, "#b92d26");
+    Merz.stempel(chosen, 350, 95 + i * 90, { color: "#b92d26" });
   }
   noStroke();
   fill("#20201e");
   textFont("Georgia");
   textSize(20);
   text("A part can become another drawing.", 55, 530);
-}
-
-function paint(paths, x, y, colour) {
-  push();
-  translate(x, y);
-  noFill();
-  stroke(colour);
-  strokeCap(SQUARE);
-  strokeJoin(MITER);
-  for (const path of paths) {
-    strokeWeight(path.width);
-    beginShape();
-    for (const point of path.points) vertex(...point);
-    endShape();
-  }
-  pop();
 }

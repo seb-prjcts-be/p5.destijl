@@ -23,21 +23,18 @@ async function setup() {
     check(piece.width===70,'global Fundsachen resolves relative to the library');
     await new Promise((resolve,reject)=>new p5(p=>{p.setup=async()=>{try{p.noCanvas();p.noLoop();const f=await Merz.fundsachen('001',{},p);check(f.width===70,'instance Fundsachen resolves relative to the library');p.remove();resolve();}catch(e){reject(e);}}}));
     if(new URLSearchParams(location.search).has('bench')) {
-      let passes=0;
-      const original=HTMLCanvasElement.prototype.getContext;
-      HTMLCanvasElement.prototype.getContext=function(type,...args){const gl=original.call(this,type,...args);if(type==='webgl'&&gl){const draw=gl.drawArrays.bind(gl);gl.drawArrays=(...values)=>{passes++;return draw(...values);};}return gl;};
-      try {
-        const cpu={createImage:(...args)=>createImage(...args)};
-        for(const size of [600,2000,4000]) {
-          const layer=createGraphics(size,size);layer.pixelDensity(1);layer.background('#b92d26');
-          const options={ink:.12,paper:.18,seed:17};
-          let t=performance.now();const a=Merz.surface(layer,options,cpu);const cpuMs=performance.now()-t;
-          const before=passes;t=performance.now();const b=Merz.surface(layer,options);const combinedMs=performance.now()-t;
-          let differences=0,max=0;for(let i=0;i<a.pixels.length;i++){const d=Math.abs(a.pixels[i]-b.pixels[i]);if(d)differences++;max=Math.max(max,d);}
-          say(JSON.stringify({size,cpuMs:Math.round(cpuMs),combinedMs:Math.round(combinedMs),gpuPasses:passes-before,differences,max}));
-          layer.remove();await new Promise(resolve=>setTimeout(resolve,0));
+      for(const size of [600,2000,4000]) {
+        const layer=createGraphics(size,size);layer.pixelDensity(1);layer.background('#b92d26');
+        const options={ink:.12,paper:.18,seed:713};
+        let t=performance.now();const a=Merz.andruck(layer,options);const coldMs=performance.now()-t;
+        const warm=[];let differences=0;
+        for(let run=0;run<3;run++){
+          t=performance.now();const b=Merz.andruck(layer,options);warm.push(Math.round(performance.now()-t));
+          for(let i=0;i<a.pixels.length;i++)if(a.pixels[i]!==b.pixels[i])differences++;
         }
-      } finally {HTMLCanvasElement.prototype.getContext=original;}
+        say(JSON.stringify({size,coldMs:Math.round(coldMs),warmMs:warm,differences}));
+        layer.remove();await new Promise(resolve=>setTimeout(resolve,0));
+      }
     }
     say('DONE');
   } catch(e) {say('FAIL '+e.stack);}

@@ -10,7 +10,7 @@ function setup() {
   noLoop();
   // A's second path is its crossbar in the current geometry.
   // This is an inspected local choice, not a named public part.
-  crossbar = Merz.geometry("A", {
+  crossbar = Merz.satz("A", {
     size: 170,
     weight: 0.65
   }).paths[1];
@@ -35,7 +35,7 @@ function path(part, x, y, colour) {
 
 function draw() {
   background("#f7f7f2");
-  const letter = Merz.geometry("A", {
+  const letter = Merz.satz("A", {
     size: 170,
     weight: 0.65
   });

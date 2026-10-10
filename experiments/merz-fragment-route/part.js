@@ -10,12 +10,10 @@ async function setup() {
   if (document.getElementById("drawing")) canvas.parent("drawing");
   pixelDensity(1);
   noLoop();
-  const source = Merz.parts("R", { size: 150, weight: 0.85 }).find(
-    (part) => part.id === "bowl"
-  );
+  const source = Merz.bauteil("R", "bowl", { size: 150, weight: 0.85 });
   // The oval catches a little of the opening in R.
   const piece = Merz.rundschnitt(source, 30, 0, 115, 95);
-  cut = Merz.tear(piece, { amount, seed }).bau(globalThis, { color: farbe.rot });
+  cut = Merz.riss(piece, { amount, seed }).bau(globalThis, { color: farbe.rot });
   describe(
     "Change the letter part, amount and seed. An oval cut from an R bowl becomes a repeated field, with placement and rotation in p5."
   );

@@ -10,7 +10,7 @@ async function setup() {
   const paper = createGraphics(width, height);
   paper.pixelDensity(1);
   paper.background(farbe.grau);
-  image(Merz.surface(paper, { ink: 0, paper: 0.18, seed: 17 }), 0, 0);
+  image(Merz.andruck(paper, { ink: 0, paper: 0.18, seed: 17 }), 0, 0);
   paper.remove();
   Merz.stempel(eight, [{ x: 25, y: 20, scale: 1.15 }]);
   Merz.stempel(nine, [{ x: 405, y: 100, scale: 1.15 }]);

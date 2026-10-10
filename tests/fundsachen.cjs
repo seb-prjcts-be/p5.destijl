@@ -20,6 +20,8 @@ const vm = require('node:vm');
     assert.equal(new Set(entries.map(item=>item.name)).size,entries.length);
     assert.equal(JSON.stringify(entries),JSON.stringify(JSON.parse(fs.readFileSync('assets/fundsachen/catalogue.json','utf8'))));
     for(const item of entries){
+      assert.ok(item.scan.startsWith('source-scans/'));
+      assert.ok(fs.existsSync('assets/fundsachen/'+item.scan));
       for(const file of [item.file,item.inkFile]){
         const png=fs.readFileSync('assets/fundsachen/'+file);
         assert.equal(png.readUInt32BE(16),item.width);assert.equal(png.readUInt32BE(20),item.height);
@@ -31,7 +33,7 @@ const vm = require('node:vm');
     assert.equal(loads,1);assert.equal(snapshots,2);assert.notEqual(a,b);
     assert.equal(urls[0],'https://example.test/lib/assets/fundsachen/merz-2-cover-m-ink.png');
     assert.equal((await m.fundsachen(1)).width,70);assert.equal(loads,1);
-    assert.doesNotThrow(()=>m.tear(a,{amount:0.2,seed:17}));
+    assert.doesNotThrow(()=>m.riss(a,{amount:0.2,seed:17}));
     await assert.rejects(m.fundsachen('999'));assert.equal(loads,1);
     fail=true;await assert.rejects(m.fundsachen('002'));
     fail=false;await m.fundsachen('002');assert.equal(loads,3);

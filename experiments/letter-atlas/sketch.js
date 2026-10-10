@@ -1,14 +1,14 @@
-/* global p5, DeStijlStudy, DeStijlBars */
+/* global p5, MerzStudy, MerzBars */
 (() => {
   const painters=[];let selected;
   const notes={A:'A: two stems joined by a top bar and crossbar.',M:'M: a middle stem replaces diagonals in our drawing.',N:'N: an open bottom; the top bar connects two vertical stems.',R:'R: a straight lower stem replaces the usual diagonal leg.',S:'S: direction changes along straight bars.',V:'V: our drawing follows a U-like construction. The source terminals need closer comparison.',W:'W: a middle stem within an open top.',X:'X: two orthogonal paths meet in the middle.',Y:'Y: a horizontal connection with a straight lower stem.',Z:'Z: an orthogonal path replaces the stepped diagonal.'};
   function settings(){return {letter:document.getElementById('letter').value,weight:Number(document.getElementById('weight').value)};}
-  function scene(letter,weight,size=220,x=60,y=60){const word=Merz.geometry(letter,{size,weight});return {width:340,height:340,title:'Letter study '+letter,paths:word.paths.map(p=>({...p,fill:Merz.palette.ink,points:p.points.map(v=>[v[0]+x,v[1]+y])}))};}
+  function scene(letter,weight,size=220,x=60,y=60){const word=Merz.satz(letter,{size,weight});return {width:340,height:340,title:'Letter study '+letter,paths:word.paths.map(p=>({...p,fill:Merz.palette.ink,points:p.points.map(v=>[v[0]+x,v[1]+y])}))};}
   function refresh(){const cfg=settings();selected=scene(cfg.letter,cfg.weight);document.getElementById('weight-value').value=cfg.weight.toFixed(2);document.getElementById('letter-note').textContent=notes[cfg.letter]??'A contemporary addition drawn for this library.';painters.forEach(p=>p.redraw());}
   function mount(host,draw,w=340,h=340){new p5(p=>{p.setup=()=>{p.createCanvas(w,h).parent(host);p.pixelDensity(1);p.noLoop();painters.push(p);p.describe('Letter comparison: '+host);};p.draw=()=>draw(p,settings());});}
-  mount('old',(p,cfg)=>{const old=DeStijlStudy.build({word:cfg.letter,weight:cfg.weight,colour:0});p.background(DeStijlBars.palette.paper);p.noStroke();p.fill(DeStijlBars.palette.ink);const guide=old.guides[0];if(!guide){p.textSize(18);p.text('Not in the first study',50,170);return;}const scale=220/guide.w;for(const r of old.rects)p.rect(60+(r.x-guide.x)*scale,60+(r.y-guide.y)*scale,r.w*scale,r.h*scale);});
-  mount('new',(p,cfg)=>DeStijlBars.draw(p,scene(cfg.letter,cfg.weight)));
-  mount('alphabet',(p,cfg)=>{const paths=[];Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ').forEach((letter,i)=>paths.push(...scene(letter,cfg.weight,95,25+(i%7)*125,30+Math.floor(i/7)*135).paths));DeStijlBars.draw(p,{paths});},900,560);
+  mount('old',(p,cfg)=>{const old=MerzStudy.build({word:cfg.letter,weight:cfg.weight,colour:0});p.background(MerzBars.palette.paper);p.noStroke();p.fill(MerzBars.palette.ink);const guide=old.guides[0];if(!guide){p.textSize(18);p.text('Not in the first study',50,170);return;}const scale=220/guide.w;for(const r of old.rects)p.rect(60+(r.x-guide.x)*scale,60+(r.y-guide.y)*scale,r.w*scale,r.h*scale);});
+  mount('new',(p,cfg)=>MerzBars.draw(p,scene(cfg.letter,cfg.weight)));
+  mount('alphabet',(p,cfg)=>{const paths=[];Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ').forEach((letter,i)=>paths.push(...scene(letter,cfg.weight,95,25+(i%7)*125,30+Math.floor(i/7)*135).paths));MerzBars.draw(p,{paths});},900,560);
   const selector=document.getElementById('letter');for(const char of Merz.characters){if(Array.from(selector.options).some(o=>o.value===char))continue;const option=document.createElement('option');option.value=char;option.textContent=char;selector.append(option);}
-  document.getElementById('weight').addEventListener('input',refresh);selector.addEventListener('change',refresh);document.getElementById('save').addEventListener('click',()=>DeStijlBars.download(selected,'p5.merz-character-'+settings().letter.codePointAt(0)+'.svg'));refresh();
+  document.getElementById('weight').addEventListener('input',refresh);selector.addEventListener('change',refresh);document.getElementById('save').addEventListener('click',()=>MerzBars.download(selected,'p5.merz-character-'+settings().letter.codePointAt(0)+'.svg'));refresh();
 })();

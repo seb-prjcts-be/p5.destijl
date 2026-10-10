@@ -1,4 +1,5 @@
 @import url('../experiments/shared/studies.css?v=platypi-1');
+.about-page h2 { font-family: "Archivo Black", Arial, sans-serif; font-weight: 400; text-transform: none; }
 [hidden]{display:none!important}
 .playground{grid-template-columns:minmax(0,1fr) 320px}.playground .work{max-width:760px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.toolbar button{padding:8px 12px}#element-list{margin:10px 0}pre{overflow:auto;background:#eeeee6;padding:20px;font-size:13px;line-height:1.6;max-height:550px}h2{font-size:22px;font-weight:normal;margin-top:32px}.library-intro{margin:18px 0 24px}.code-section{margin-top:28px}.hint{font-size:13px;color:var(--muted)}#editor label{display:block}#editor input,#editor select{margin-bottom:8px}#error{color:var(--red);font-size:13px;min-height:22px}nav.study-nav{gap:16px}@media(max-width:760px){.playground{grid-template-columns:1fr}}
 

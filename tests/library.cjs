@@ -6,9 +6,9 @@ const before=JSON.stringify(c.get(word));assert.throws(()=>c.update(word,{size:-
 c.move(word,80,90);assert.equal(c.get(word).x,80);const clone=c.get(word);clone.x=999;assert.equal(c.get(word).x,80);
 c.sendToBack(line);assert.equal(c.items()[0].id,line);c.bringToFront(back);assert.equal(c.items().at(-1).id,back);
 assert.throws(()=>c.update(word,{id:'other'}));assert.throws(()=>c.text('Hello🙂',0,0));assert.throws(()=>c.plane(0,0,-3,10));
-const letters=new Set();for(const char of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'){const geom=Merz.geometry(char,{size:100});letters.add(JSON.stringify(geom.paths));for(const p of geom.paths)for(const v of p.points)assert.ok(v.every(Number.isFinite));}assert.equal(letters.size,26,'Each letter needs its own shape');
-const a=Merz.geometry('NN',{spacing:10}),b=Merz.geometry('NN',{spacing:40});assert.equal(JSON.stringify(a.paths[0]),JSON.stringify(b.paths[0]));assert.equal(b.paths[1].points[0][0]-a.paths[1].points[0][0],30);
-assert.equal(Merz.geometry('één').text,'EEN');assert.equal(Merz.geometry('A\nA',{size:100,leading:130}).height,230);
+const letters=new Set();for(const char of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'){const geom=Merz.satz(char,{size:100});letters.add(JSON.stringify(geom.paths));for(const p of geom.paths)for(const v of p.points)assert.ok(v.every(Number.isFinite));}assert.equal(letters.size,26,'Each letter needs its own shape');
+const a=Merz.satz('NN',{spacing:10}),b=Merz.satz('NN',{spacing:40});assert.equal(JSON.stringify(a.paths[0]),JSON.stringify(b.paths[0]));assert.equal(b.paths[1].points[0][0]-a.paths[1].points[0][0],30);
+assert.equal(Merz.satz('één').text,'EEN');assert.equal(Merz.satz('A\nA',{size:100,leading:130}).height,230);
 const svg=c.exportSVG({title:'<A&B>'});assert.ok(svg.includes('&lt;A&amp;B&gt;'));assert.ok(svg.includes('clip-path'));assert.equal((svg.match(/<g id=/g)||[]).length,3);
 const other=Merz.create({width:120,height:80});other.text('B',0,0);
 const next=c.exportSVG(), second=other.exportSVG();

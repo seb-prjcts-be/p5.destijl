@@ -12,28 +12,12 @@ function setup() {
 
 function draw() {
   background("#f7f7f2");
-  const wordShape = Merz.geometry(word, { size, spacing: 10 });
-  paint(wordShape.paths, 45, 95, ink);
+  const wordShape = Merz.satz(word, { size, spacing: 10 });
+  Merz.stempel(wordShape, 45, 95, { color: ink });
   noStroke();
   fill("#b92d26");
   rect(45, 270, 180, 110);
   stroke(ink);
   strokeWeight(3);
   line(45, 440, 545, 440);
-}
-
-function paint(paths, x, y, colour) {
-  push();
-  translate(x, y);
-  noFill();
-  stroke(colour);
-  strokeCap(SQUARE);
-  strokeJoin(MITER);
-  for (const path of paths) {
-    strokeWeight(path.width);
-    beginShape();
-    for (const point of path.points) vertex(...point);
-    endShape();
-  }
-  pop();
 }

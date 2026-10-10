@@ -65,7 +65,7 @@ function letters(value, x, y, options) {
   stroke(options.color || "#20201e");
   strokeCap(SQUARE);
   strokeJoin(MITER);
-  for (const part of Merz.geometry(value, options).paths) {
+  for (const part of Merz.satz(value, options).paths) {
     strokeWeight(part.width);
     beginShape();
     for (const point of part.points) vertex(...point);

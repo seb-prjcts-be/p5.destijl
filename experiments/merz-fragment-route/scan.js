@@ -13,7 +13,7 @@ async function setup() {
   const source = await loadImage("../merz-fragments/assets/merz-2-cover.jpg");
   // A little more height would bring more paper into the cut.
   const piece = Merz.ausschnitt(source, 8, 48, 286, 167);
-  cut = Merz.tear(piece, { amount, seed }).bau();
+  cut = Merz.riss(piece, { amount, seed }).bau();
   describe(
     "Change amount and seed, or change the crop position and size. The library cuts the scan and changes its edge; p5 places the pieces."
   );

@@ -16,6 +16,8 @@
 
 ## Reuse basis
 
+Status: this reuse record remains to be verified.
+
 This study selects a title-letter area of the 1923 cover rather than a later
 contributor's photograph or text. Iowa identifies Schwitters as the magazine's
 editor and the cover's handwritten annotation as his. The title area's individual

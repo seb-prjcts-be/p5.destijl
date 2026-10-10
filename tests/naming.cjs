@@ -3,11 +3,11 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 for (const file of ['p5.merz.js','p5.merz.min.js']) {
   const ctx={};vm.runInNewContext(fs.readFileSync(file,'utf8'),ctx);
-  assert.equal(ctx.Merz,ctx.DeStijl);
-  assert.equal(ctx.MerzComposition,ctx.DeStijlComposition);
-  assert.equal(JSON.stringify(ctx.Merz.geometry('MERZ')),JSON.stringify(ctx.DeStijl.geometry('MERZ')));
-  for (const name of ['ausschnitt', 'rundschnitt', 'fragment']) assert.equal(typeof ctx.Merz[name], 'function');
-  assert.equal(typeof ctx.Merz.tear,'function');
+  assert.deepEqual(Object.keys(ctx).sort(), ['Merz', 'MerzComposition']);
+  assert.equal(ctx.Merz.version, '0.3.0');
+  for(const oldName of ['geometry','parts','part','fragment','tear','surface','toImage']) assert.equal(Object.hasOwn(ctx.Merz,oldName),false);
+  for (const name of ['satz', 'bauteile', 'bauteil', 'schnitt', 'riss', 'andruck', 'ausschnitt', 'rundschnitt']) assert.equal(typeof ctx.Merz[name], 'function');
+  assert.equal(typeof ctx.Merz.riss,'function');
   const farbe = ctx.Merz.settings();
   assert.equal(farbe.rot, ctx.Merz.palette.red);
   assert.equal(farbe.schwarz, ctx.Merz.palette.ink);
@@ -28,4 +28,4 @@ for (const file of ['p5.merz.js','p5.merz.min.js']) {
     assert.throws(() => ctx.Merz.settings(invalid));
   }
 }
-console.log('Merz naming: source, min-build and API aliases passed.');
+console.log('Merz naming: source, min-build and public API names passed.');

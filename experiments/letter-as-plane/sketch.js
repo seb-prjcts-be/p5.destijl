@@ -1,4 +1,4 @@
-/* global p5, DeStijlStudy */
+/* global p5, MerzStudy */
 (() => {
   const form=document.getElementById('controls');
   const ids=['proportion','weight','spacing','colour'];
@@ -7,7 +7,7 @@
   function update(){
     const options={word:form.elements.word.value};
     for(const id of ids){options[id]=Number(document.getElementById(id).value);document.getElementById(id+'-value').value=options[id].toFixed(2);}
-    scene=DeStijlStudy.build(options);
+    scene=MerzStudy.build(options);
     document.getElementById('notice').textContent=scene.text ? (scene.text!==options.word.toUpperCase().trim()?'Drawn as: '+scene.text:''):'Type a word using letters A-Z.';
     if(painter){painter.describe('Geometric letter study of '+(scene.text||'an empty page')+'. Rectangular parts in black, red, blue and yellow.');painter.redraw();}
   }
@@ -15,7 +15,7 @@
   form.addEventListener('input',update);
   document.getElementById('restart').addEventListener('click',()=>{form.reset();update();});
   document.getElementById('export').addEventListener('click',()=>{
-    const url=URL.createObjectURL(new Blob([DeStijlStudy.svg(scene)],{type:'image/svg+xml;charset=utf-8'}));
+    const url=URL.createObjectURL(new Blob([MerzStudy.svg(scene)],{type:'image/svg+xml;charset=utf-8'}));
     const a=document.createElement('a');a.href=url;a.download='p5.merz-'+(scene.text.toLowerCase().replace(/ /g,'-')||'study')+'.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   });
   update();

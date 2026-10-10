@@ -17,8 +17,8 @@ function drawAlphabet(p) {
     p.push();
     p.translate(20 + (index % 6) * 95, 20 + Math.floor(index / 6) * 110);
     const options = { size: 65, weight: 0.65 };
-    paths(Merz.geometry(letter, options).paths, "#20201e");
-    const parts = Merz.parts(letter, options);
+    paths(Merz.satz(letter, options).paths, "#20201e");
+    const parts = Merz.bauteile(letter, options);
     paths(parts[parts.length - 1].paths, "#b92d26");
     p.pop();
     index++;

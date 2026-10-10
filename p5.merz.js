@@ -1,10 +1,26 @@
-/* p5.merz 0.2.0 - Sebastien Vanblaere. MIT license.
+/* p5.merz 0.3.0 - Sebastien Vanblaere. MIT license.
  * Contemporary geometric lettering inspired by Theo van Doesburg.
  * Own redraws; not a historical font reconstruction.
  */
 (function (root) {
   'use strict';
   const libraryURL = root.document?.currentScript?.src || null;
+  let fontReady;
+  function ready(options = {}) {
+    if (fontReady) return fontReady;
+    const url = options.fontURL || (libraryURL ? new URL('assets/fonts/archivo-black/ArchivoBlack-Regular.ttf', libraryURL).href : null);
+    if (!url) return Promise.reject(new Error('Merz.ready needs fontURL when the library has no script URL'));
+    if (!root.FontFace || !root.document?.fonts) return Promise.reject(new Error('Merz.ready needs browser font loading'));
+    fontReady = new root.FontFace('Archivo Black', 'url(' + JSON.stringify(String(url)) + ')').load().then(face => {
+      root.document.fonts.add(face);
+    }).catch(error => { fontReady = null; throw error; });
+    return fontReady;
+  }
+  if (root.p5?.registerAddon && libraryURL) {
+    root.p5.registerAddon((_p5, _prototype, hooks) => {
+      hooks.presetup = () => ready();
+    });
+  }
   // BEGIN FUNDSACHEN CATALOGUE
   const foundItems = [
   {
@@ -25,7 +41,7 @@
     "page": "Merz 2, cover",
     "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
     "credit": "International Dada Archive, University of Iowa Libraries",
-    "scan": "../../experiments/merz-fragments/assets/merz-2-cover.jpg",
+    "scan": "source-scans/merz-2-cover-small.jpg",
     "inkFile": "merz-2-cover-m-ink.png",
     "svgFile": "merz-2-cover-m.svg"
   },
@@ -47,7 +63,7 @@
     "page": "Merz 2, cover",
     "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
     "credit": "International Dada Archive, University of Iowa Libraries",
-    "scan": "../../experiments/merz-fragments/assets/merz-2-cover.jpg",
+    "scan": "source-scans/merz-2-cover-small.jpg",
     "inkFile": "merz-2-cover-r-ink.png",
     "svgFile": "merz-2-cover-r.svg"
   },
@@ -69,7 +85,7 @@
     "page": "Merz 2, cover",
     "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
     "credit": "International Dada Archive, University of Iowa Libraries",
-    "scan": "../../experiments/merz-fragments/assets/merz-2-cover.jpg",
+    "scan": "source-scans/merz-2-cover-small.jpg",
     "inkFile": "merz-2-cover-rule-ink.png",
     "svgFile": "merz-2-cover-rule.svg"
   },
@@ -751,7 +767,7 @@
   function number(value,name,min=-Infinity){if(!Number.isFinite(value)||value<min)throw new RangeError(name+' must be a finite number >= '+min);return value;}
   function colour(value){if(typeof value!=='string'||!/^#[0-9a-f]{6}$/i.test(value))throw new TypeError('Use a six-digit hex colour, such as #234b92');return value;}
   function text(value){if(typeof value!=='string')throw new TypeError('Text must be a string');const result=value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\r\n?/g,'\n').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[\u00a0\u202f]/g,' ');for(const c of result)if(c!==' '&&c!=='\n'&&!glyphs[c])throw new RangeError('Unsupported character: '+c);return result;}
-  function geometry(value,options={}){
+  function satz(value,options={}){
     const content=text(value), size=number(options.size??100,'size',1),weight=number(options.weight??.8,'weight',.05),proportion=number(options.proportion??1,'proportion',.55),spacing=number(options.spacing??12,'spacing',0),leading=number(options.leading??size*1.4,'leading',1);
     if(weight>1||proportion>1.35)throw new RangeError('weight <= 1 and proportion <= 1.35');
     const unit=size/5,paths=[];let x=0,y=0,maxWidth=0;
@@ -762,7 +778,7 @@
   }
   function validate(item){
     for(const k of ['x','y','angle'])number(item[k],k);number(item.scale,'scale',.001);colour(item.color);
-    if(item.type==='text')item.text=geometry(item.text,item).text;
+    if(item.type==='text')item.text=satz(item.text,item).text;
     if(item.type==='line'){number(item.x2,'x2');number(item.y2,'y2');number(item.strokeWeight,'strokeWeight',.01);}
     if(item.type==='plane'){number(item.width,'width',.01);number(item.height,'height',.01);}
     return item;
@@ -793,7 +809,7 @@
         for(const item of this._items){p.push();try{
           const a=item.angle*Math.PI/180;p.applyMatrix(Math.cos(a)*item.scale,Math.sin(a)*item.scale,-Math.sin(a)*item.scale,Math.cos(a)*item.scale,item.x,item.y);
           if(item.type==='plane'){p.noStroke();p.fill(item.color);p.rect(0,0,item.width,item.height);}
-          else {p.noFill();p.stroke(item.color);if(item.type==='line'){p.strokeWeight(item.strokeWeight);p.line(0,0,item.x2,item.y2);}else for(const line of geometry(item.text,item).paths){p.strokeWeight(line.width);p.beginShape();line.points.forEach(v=>p.vertex(...v));p.endShape();}}
+          else {p.noFill();p.stroke(item.color);if(item.type==='line'){p.strokeWeight(item.strokeWeight);p.line(0,0,item.x2,item.y2);}else for(const line of satz(item.text,item).paths){p.strokeWeight(line.width);p.beginShape();line.points.forEach(v=>p.vertex(...v));p.endShape();}}
         }finally{p.pop();}}
       }finally{p.pop();}return this;
     }
@@ -805,7 +821,7 @@
       const shape=item=>{
         if(item.type==='plane')return `<rect width="${item.width}" height="${item.height}" fill="${item.color}"/>`;
         if(item.type==='line')return `<path d="M0 0 L${item.x2} ${item.y2}" fill="none" stroke="${item.color}" stroke-width="${item.strokeWeight}" stroke-linecap="square"/>`;
-        return geometry(item.text,item).paths.map(line=>`<path d="${line.points.map((v,i)=>(i?'L':'M')+v.join(' ')).join(' ')}" fill="none" stroke="${item.color}" stroke-width="${line.width}" stroke-linecap="square" stroke-linejoin="miter"/>`).join('');
+        return satz(item.text,item).paths.map(line=>`<path d="${line.points.map((v,i)=>(i?'L':'M')+v.join(' ')).join(' ')}" fill="none" stroke="${item.color}" stroke-width="${line.width}" stroke-linecap="square" stroke-linejoin="miter"/>`).join('');
       };
       return `<svg xmlns="http://www.w3.org/2000/svg" width="${this.width}" height="${this.height}" viewBox="0 0 ${this.width} ${this.height}"><title>${escape(title)}</title><defs><clipPath id="${prefix}page"><rect width="${this.width}" height="${this.height}"/></clipPath></defs><g clip-path="url(#${prefix}page)">`+(this.background===null?'':`<rect width="${this.width}" height="${this.height}" fill="${this.background}"/>`)+this._items.map(item=>`<g id="${prefix}${item.id}" transform="translate(${item.x} ${item.y}) rotate(${item.angle}) scale(${item.scale})">${shape(item)}</g>`).join('')+'</g></svg>';
     }
@@ -926,11 +942,11 @@
     ]
   };
 
-  function parts(value, options = {}) {
+  function bauteile(value, options = {}) {
     if (typeof value !== "string" || !Object.hasOwn(descriptions, value)) {
       throw new RangeError("Choose one uppercase letter from A to Z.");
     }
-    const whole = geometry(value, options);
+    const whole = satz(value, options);
     return descriptions[value].map(([id, pathIndex, start, end]) => {
       const source = whole.paths[pathIndex];
       return { id, paths: [{
@@ -938,6 +954,12 @@
         width: source.width
       }] };
     });
+  }
+  function bauteil(letter, name, options = {}) {
+    const available = bauteile(letter, options);
+    const selected = available.find(piece => piece.id === name);
+    if (!selected) throw new RangeError(letter + ' has these parts: ' + available.map(piece => piece.id).join(', '));
+    return selected;
   }
   // Repeat supplied material at explicit positions, within the caller's p5 transform.
   function stempel(source, placements, p=root, options={}, context=root) {
@@ -947,11 +969,11 @@
       placements=[{...options,x:placements,y:p}];
       p=context;
     }
-    const paths=Array.isArray(source)?source.flatMap(part=>part?.paths||[]):source?.paths;
+    const paths=Array.isArray(source)?source.flatMap(bauteil=>bauteil?.paths||[]):source?.paths;
     const isText=typeof source==='string';
     const fragmentSeries=Array.isArray(source)&&source.length>0&&source.every(piece=>fragmentData.has(piece));
     const isFragment=fragmentSeries||fragmentData.has(source);
-    if(!isText&&!isFragment&&(!Array.isArray(paths)||!paths.length||paths.some(path=>!path||!Number.isFinite(path.width)||path.width<=0||!Array.isArray(path.points)||path.points.length<2||path.points.some(point=>!Array.isArray(point)||point.length!==2||!point.every(Number.isFinite)))))throw new TypeError('stempel needs text, geometry, parts or a fragment');
+    if(!isText&&!isFragment&&(!Array.isArray(paths)||!paths.length||paths.some(path=>!path||!Number.isFinite(path.width)||path.width<=0||!Array.isArray(path.points)||path.points.length<2||path.points.some(point=>!Array.isArray(point)||point.length!==2||!point.every(Number.isFinite)))))throw new TypeError('stempel needs text, geometry, letter parts or a cut piece');
     if(placements && typeof placements==='object' && !Array.isArray(placements))placements=[placements];
     if(!Array.isArray(placements))throw new TypeError('placements must be an array');
     const expanded=[];
@@ -981,7 +1003,7 @@
       const textOptions={};
       if(isText){
         textOptions.size=number(item.size??32,'size',.001);
-        textOptions.font=item.font??'Georgia';
+        textOptions.font=item.font??'Archivo Black';
         if(typeof textOptions.font!=='string'||!textOptions.font.trim())throw new TypeError('font must be a font family name');
         textOptions.rows=item.rows??1;
         if(!Number.isSafeInteger(textOptions.rows)||textOptions.rows<1||textOptions.rows>1024)throw new RangeError('rows must be a whole number from 1 to 1024');
@@ -1014,7 +1036,7 @@
     }
     return copies.length;
   }
-  // All cutting routes use source coordinates and return the same fragment type.
+  // All cutting routes use source coordinates and return the same piece type.
   function cutBounds(x, y, width, height) {
     number(x, 'x'); number(y, 'y');
     number(width, 'width', 1); number(height, 'height', 1);
@@ -1025,7 +1047,7 @@
   }
   function ausschnitt(source, x, y, width, height) {
     cutBounds(x, y, width, height);
-    return fragment(source, [[x,y], [x+width,y], [x+width,y+height], [x,y+height]]);
+    return schnitt(source, [[x,y], [x+width,y], [x+width,y+height], [x,y+height]]);
   }
   function rundschnitt(source, x, y, width, height = width) {
     cutBounds(x, y, width, height);
@@ -1035,7 +1057,7 @@
       const cy = i === 0 || i === 32 ? 0 : Math.sin(angle);
       return [x + width * (1 + cx) / 2, y + height * (1 + cy) / 2];
     });
-    return fragment(source, outline);
+    return schnitt(source, outline);
   }
   function splitter(source, options = {}) {
     if (!options || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('splitter options must be an object');
@@ -1043,8 +1065,8 @@
     const rows = options.rows ?? 1, columns = options.columns ?? 1;
     if (![rows, columns].every(n => Number.isSafeInteger(n) && n >= 1) || rows * columns > 1024) throw new RangeError('splitter needs positive whole counts, at most 1024 pieces');
     let x = 0, y = 0, width = source?.width, height = source?.height;
-    if (width === undefined || height === undefined) {
-      const paths = Array.isArray(source) ? source.flatMap(part => part?.paths || []) : source?.paths;
+    if (Array.isArray(source?.paths) || Array.isArray(source) || width === undefined || height === undefined) {
+      const paths = Array.isArray(source) ? source.flatMap(bauteil => bauteil?.paths || []) : source?.paths;
       if (!Array.isArray(paths) || !paths.length) throw new TypeError('splitter needs an image, geometry or letter parts');
       let right = -Infinity, bottom = -Infinity;
       x = Infinity; y = Infinity;
@@ -1077,7 +1099,7 @@
     return pieces;
   }
   // Fragments keep source coordinates; rendering places the crop at image origin.
-  function fragment(source, outline) {
+  function schnitt(source, outline) {
     if (!Array.isArray(outline) || outline.length < 3) throw new TypeError('outline needs at least three points');
     const boundary = outline.map(point => {
       if (!Array.isArray(point) || point.length !== 2 || !point.every(Number.isFinite)) throw new TypeError('outline points must be finite [x, y] pairs');
@@ -1096,32 +1118,46 @@
       const a=boundary[i],b=boundary[(i+1)%boundary.length];
       for (const c of boundary) if (direction*((b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])) < -1e-8) throw new RangeError('outline must be convex');
     }
-    const paths = Array.isArray(source) ? source.flatMap(part => part.paths || []) : source && source.paths;
+    const paths = Array.isArray(source) ? source.flatMap(bauteil => bauteil.paths || []) : source && source.paths;
     let material;
     if (paths) {
       if (!paths.length || paths.some(path => !Number.isFinite(path.width) || path.width <= 0 || !Array.isArray(path.points) || path.points.length < 2 || path.points.some(point => !Array.isArray(point) || point.length !== 2 || !point.every(Number.isFinite)))) throw new TypeError('source needs valid paths');
       material = { paths: copy(paths) };
     } else if (source && typeof source.get === 'function' && source.width > 0 && source.height > 0) {
       material = { image: source.get() };
-    } else throw new TypeError('source must be geometry, a part, parts, or a p5 image/graphics');
+    } else throw new TypeError('source must be geometry, a letter part, letter parts, or a p5 image/graphics');
     return makeFragment(material, boundary, boundary);
+  }
+  function rasterDensity(source) {
+    const density = typeof source?.pixelDensity === 'function' ? source.pixelDensity() : 1;
+    if (!Number.isInteger(density) || density < 1) throw new RangeError('pixel density must be a positive integer');
+    return density;
+  }
+  function rasterImage(p, width, height, density) {
+    const image = p.createImage(width * density, height * density);
+    if (density !== 1) image.pixelDensity(density);
+    return image;
   }
   const fragmentData = new WeakMap();
   function makeFragment(material, clean, edge) {
     const xs=clean.map(p=>p[0]),ys=clean.map(p=>p[1]);
     const x=Math.min(...xs),y=Math.min(...ys);
     const width=Math.ceil(Math.max(...xs)-x),height=Math.ceil(Math.max(...ys)-y);
-    if (width < 1 || height < 1 || width*height > 16000000) throw new RangeError('fragment must fit within 16 million pixels');
+    if (width < 1 || height < 1 || width*height > 16000000) throw new RangeError('schnitt must fit within 16 million pixels');
     const result = { x,y,width,height,
       outline: () => copy(edge),
       bau(p = root, options = {}) {
         if (!p || typeof p.createImage !== 'function') throw new TypeError('bau needs a p5 instance or globalThis');
         const canvas=root.document.createElement('canvas');
-        canvas.width=width;canvas.height=height;
+        const density=rasterDensity(material.image || p);
+        const pixelWidth=width*density,pixelHeight=height*density;
+        if(pixelWidth*pixelHeight>16000000)throw new RangeError('schnitt must fit within 16 million physical pixels');
+        canvas.width=pixelWidth;canvas.height=pixelHeight;
         const ctx=canvas.getContext('2d',{willReadFrequently:true});
         {
 
           ctx.save();
+          ctx.scale(density,density);
           ctx.translate(-x,-y);
           ctx.beginPath();
           edge.forEach((point,i)=>i?ctx.lineTo(...point):ctx.moveTo(...point));
@@ -1135,21 +1171,20 @@
             }
           }
           ctx.restore();
-          const image=p.createImage(width,height);
+          const image=rasterImage(p,width,height,density);
           image.loadPixels();
-          image.pixels.set(ctx.getImageData(0,0,width,height).data);
+          image.pixels.set(ctx.getImageData(0,0,pixelWidth,pixelHeight).data);
           image.updatePixels();
           return image;
         }
       }
     };
-    result.toImage = result.bau;
     Object.freeze(result);
     fragmentData.set(result,{material,clean});return result;
   }
-  function tear(piece, options = {}) {
+  function riss(piece, options = {}) {
     const data=fragmentData.get(piece);
-    if (!data) throw new TypeError('tear needs a library fragment');
+    if (!data) throw new TypeError('riss needs a library cut piece');
     const amount=number(options.amount ?? 0.3,'amount',0);
     if (amount>1) throw new RangeError('amount must be between 0 and 1');
     const seed=options.seed ?? 1;
@@ -1171,8 +1206,10 @@
     });
     return makeFragment(data.material,data.clean,edge);
   }
-  // Static surface treatment. The byte mask is shared by CPU and shader routes.
-  const surfaceWorkers = new WeakMap();
+  // Static andruck masks; source pixels are always read anew.
+  const surfaceMasks = new Map();
+  const surfaceMaskLimit = 64 * 1024 * 1024;
+  let surfaceMaskBytes = 0;
   function surfaceSettings(options) {
     const ink=number(options.ink ?? 0.12,'ink',0),paper=number(options.paper ?? 0,'paper',0);
     if(ink>1||paper>1) throw new RangeError('ink and paper must be between 0 and 1');
@@ -1185,6 +1222,11 @@
     n=Math.imul(n^(n>>>13),1274126177);return ((n^(n>>>16))>>>0)/4294967295;
   }
   function surfaceMask(width,height,settings) {
+    const key=[width,height,settings.ink,settings.paper,settings.seed].join(':');
+    if(surfaceMasks.has(key)){
+      const cached=surfaceMasks.get(key);surfaceMasks.delete(key);surfaceMasks.set(key,cached);
+      return cached;
+    }
     const pixels=new Uint8ClampedArray(width*height*4);
     const spots=Array.from({length:3},(_,i)=>({x:surfaceHash(i,1,settings.seed)*width,y:surfaceHash(i,2,settings.seed)*height,r:(.12+.14*surfaceHash(i,3,settings.seed))*Math.min(width,height)}));
     for(let y=0;y<height;y++)for(let x=0;x<width;x++) {
@@ -1196,110 +1238,40 @@
       pixels[i+1]=Math.round(255*settings.paper*(.015*grain+.06*stain+(grain>.998?.12:0)));
       pixels[i+2]=0;pixels[i+3]=255;
     }
+    while(surfaceMasks.size && (surfaceMasks.size>=4 || surfaceMaskBytes+pixels.byteLength>surfaceMaskLimit)){
+      const oldest=surfaceMasks.keys().next().value;
+      surfaceMaskBytes-=surfaceMasks.get(oldest).byteLength;surfaceMasks.delete(oldest);
+    }
+    surfaceMasks.set(key,pixels);surfaceMaskBytes+=pixels.byteLength;
     return pixels;
   }
-  function surfaceWorker() {
-    const canvas=root.document.createElement('canvas');
-    const gl=canvas.getContext('webgl',{alpha:true,premultipliedAlpha:false,depth:false,stencil:false,antialias:false,preserveDrawingBuffer:true});
-    if(!gl)throw new Error('WebGL unavailable');
-    const shaders=[];
-    const compile=(type,source)=>{
-      const shader=gl.createShader(type);shaders.push(shader);gl.shaderSource(shader,source);gl.compileShader(shader);
-      if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS))throw new Error('Surface shader compilation failed');return shader;
-    };
-    let program,buffer;
-    const textures=[];
-    try {
-      program=gl.createProgram();
-      gl.attachShader(program,compile(gl.VERTEX_SHADER,'attribute vec2 position; varying vec2 uv; void main(){uv=(position+1.0)*0.5;gl_Position=vec4(position,0.0,1.0);}'));
-      gl.attachShader(program,compile(gl.FRAGMENT_SHADER,`precision highp float;
-        varying vec2 uv; uniform sampler2D source; uniform sampler2D mask;
-        void main(){vec4 c=texture2D(source,uv);vec2 m=texture2D(mask,uv).rg;
-          gl_FragColor=vec4(c.rgb*(vec3(1.0)-m.g*vec3(0.65,0.82,1.0)),c.a*(1.0-m.r));}`));
-      gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw new Error('Surface shader linking failed');
-      gl.useProgram(program);
-      buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
-      gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
-      const location=gl.getAttribLocation(program,'position');gl.enableVertexAttribArray(location);gl.vertexAttribPointer(location,2,gl.FLOAT,false,0,0);
-      for(let i=0;i<2;i++){
-        textures.push(gl.createTexture());gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_2D,textures[i]);
-        gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);
-        gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
-      }
-      gl.uniform1i(gl.getUniformLocation(program,'source'),0);gl.uniform1i(gl.getUniformLocation(program,'mask'),1);
-      gl.disable(gl.BLEND);gl.disable(gl.DITHER);
-      for(const shader of shaders)gl.deleteShader(shader);
-      const worker={disabled:false,render(width,height,clean,mask){
-        if(gl.isContextLost())throw new Error('Surface context lost');
-        const limit=gl.getParameter(gl.MAX_TEXTURE_SIZE);
-        if(width>limit||height>limit)throw new Error('Surface exceeds texture limit');
-        if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}
-        gl.viewport(0,0,width,height);
-        for(let i=0;i<2;i++){
-          gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_2D,textures[i]);
-          gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,width,height,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array((i?mask:clean).buffer));
-        }
-        gl.drawArrays(gl.TRIANGLES,0,6);
-        const pixels=new Uint8Array(width*height*4);gl.readPixels(0,0,width,height,gl.RGBA,gl.UNSIGNED_BYTE,pixels);
-        if(gl.getError()!==gl.NO_ERROR)throw new Error('Surface rendering failed');
-        // Byte textures and readPixels share the same row order; no DOM texture flip.
-        return pixels;
-      },remove(){
-        textures.forEach(texture=>gl.deleteTexture(texture));gl.deleteBuffer(buffer);gl.deleteProgram(program);
-        gl.getExtension('WEBGL_lose_context')?.loseContext();
-      }};
-      canvas.addEventListener('webglcontextlost',()=>{worker.disabled=true;});
-      return worker;
-    } catch(error) {
-      textures.forEach(texture=>gl.deleteTexture(texture));if(buffer)gl.deleteBuffer(buffer);if(program)gl.deleteProgram(program);
-      shaders.forEach(shader=>gl.deleteShader(shader));gl.getExtension('WEBGL_lose_context')?.loseContext();throw error;
-    }
-  }
-  function surface(source,options={},p=root) {
+  function andruck(source,options={},p=root) {
     const settings=surfaceSettings(options);
-    if(!source||!source.canvas||typeof source.get!=='function'||!p||typeof p.createImage!=='function') throw new TypeError('surface needs a p5 image or graphics and a p5 drawing context');
+    if(!source||!source.canvas||typeof source.get!=='function'||!p||typeof p.createImage!=='function') throw new TypeError('andruck needs a p5 image or graphics and a p5 drawing context');
     const width=source.width,height=source.height;
-    if(!Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1||width*height>16000000)throw new RangeError('surface must fit within 16 million pixels');
-    // Snapshot at logical density 1; never apply back onto the supplied material.
-    const canvas=root.document.createElement('canvas');canvas.width=width;canvas.height=height;
-    const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(source.canvas,0,0,width,height);
-    const clean=ctx.getImageData(0,0,width,height).data;
-    const result=p.createImage(width,height);result.loadPixels();result.pixels.set(clean);
+    if(!Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1||width*height>16000000)throw new RangeError('andruck must fit within 16 million pixels');
+    const density=rasterDensity(source),pixelWidth=width*density,pixelHeight=height*density;
+    if(pixelWidth*pixelHeight>16000000)throw new RangeError('andruck must fit within 16 million physical pixels');
+    // Keep the source pixels and its logical size.
+    const canvas=root.document.createElement('canvas');canvas.width=pixelWidth;canvas.height=pixelHeight;
+    const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(source.canvas,0,0,pixelWidth,pixelHeight);
+    const clean=ctx.getImageData(0,0,pixelWidth,pixelHeight).data;
+    const result=rasterImage(p,width,height,density);result.loadPixels();result.pixels.set(clean);
     if(settings.ink===0&&settings.paper===0){result.updatePixels();return result;}
     const mask=surfaceMask(width,height,settings);
-    // CPU reference also supplies a deterministic fallback when WebGL is unavailable.
+    // Keep the original CPU arithmetic and rounding.
     for(let i=0;i<clean.length;i+=4){
-      const shade=mask[i+1]/255;
+      const pixel=i/4;
+      const m=4*(Math.floor(pixel/pixelWidth/density)*width+Math.floor((pixel%pixelWidth)/density));
+      const shade=mask[m+1]/255;
       result.pixels[i]=Math.round(clean[i]*(1-shade*.65));
       result.pixels[i+1]=Math.round(clean[i+1]*(1-shade*.82));
       result.pixels[i+2]=Math.round(clean[i+2]*(1-shade));
-      result.pixels[i+3]=Math.round(clean[i+3]*(1-mask[i]/255));
+      result.pixels[i+3]=Math.round(clean[i+3]*(1-mask[m]/255));
     }
     result.updatePixels();
-    const owner=p===root ? root.p5?.instance : p;
-    if(!owner||typeof p.createGraphics!=='function')return result;
-    let worker=surfaceWorkers.get(owner);
-    try {
-      if(!worker){worker=surfaceWorker();surfaceWorkers.set(owner,worker);}
-      if(worker.disabled)return result;
-      const pixels=worker.render(width,height,clean,mask);
-      let acceptable=true;
-      for(let i=0;i<clean.length;i++)if(Math.abs(pixels[i]-result.pixels[i])>1){acceptable=false;break;}
-      if(acceptable){result.pixels.set(pixels);result.updatePixels();return result;}
-      worker.disabled=true;worker.remove();
-    } catch(error) {
-      if(worker){worker.disabled=true;worker.remove();}
-      else surfaceWorkers.set(owner,{disabled:true,remove(){}});
-      // Source read/security errors occur before this block and remain visible.
-    }
     return result;
   }
-  if(root.p5&&typeof root.p5.registerAddon==='function')root.p5.registerAddon((P5,prototype,hooks)=>{
-    hooks.remove=function(){const worker=surfaceWorkers.get(this);if(worker){worker.remove();surfaceWorkers.delete(this);}};
-  });
-  root.Merz=Object.freeze({version:'0.2.0',palette,settings,geometry,parts,ausschnitt,rundschnitt,splitter,fragment,tear,surface,stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
+  root.Merz=Object.freeze({version:'0.3.0',palette,ready,settings,satz,bauteile,bauteil,ausschnitt,rundschnitt,splitter,schnitt,riss,andruck,stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
   root.MerzComposition=MerzComposition;
-  // Compatibility with sketches written before the technical rename.
-  root.DeStijl=root.Merz;
-  root.DeStijlComposition=MerzComposition;
 })(globalThis);

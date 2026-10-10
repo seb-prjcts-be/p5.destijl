@@ -58,5 +58,5 @@
     p.noStroke();p.textFont('Trebuchet MS');for(const t of scene.texts||[]){p.push();p.translate(t.x,t.y);p.rotate((t.angle||0)*Math.PI/180);p.fill(t.fill||palette.ink);p.textSize(t.size);p.text(t.text,0,0);p.pop();}
   }
   function download(scene,name){const url=URL.createObjectURL(new Blob([svg(scene)],{type:'image/svg+xml;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-  root.DeStijlBars=Object.freeze({word,svg,draw,download,normalize,palette});
+  root.MerzBars=Object.freeze({word,svg,draw,download,normalize,palette});
 })(globalThis);

@@ -3,8 +3,11 @@ const assert = require("node:assert/strict"),
   vm = require("node:vm");
 let reference;
 for (const file of ["p5.merz.js", "p5.merz.min.js"]) {
-  let data;
+  let data, hypotCalls=0;
+  const countedMath=Object.create(Math);
+  countedMath.hypot=(...args)=>{hypotCalls++;return Math.hypot(...args);};
   const context = {
+    Math: countedMath,
     document: {
       createElement() {
         return {
@@ -38,9 +41,15 @@ for (const file of ["p5.merz.js", "p5.merz.min.js"]) {
   for (let i = 0; i < rgba.length; i += 4) rgba.set([185, 45, 38, 255], i);
   const source = { width: 80, height: 60, canvas: { data: rgba }, get() {} };
   const surface = (options) =>
-    Array.from(context.Merz.surface(source, options, p).pixels);
+    Array.from(context.Merz.andruck(source, options, p).pixels);
   const clean = surface({ ink: 0, paper: 0 }),
     light = surface({ ink: 0.12, paper: 0, seed: 17 });
+  const computed=hypotCalls;
+  assert.deepEqual(surface({ink:.12,paper:0,seed:17}),light);
+  assert.equal(hypotCalls,computed,'same mask is reused');
+  rgba[0]=12;
+  assert.equal(surface({ink:.12,paper:0,seed:17})[0],12,'cache does not hold source pixels');
+  rgba[0]=185;
   assert.deepEqual(clean, Array.from(rgba));
   assert.ok(light.some((v, i) => i % 4 === 3 && v < clean[i]));
   surface({ ink: 1, paper: 1, seed: 100 });
@@ -53,6 +62,9 @@ for (const file of ["p5.merz.js", "p5.merz.min.js"]) {
   assert.deepEqual(Array.from(rgba), clean);
   for (const options of [{ ink: -1 }, { ink: 2 }, { paper: 2 }, { seed: NaN }])
     assert.throws(() => surface(options));
+  assert.equal(require('node:crypto').createHash('sha256').update(Buffer.from([...light,...strong,...paper])).digest('hex'),'5b96c509327e4c52ec43dc2dc08ec4d20e28ec2d3768f3f81631f88b3cc70118','original CPU bytes');
+  for(let seed=200;seed<206;seed++)surface({ink:.12,paper:0,seed});
+  const evicted=hypotCalls;assert.deepEqual(surface({ink:.12,paper:0,seed:17}),light);assert.ok(hypotCalls>evicted,'evicted masks recompute identically');
   if (reference) assert.deepEqual(light, reference);
   reference = light;
 }

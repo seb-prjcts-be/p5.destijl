@@ -23,7 +23,7 @@ function draw() {
 
 function merzbild() {
   // A longer word might run off the page.
-  const word = Merz.geometry('MERZ', { size: 106, weight: 0.7, spacing: 6 });
+  const word = Merz.satz('MERZ', { size: 106, weight: 0.7, spacing: 6 });
   const impressions = [];
   for (let i = 0; i < 5; i++) {
     impressions.push({ x: 28 + i * 13, y: 28 + i * 115, color: i % 2 ? farbe.rot : farbe.schwarz });
@@ -35,10 +35,10 @@ function merzbild() {
 }
 
 function splitWord() {
-  const word = Merz.geometry('SPLITTER', { size: 110, weight: 0.85, spacing: 8 });
+  const word = Merz.satz('SPLITTER', { size: 110, weight: 0.85, spacing: 8 });
   // Two strips might leave more of the word intact.
   const pieces = Merz.splitter(word, { rows: 3 });
-  const torn = pieces.map((piece, i) => Merz.tear(piece, { amount: 0.16, seed: 17 + i }));
+  const torn = pieces.map((piece, i) => Merz.riss(piece, { amount: 0.16, seed: 17 + i }));
   Merz.stempel(torn, -10, 42, {
     repeat: 10,
     stepY: 58,
@@ -53,7 +53,7 @@ function splitWord() {
 
 function rrrt() {
   // A small piece of R, with room to repeat.
-  const bowl = Merz.parts('R', { size: 96, weight: 0.6 }).find(part => part.id === 'bowl');
+  const bowl = Merz.bauteil('R', 'bowl', { size: 96, weight: 0.6 });
   const impressions = [];
   for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 6; col++) {

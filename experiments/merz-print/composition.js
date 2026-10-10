@@ -9,7 +9,7 @@
     p.translate(x, y);
     p.noFill(); p.stroke(options.color || '#20201e');
     p.strokeCap('square'); p.strokeJoin('miter');
-    for (const part of Merz.geometry(text, options).paths) {
+    for (const part of Merz.satz(text, options).paths) {
       p.strokeWeight(part.width);
       p.beginShape();
       for (const point of part.points) p.vertex(...point);

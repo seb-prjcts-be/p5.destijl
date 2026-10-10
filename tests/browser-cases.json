@@ -1,0 +1,16 @@
+[
+  "audit-browser.html",
+  "fragments-browser.html",
+  "fragments-min-browser.html",
+  "fundsachen-browser.html",
+  "fundsachen-min-browser.html",
+  "merz-browser.html",
+  "merz-parts-browser.html",
+  "merz-standalone-browser.html",
+  "merz-surface-browser.html",
+  "stempel-browser.html",
+  "stempel-min-browser.html",
+  "surface-library-browser.html",
+  "surface-library-min-browser.html",
+  "audit-browser.html?min=1"
+]

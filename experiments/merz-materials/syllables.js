@@ -35,7 +35,7 @@ function draw() {
     text(syllables[1], i * 62, 0);
   }
   pop();
-  const fork = Merz.parts("Y", { size: 46, weight: 0.45 }).find(
+  const fork = Merz.bauteile("Y", { size: 46, weight: 0.45 }).find(
     (part) => part.id === "fork"
   );
   for (let i = 0; i < 5; i++) paint(fork.paths, 62 + i * 38, 557, "#234b92");

@@ -51,7 +51,7 @@ function draw() {
   push();
   translate(404, 425);
   rotate(0.38);
-  const step = Merz.parts("Z", { size: 165, weight: 0.55 }).find(
+  const step = Merz.bauteile("Z", { size: 165, weight: 0.55 }).find(
     (part) => part.id === "lower-turn"
   );
   paint(step.paths, 0, 0, "#b92d26");

@@ -2,9 +2,11 @@
 
 28 samples, with permanent numbers and names. Each catalogue PNG can be downloaded separately. Original scan colour and paper remain in each original crop. Transparent PNGs and SVG silhouettes are separate derived files.
 
+The Merz 2 reuse record remains to be verified. Its existing references record the basis used for the study; they are not a completed rights review.
+
 ## Source scans
 
-- 001-003 use the existing 314 x 480 Merz 2 cover JPEG. [Original source and reuse record](../../experiments/merz-fragments/sources.md).
+- 001-003 use the 314 x 480 Merz 2 cover JPEG, copied unchanged to source-scans/merz-2-cover-small.jpg. [Original source and reuse record](../../experiments/merz-fragments/sources.md).
 - 004-011 use the 855 x 1307 embedded image from the [Merz 2 cover PDF](https://sdrc.lib.uiowa.edu/dada/merz/2/images/00cover.pdf).
 - 012-015 use the 851 x 1308 embedded image from [Merz 2, page 17](https://sdrc.lib.uiowa.edu/dada/merz/2/images/17.pdf).
 - 016-028 use the 1125 x 1460 embedded image from the [Merz 8/9 cover PDF](https://sdrc.lib.uiowa.edu/dada/merz/8/images/00cover.pdf).
@@ -12,6 +14,8 @@
 Credit: International Dada Archive, University of Iowa Libraries. The Merz 8/9 cover names El Lissitzky and Kurt Schwitters as editors and credits its typography to El Lissitzky. A pointing hand is catalogued as a found printed element, without a separate designer attribution. These scan assets are separate from the code's MIT licence.
 
 The PDFs and extracted page images are preserved in assets/fundsachen/source-scans. sources.json records PDF hashes and scan dimensions. Crops below use those original pixel coordinates, without resizing. New PNGs carry Source, Credit, Crop and Fundsachen text metadata. tools/build-fundsachen.py rebuilds the new crops; the first three remain unchanged. assets/fundsachen/catalogue.json is the registry used by the library build and catalogue.
+
+The catalogue field `scan` points to the complete source image under source-scans/. The `file` field names the cropped image with paper, used by `variant: 'scan'`.
 
 ## Elements
 

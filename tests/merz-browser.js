@@ -21,7 +21,8 @@ new p5(p => {
       const reset = snapshot('direct', .6);
       const routes = diff(direct, retained), repeat = diff(ink, reset);
       const zero = diff(direct, snapshot('direct', 0));
-      result.textContent = JSON.stringify({ constants:[layer.PROJECT,layer.MITER,layer.CORNER], density: layer.pixelDensity(), length: direct.length, routes, repeat, zero }, null, 2);
+      if(routes.changed||repeat.changed||zero.changed)throw new Error('pixel mismatch');
+      result.textContent = 'PASS: ' + JSON.stringify({ constants:[layer.PROJECT,layer.MITER,layer.CORNER], density: layer.pixelDensity(), length: direct.length, routes, repeat, zero }, null, 2);
       layer.remove();
     } catch (error) { result.textContent = 'FAIL: ' + error.stack; }
   };

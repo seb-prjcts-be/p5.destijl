@@ -28,7 +28,7 @@ document.getElementById("run").addEventListener("click", async () => {
       frame.title = folder + "/" + name;
       const base = new URL("../experiments/" + folder + "/", location.href).href;
       const scripts = ["../../vendor/p5-2.3.4.min.js", "../../p5.merz.js", ...helpers, name + ".js"];
-      frame.srcdoc = '<!doctype html><html><head><base href="' + base + '"><script>window.sketchErrors=[];window.addEventListener("error",e=>sketchErrors.push(e.message));window.addEventListener("unhandledrejection",e=>sketchErrors.push(String(e.reason)));<\/script>' + scripts.map(src => '<script defer src="' + src + '"><\/script>').join("") + '</head><body></body></html>';
+      frame.srcdoc = '<!doctype html><html><head><base href="' + base + '"><script>window.sketchErrors=[];window.addEventListener("error",e=>sketchErrors.push(e.message));window.addEventListener("unhandledrejection",e=>sketchErrors.push(String(e.reason)));<\/script>' + scripts.map(src => '<script defer src="' + src + '?check=' + Date.now() + '"><\/script>').join("") + '</head><body></body></html>';
       document.getElementById("host").append(frame);
       try {
         await new Promise((resolve, reject) => {

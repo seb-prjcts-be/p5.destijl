@@ -19,3 +19,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+Asset scope
+-----------
+The MIT licence above applies to the library code. It does not apply to the
+facsimiles and derived samples in assets/fundsachen/, from Merz 2 and Merz 8/9,
+International Dada Archive, University of Iowa Libraries. See
+assets/fundsachen/SOURCES.md for source credits and reuse notes.
+The Merz 2 reuse record remains to be verified.
+
+The Archivo Black font in assets/fonts/archivo-black/ is distributed under
+the SIL Open Font License, not the MIT licence. See its bundled OFL.txt.

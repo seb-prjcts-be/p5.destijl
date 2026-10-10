@@ -17,7 +17,7 @@
     Y:['10001','10001','11111','00100','00100'], Z:['11111','00011','00100','11000','11111']
   };
   const palette = Object.freeze({paper:'#f7f7f2',ink:'#20201e',red:'#b92d26',blue:'#234b92',yellow:'#e8bb32'});
-  const defaults = Object.freeze({word:'DE STIJL',proportion:1,weight:1,spacing:0.45,colour:0.35});
+  const defaults = Object.freeze({word:'MERZ',proportion:1,weight:1,spacing:0.45,colour:0.35});
   function normalize(text) {
     return String(text).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z\s]/g,'').replace(/\s+/g,' ').trim().slice(0,32);
   }
@@ -62,5 +62,5 @@
     const n=v=>Number(v.toFixed(4));
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${scene.width}" height="${scene.height}" viewBox="0 0 ${scene.width} ${scene.height}"><title>${scene.text || 'Empty letter study'} - p5.merz</title><desc>A geometric letter study inspired by Theo van Doesburg, using our own letter drawings.</desc><rect width="100%" height="100%" fill="${palette.paper}"/>`+scene.rects.map(r=>`<rect x="${n(r.x)}" y="${n(r.y)}" width="${n(r.w)}" height="${n(r.h)}" fill="${r.fill}"/>`).join('')+'</svg>';
   }
-  root.DeStijlStudy=Object.freeze({build,svg,normalize,defaults,palette});
+  root.MerzStudy=Object.freeze({build,svg,normalize,defaults,palette});
 })(globalThis);

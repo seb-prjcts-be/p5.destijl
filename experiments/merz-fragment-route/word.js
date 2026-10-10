@@ -10,12 +10,12 @@ async function setup() {
   if (document.getElementById("drawing")) canvas.parent("drawing");
   pixelDensity(1);
   noLoop();
-  const source = Merz.geometry("MERZ", { size: 180, spacing: 8 });
+  const source = Merz.satz("MERZ", { size: 180, spacing: 8 });
   // Perhaps four narrower strips next time.
   const pieces = Merz.splitter(source, { rows: 3 });
   for (const [row, piece] of pieces.entries()) {
     strips.push(
-      Merz.tear(piece, { amount, seed: seed + row }).bau(globalThis, {
+      Merz.riss(piece, { amount, seed: seed + row }).bau(globalThis, {
         color: row === 1 ? farbe.rot : farbe.schwarz
       })
     );

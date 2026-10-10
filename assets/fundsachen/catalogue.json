@@ -17,7 +17,7 @@
     "page": "Merz 2, cover",
     "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
     "credit": "International Dada Archive, University of Iowa Libraries",
-    "scan": "../../experiments/merz-fragments/assets/merz-2-cover.jpg",
+    "scan": "source-scans/merz-2-cover-small.jpg",
     "inkFile": "merz-2-cover-m-ink.png",
     "svgFile": "merz-2-cover-m.svg"
   },
@@ -39,7 +39,7 @@
     "page": "Merz 2, cover",
     "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
     "credit": "International Dada Archive, University of Iowa Libraries",
-    "scan": "../../experiments/merz-fragments/assets/merz-2-cover.jpg",
+    "scan": "source-scans/merz-2-cover-small.jpg",
     "inkFile": "merz-2-cover-r-ink.png",
     "svgFile": "merz-2-cover-r.svg"
   },
@@ -61,7 +61,7 @@
     "page": "Merz 2, cover",
     "source": "https://sdrc.lib.uiowa.edu/dada/merz/2/pages/00cover.htm",
     "credit": "International Dada Archive, University of Iowa Libraries",
-    "scan": "../../experiments/merz-fragments/assets/merz-2-cover.jpg",
+    "scan": "source-scans/merz-2-cover-small.jpg",
     "inkFile": "merz-2-cover-rule-ink.png",
     "svgFile": "merz-2-cover-rule.svg"
   },

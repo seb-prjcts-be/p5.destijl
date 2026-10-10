@@ -19,7 +19,7 @@ function draw() {
   ink.pixelDensity(1);
 
   // Draw the word on a transparent layer.
-  const letters = Merz.geometry(word, { size: 110, spacing: 10 });
+  const letters = Merz.satz(word, { size: 110, spacing: 10 });
   ink.push();
   ink.translate(45, 80);
   ink.noFill();

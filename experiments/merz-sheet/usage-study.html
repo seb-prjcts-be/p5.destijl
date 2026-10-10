@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contexts and layers - p5.merz</title>
+  <link rel="stylesheet" href="../../docs/library.css">
+  <script defer src="../../vendor/p5-2.3.4.min.js"></script>
+  <script defer src="../../p5.merz.js"></script>
+  <script defer src="usage-study.js"></script>
+  <script defer src="../../docs/code-style.js"></script>
+</head>
+<body>
+  <nav class="study-nav" aria-label="p5.merz pages">
+    <a href="../../index.html">Showcase</a><a href="../../docs/examples.html">Examples</a>
+    <a href="../../docs/fundsachen.html">Fundsachen</a><a href="../../docs/guide.html">Guide</a>
+    <a href="../../docs/research.html">Research</a><a href="../../docs/about.html">About</a>
+    <a href="https://github.com/seb-prjcts-be/p5.merz">GitHub</a>
+  </nav>
+  <main class="wide">
+    <h1>Contexts and layers</h1>
+    <p>Two ways to choose where a stamp is drawn. These helpers belong to this study.</p>
+    <h2>A target in each call</h2>
+    <pre>UsageStudy.target(bowl, 30, 45, { color: farbe.rot, target: p });</pre>
+    <h2>A context chosen once</h2>
+    <pre>const merz = UsageStudy.bind(p);
+merz.stempel(bowl, 30, 45, { color: farbe.rot });</pre>
+    <p>A bound context shortens repeated calls. A target option keeps each call explicit when switching between layers.</p>
+    <h2>A layer drawn with p5</h2>
+    <pre>const ink = UsageStudy.layer(p, 300, 300, { ink: .12, seed: 17 }, layer => {
+  const merz = UsageStudy.bind(layer);
+  merz.stempel(bowl, 30, 45, { color: farbe.rot });
+  layer.rect(30, 235, 210, 6);
+});
+p.image(ink, 0, 0);</pre>
+    <p>The helper creates the buffer, preserves density and removes the buffer when drawing finishes. Paper and ink stay separate; ordinary image() calls decide their order. The drawing callback is synchronous.</p>
+    <p>Left: explicit buffer management. Right: the layer helper with a bound context.</p>
+    <div id="drawing"></div>
+    <p id="result" role="status">Comparing pixels…</p>
+    <p><a href="usage-study.js">Read the study code</a></p>
+  </main>
+</body>
+</html>

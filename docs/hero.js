@@ -23,7 +23,7 @@ function draw() {
 
   // A large M behind the smaller letters.
   paint(
-    Merz.geometry("M", { size: compact ? 220 : 310, weight: 0.48 }).paths,
+    Merz.satz("M", { size: compact ? 220 : 310, weight: 0.48 }).paths,
     compact ? 290 : 805,
     compact ? 155 : 210,
     red
@@ -44,7 +44,7 @@ function draw() {
   }
   pop();
 
-  const fork = Merz.parts("Y", { size: 35, weight: 0.4 }).find(
+  const fork = Merz.bauteile("Y", { size: 35, weight: 0.4 }).find(
     (part) => part.id === "fork"
   );
   for (let i = 0; i < 5; i++)

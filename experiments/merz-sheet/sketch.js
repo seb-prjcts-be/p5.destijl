@@ -12,7 +12,7 @@ function setup() {
   const paper = createGraphics(width, height);
   paper.pixelDensity(1);
   paper.background("#f7f7f2");
-  sheet = Merz.surface(paper, { ink: 0, paper: paperAmount, seed });
+  sheet = Merz.andruck(paper, { ink: 0, paper: paperAmount, seed });
   paper.remove();
 
   const ink = createGraphics(width, height);
@@ -24,11 +24,10 @@ function setup() {
   ink.textFont("Georgia");
   ink.textSize(78);
   ink.text("Fundsachen", 45, 227, 510);
-  const letters = Merz.geometry("M", { size: 250, weight: 0.55 });
-  paint(ink, letters.paths, 315, 330, "#b92d26");
-  const parts = Merz.parts("R", { size: 95, weight: 0.65 });
-  const bowl = parts.find((part) => part.id === "bowl");
-  for (let i = 0; i < 3; i++) paint(ink, bowl.paths, 52, 330 + i * 91, "#20201e");
+  const letters = Merz.satz("M", { size: 250, weight: 0.55 });
+  Merz.stempel(letters, 315, 330, { color: "#b92d26" }, ink);
+  const bowl = Merz.bauteil("R", "bowl", { size: 95, weight: 0.65 });
+  for (let i = 0; i < 3; i++) Merz.stempel(bowl, 52, 330 + i * 91, { color: "#20201e" }, ink);
   ink.noStroke();
   ink.fill("#20201e");
   ink.textFont("monospace");
@@ -36,7 +35,7 @@ function setup() {
   ink.text("1 / 2 / 3", 52, 671);
   ink.textSize(11);
   ink.text("Collected here. Arranged in code.", 52, 700);
-  const impression = Merz.surface(ink, { ink: inkAmount, paper: 0, seed });
+  const impression = Merz.andruck(ink, { ink: inkAmount, paper: 0, seed });
   const page = createGraphics(width, height);
   page.pixelDensity(1);
   page.image(sheet, 0, 0);
@@ -51,22 +50,6 @@ function setup() {
 
 function draw() {
   image(sheet, 0, 0);
-}
-
-function paint(target, paths, x, y, colour) {
-  target.push();
-  target.translate(x, y);
-  target.noFill();
-  target.stroke(colour);
-  target.strokeCap(SQUARE);
-  target.strokeJoin(MITER);
-  for (const path of paths) {
-    target.strokeWeight(path.width);
-    target.beginShape();
-    for (const point of path.points) target.vertex(...point);
-    target.endShape();
-  }
-  target.pop();
 }
 
 function keyPressed() {

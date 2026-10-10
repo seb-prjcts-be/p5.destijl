@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict');
 require('../experiments/shared/bars.js');
-const bars=globalThis.DeStijlBars;
+const bars=globalThis.MerzBars;
 const first=bars.word('NN',{size:100,spacing:10});
 const spaced=bars.word('NN',{size:100,spacing:30});
 assert.deepEqual(first.paths[0],spaced.paths[0]);

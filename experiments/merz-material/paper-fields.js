@@ -50,8 +50,8 @@ function drawInk(p) {
     }
     p.pop();
   }
-  paths(Merz.geometry('M', { size: 250, weight: 0.55 }).paths, 315, 330, '#b92d26');
-  const bowl = Merz.parts('R', { size: 95, weight: 0.65 }).find(part => part.id === 'bowl');
+  paths(Merz.satz('M', { size: 250, weight: 0.55 }).paths, 315, 330, '#b92d26');
+  const bowl = Merz.bauteile('R', { size: 95, weight: 0.65 }).find(part => part.id === 'bowl');
   for (let i = 0; i < 3; i++) paths(bowl.paths, 52, 330 + i * 91, '#20201e');
   p.noStroke(); p.fill('#20201e'); p.textFont('monospace'); p.textSize(15);
   p.text('1 / 2 / 3', 52, 671);
