@@ -1,9 +1,11 @@
+let farbe;
 // Load p5.js and the local p5.merz.js before this sketch.
 const amount = 0.7;
 const seed = 17;
 const strips = [];
 
 async function setup() {
+  farbe = Merz.settings();
   const canvas = createCanvas(600, 680);
   if (document.getElementById("drawing")) canvas.parent("drawing");
   pixelDensity(1);
@@ -13,7 +15,7 @@ async function setup() {
   for (const [row, piece] of pieces.entries()) {
     strips.push(
       Merz.tear(piece, { amount, seed: seed + row }).bau(globalThis, {
-        color: row === 1 ? "#b92d26" : "#20201e"
+        color: row === 1 ? farbe.rot : farbe.schwarz
       })
     );
   }
@@ -23,7 +25,7 @@ async function setup() {
 }
 
 function draw() {
-  background("#f7f7f2");
+  background(farbe.grau);
   for (let row = 0; row < strips.length; row++) {
     const strip = strips[row];
     image(

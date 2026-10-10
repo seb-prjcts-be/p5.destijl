@@ -43,6 +43,16 @@ const vm = require('node:vm');
     await m.fundsachen('001',{variant:'svg'});assert.ok(urls.at(-1).endsWith('/merz-2-cover-m.svg'));
     await assert.rejects(m.fundsachen('022',{variant:'svg'}));
     await assert.rejects(m.fundsachen('001',{variant:'unknown'}));
+    const draws=[]; let depth=0;
+    Object.assign(ctx,{push(){depth++;},pop(){depth--;},imageMode(){},noTint(){},image(...args){draws.push(args);}});
+    const priorLoads=loads, priorSnapshots=snapshots;
+    await m.fundsachen('001',12,24,140);
+    assert.deepEqual(draws[0].slice(1),[12,24,140,280]);
+    assert.equal(loads,priorLoads); assert.equal(snapshots,priorSnapshots); assert.equal(depth,0);
+    for(const args of [[NaN,0,140],[0,Infinity,140],[0,0,0],[0,0,undefined]]) await assert.rejects(m.fundsachen('001',...args));
+    assert.equal(loads,priorLoads);
+    ctx.image=()=>{throw new Error('drawing failed');};
+    await assert.rejects(m.fundsachen('001',0,0,70)); assert.equal(depth,0);
   }
   console.log('Fundsachen: IDs/names, PNG dimensions, independent fragments, cache, retry and source/min passed.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

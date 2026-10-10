@@ -91,7 +91,29 @@ The ink helpers are experimental and do not extend the public API.
 
 A separate module for the geometric alphabet is a possibility to investigate. It has not been implemented.
 
+## Colours
+
+Set up a palette once in setup():
+
+```js
+const farbe = Merz.settings();
+background(farbe.grau);
+fill(farbe.rot); // also farbe[1]
+```
+
+Override only what you need: `Merz.settings({ rot: '#c4382d', grau: '#f1eddf' })`.
+The order is grau, rot, schwarz, blau, gelb (indices 0–4).
+Keep `farbe` outside setup when draw() also uses it.
+
 ## Fundsachen
+
+Draw a sample directly in async setup():
+
+```js
+await Merz.fundsachen('001', 40, 60, 140);
+```
+
+The last value is its width; proportions are preserved. Loading is handled by the library.
 
 Browse the [sample catalogue](docs/fundsachen.html), then load a fragment with `await Merz.fundsachen('001')` or its name, `merz-2-cover-m`. Use it with `tear()` and `stempel()`. The catalogue contains 28 letters, numbers, words, rules and images from Merz 2 and Merz 8/9. Each entry has a transparent PNG download; 17 letters, numbers and rules also have SVG silhouettes. Use `{ variant: 'scan' }` to load the original paper-backed crop.
 

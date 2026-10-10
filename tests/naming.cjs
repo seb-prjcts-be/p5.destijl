@@ -8,5 +8,24 @@ for (const file of ['p5.merz.js','p5.merz.min.js']) {
   assert.equal(JSON.stringify(ctx.Merz.geometry('MERZ')),JSON.stringify(ctx.DeStijl.geometry('MERZ')));
   for (const name of ['ausschnitt', 'rundschnitt', 'fragment']) assert.equal(typeof ctx.Merz[name], 'function');
   assert.equal(typeof ctx.Merz.tear,'function');
+  const farbe = ctx.Merz.settings();
+  assert.equal(farbe.rot, ctx.Merz.palette.red);
+  assert.equal(farbe.schwarz, ctx.Merz.palette.ink);
+  assert.equal(farbe.grau, ctx.Merz.palette.paper);
+  assert.equal(farbe[1], farbe.rot);
+  assert.equal(farbe[2], farbe.schwarz);
+  assert.equal(farbe[0], farbe.grau);
+  assert.equal(farbe[0], farbe.grau);
+  assert.equal(ctx.Merz.settings({ grau: '#999999' }).grau, '#999999');
+  assert.ok(Object.isFrozen(farbe));
+  const custom = ctx.Merz.settings({ rot: '#c4382d', grau: '#f1eddf' });
+  assert.equal(custom[1], '#c4382d');
+  assert.equal(custom[0], '#f1eddf');
+  assert.equal(custom.schwarz, farbe.schwarz);
+  assert.equal(ctx.Merz.settings().rot, farbe.rot);
+  assert.notEqual(ctx.Merz.settings(), farbe);
+  for (const invalid of [null, [], { red: '#ffffff' }, { rot: 'red' }, { grau: '#fff' }]) {
+    assert.throws(() => ctx.Merz.settings(invalid));
+  }
 }
 console.log('Merz naming: source, min-build and API aliases passed.');

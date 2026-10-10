@@ -10,6 +10,7 @@ function selectedFile(item) {
 function snippetFor(item) {
   const local = document.getElementById('usage').value === 'download';
   const variant=selectedVariant(item);
+  if (!local && variant === 'ink') return `await Merz.fundsachen('${item.id}', 40, 40, 140);`;
   return `const piece = await Merz.fundsachen('${item.name}'${local ? `, {\n  url: '${selectedFile(item)}'\n}` : variant==='ink'?'':`, { variant: '${variant}' }`});\nMerz.stempel(piece, [{ x: 40, y: 40 }]);`;
 }
 for (const item of items) {

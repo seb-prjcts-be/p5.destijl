@@ -30,7 +30,13 @@ async function setup() {
       p.createCanvas(90,150);p.pixelDensity(1);p.noLoop();
       const piece=await Merz.fundsachen(1,{},p);const image=piece.bau(p);image.loadPixels();
       results.push(['instance pixels',imageA.pixels.every((v,i)=>v===image.pixels[i])]);
-      Merz.stempel(piece,[{x:0,y:0}],p);resolve();
+      const original=await p.loadImage('../assets/fundsachen/merz-2-cover-m-ink.png');
+      p.clear(); p.image(original,3,4,70,140); p.loadPixels();
+      const expected=Array.from(p.pixels);
+      p.clear(); await Merz.fundsachen('001',3,4,70,p); p.loadPixels();
+      // Separate decoded canvases can differ by one RGB level after alpha compositing.
+      results.push(['direct drawing instance parity',expected.length === p.pixels.length && expected.every((v,i)=>i%4===3 ? v===p.pixels[i] : Math.abs(v-p.pixels[i])<=1)]);
+      resolve();
     }catch(error){reject(error);}};}));
   }catch(error){results.push([error.message,false]);}
   document.getElementById('result').textContent=results.map(([name,ok])=>(ok?'PASS ':'FAIL ')+name).join('\n');
