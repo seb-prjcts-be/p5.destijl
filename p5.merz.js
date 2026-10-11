@@ -1023,7 +1023,8 @@
     }
     const fragmentSeries=Array.isArray(source)&&source.length>0&&source.every(piece=>fragmentData.has(piece));
     const isFragment=fragmentSeries||fragmentData.has(source);
-    if(!isText&&!isFragment&&(!Array.isArray(paths)||!paths.length||paths.some(path=>!path||!Number.isFinite(path.width)||path.width<=0||!Array.isArray(path.points)||path.points.length<2||path.points.some(point=>!Array.isArray(point)||point.length!==2||!point.every(Number.isFinite)))))throw new TypeError('stempel needs text, geometry, letter parts or a cut piece');
+    const isSheet=sheetData.has(source);
+    if(!isText&&!isFragment&&!isSheet&&(!Array.isArray(paths)||!paths.length||paths.some(path=>!path||!Number.isFinite(path.width)||path.width<=0||!Array.isArray(path.points)||path.points.length<2||path.points.some(point=>!Array.isArray(point)||point.length!==2||!point.every(Number.isFinite)))))throw new TypeError('stempel needs text, geometry, letter parts or a cut piece');
     if(placements && typeof placements==='object' && !Array.isArray(placements))placements=[placements];
     if(!Array.isArray(placements))throw new TypeError('placements must be an array');
     const expanded=[];
@@ -1149,6 +1150,7 @@
           }
         }
         else if(isFragment){p.imageMode(p.CORNER??'corner');p.noTint();p.image(images.get(material).get(item.color),0,0);}
+        else if(isSheet){const data=sheetImages(source);p.imageMode(p.CORNER??'corner');p.noTint();p.image(data.paper,0,0);p.image(data.print,0,0);}
         else {
           p.noFill();p.stroke(item.color);p.strokeCap(p.PROJECT??'square');p.strokeJoin(p.MITER??'miter');
           for(const path of paths){p.strokeWeight(path.width);p.beginShape();for(const point of path.points)p.vertex(...point);p.endShape();}
@@ -1381,6 +1383,8 @@
     return pixels;
   }
   function andruck(source,options={},p=root) {
+    const plain=value=>value===undefined||(!!value&&typeof value==='object'&&!Array.isArray(value)&&!value.canvas&&typeof value.get!=='function'&&!isContext(value));
+    if(plain(source))return makeSheet(source??{},arguments.length>=2?options:p);
     const settings=surfaceSettings(options);
     if(!source||!source.canvas||typeof source.get!=='function'||!p||typeof p.createImage!=='function') throw new TypeError('andruck needs a p5 image or graphics and a p5 drawing context');
     const width=source.width,height=source.height;
@@ -1408,42 +1412,42 @@
     return result;
   }
   // Coordinates select the short drawing route; data calls keep their own signatures.
-  function bogen(options={},p=root) {
-    if(isContext(options)&&p===root){p=options;options={};}
-    if(!options||typeof options!=='object'||Array.isArray(options))throw new TypeError('bogen options must be an object');
-    for(const key of Object.keys(options))if(!['width','height','paper','ink','seed','color'].includes(key))throw new RangeError('Unknown bogen option: '+key);
+  const sheetData=new WeakMap();
+  const sheetCalls=['stempel','satz','bauteile','bauteil','rundschnitt','riss','andruck','merzbilder'];
+  function makeSheet(options={},p=root) {
+    if(!options||typeof options!=='object'||Array.isArray(options))throw new TypeError('andruck options must be an object');
+    for(const key of Object.keys(options))if(!['width','height','paper','ink','seed','color'].includes(key))throw new RangeError('Unknown andruck option: '+key);
     const settings=surfaceSettings({ink:options.ink??0.12,paper:options.paper??0.2,seed:options.seed??17});
     const color=colour(options.color??palette.paper);
-    if(!p||typeof p.createGraphics!=='function'||typeof p.image!=='function')throw new TypeError('bogen needs a p5 drawing context');
+    if(!p||typeof p.createGraphics!=='function'||typeof p.image!=='function')throw new TypeError('andruck needs a p5 drawing context to make a sheet');
     const size={};
     for(const key of ['width','height']){
-      if(options[key]===undefined&&!(Number.isFinite(p[key])&&p[key]>=1))throw new TypeError('bogen needs a canvas size: call createCanvas() first, or pass width and height');
+      if(options[key]===undefined&&!(Number.isFinite(p[key])&&p[key]>=1))throw new TypeError('andruck needs a canvas size for the sheet: call createCanvas() first, or pass width and height');
       size[key]=number(options[key]??p[key],key,1);
       if(!Number.isInteger(size[key]))throw new RangeError(key+' must be a whole number');
     }
-    if(size.width*size.height>16000000)throw new RangeError('bogen must fit within 16 million pixels');
+    if(size.width*size.height>16000000)throw new RangeError('a sheet must fit within 16 million pixels');
     const sheet=p.createGraphics(size.width,size.height);
     sheet.clear();
-    // The paper ground is treated once; the ink is treated when printed.
+    // The paper ground is treated once; the ink is treated when the sheet is stamped.
     const ground=p.createGraphics(size.width,size.height);
     ground.pixelDensity(sheet.pixelDensity());
     ground.background(color);
-    const paper=andruck(ground,{ink:0,paper:settings.paper,seed:settings.seed+1},p);
+    const data={paper:andruck(ground,{ink:0,paper:settings.paper,seed:settings.seed+1},p),print:null,settings,owner:p};
     ground.remove();
-    let print=null;
     for(const name of ['clear','background']){
       const original=sheet[name];
-      sheet[name]=function(...args){print=null;return original.apply(this,args);};
+      sheet[name]=function(...args){data.print=null;return original.apply(this,args);};
     }
-    sheet.druck=function(x=0,y=0){
-      number(x,'x');number(y,'y');
-      if(!print)print=andruck(sheet,{ink:settings.ink,paper:0,seed:settings.seed},p);
-      p.push();
-      try{p.imageMode(p.CORNER??'corner');p.noTint();p.image(paper,x,y);p.image(print,x,y);}
-      finally{p.pop();}
-      return sheet;
-    };
+    // The sheet carries the drawing calls, so no context argument is needed.
+    for(const name of sheetCalls)sheet[name]=(...args)=>root.Merz[name](...args,sheet);
+    sheetData.set(sheet,data);
     return sheet;
+  }
+  function sheetImages(sheet){
+    const data=sheetData.get(sheet);
+    if(!data.print)data.print=andruck(sheet,{ink:data.settings.ink,paper:0,seed:data.settings.seed},data.owner);
+    return data;
   }
   function drawingCall(name, original) {
     return function(source, ...args) {
@@ -1484,6 +1488,6 @@
   root.Merz=Object.freeze({version:'0.3.0',palette,farbe:settings(),ready,settings,
     satz:drawingCall('satz',satz),bauteile:drawingCall('bauteile',bauteile),bauteil:drawingCall('bauteil',bauteil),
     ausschnitt,rundschnitt:drawingCall('rundschnitt',rundschnitt),splitter,schnitt,riss:drawingCall('riss',riss),
-    andruck:drawingCall('andruck',andruck),bogen,stempel,merzbilder,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
+    andruck:drawingCall('andruck',andruck),stempel,merzbilder,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
   root.MerzComposition=MerzComposition;
 })(globalThis);

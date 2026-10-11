@@ -21,23 +21,23 @@ the min-build.
 A page needs a sheet and a few stamps. This is a cover after Merz 8/9, with found words from the catalogue:
 
 ```js
-let bogen;
+let blatt;
 function setup() {
   createCanvas(600, 760);
   noLoop();
   const farbe = Merz.farbe;
-  bogen = Merz.bogen({ paper: 0.25, ink: 0.15, seed: 17 });
-  Merz.stempel('MERZ', 142, 215, { width: 318, height: 158, color: farbe.blau }, bogen);
-  Merz.stempel('NASCI', 372, 357, { width: 203, height: 44, color: farbe.rot }, bogen);
-  Merz.stempel(['WAS SICH AUS SICH', 'SELBST DURCH EIGENE', 'KRAFT ENTWICKELT'], 165, 401,
-    { size: 26, leading: 44.6, width: 410, color: farbe.rot, rule: { weight: 9, color: farbe.blau } }, bogen);
+  blatt = Merz.andruck({ paper: 0.25, ink: 0.15, seed: 17 });
+  blatt.stempel('MERZ', 142, 215, { stretch: 62, width: 318, height: 158, color: farbe.blau });
+  blatt.stempel('NASCI', 372, 357, { width: 203, height: 44, color: farbe.rot });
+  blatt.stempel(['WAS SICH AUS SICH', 'SELBST DURCH EIGENE', 'KRAFT ENTWICKELT'], 165, 401,
+    { size: 24, weight: 500, stretch: 125, leading: 44.6, width: 410, color: farbe.rot, rule: { weight: 9, color: farbe.blau } });
 }
 function draw() {
-  bogen.druck();
+  Merz.stempel(blatt, 0, 0);
 }
 ```
 
-`bogen()` is a sheet the size of the canvas with its own paper and ink. `stempel()` sets text, geometry or a cut piece; a `width` fills the measure, `width` with `height` stretches the letters, and `rule` draws bars between lines. The [showcase](https://seb-prjcts-be.github.io/p5.merz/) runs four complete pages beside their code.
+`andruck()` without a source is a proof sheet the size of the canvas, with its own paper and ink; the sheet carries the drawing calls. `stempel()` sets text, geometry or a cut piece, and prints a sheet; a `width` fills the measure, `width` with `height` stretches the letters, and `rule` draws bars between lines. The [showcase](https://seb-prjcts-be.github.io/p5.merz/) runs four complete pages beside their code.
 
 The library also includes `Merz.bauteile('R', { size: 100 })`:
 named paths to draw, change and repeat in ordinary p5 code. Use `Merz.bauteil('R', 'bowl')` to pick one by name. `Merz.satz()`
@@ -71,7 +71,7 @@ variation to an image or graphics layer. Keep ink and paper on separate layers;
 ordinary p5 code still draws the result. See [Merzbilder](experiments/merz-sheet/)
 and the [surface guide](docs/guide.html#surface).
 
-`Merz.bogen({ paper: 0.3, ink: 0.2 })` returns a sheet the size of the canvas. Draw on it with p5 or `stempel()`, then `bogen.druck()` prints paper and ink in draw(). See the [sheet guide](docs/guide.html#bogen).
+`Merz.andruck({ paper: 0.3, ink: 0.2 })` returns a proof sheet the size of the canvas. Draw on it with p5 or with the calls it carries, then `Merz.stempel(blatt, 0, 0)` prints paper and ink in draw(). See the [sheet guide](docs/guide.html#sheet).
 
 ```js
 let work;
