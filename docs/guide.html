@@ -83,7 +83,7 @@ function draw() {
   background(Merz.farbe.grau);
   Merz.riss('R', 150, 100);
 }</pre>
-<p>Pass the material and its position to draw it directly. The library makes the geometry, cuts or raster image it needs. <a href="bauteile.html">Bauteile</a> shows one short sketch for each operation. A string means geometric letters in every call except <code>stempel()</code>, where it is text from the printer’s case, the grotesk by default.</p>
+<p>Pass the material and its position to draw it directly. The library makes the geometry, cuts or raster image it needs. <a href="bauteile.html">Bauteile</a> shows one short sketch for each operation. A string means geometric letters in every call except <code>stempel()</code>, where it is text from the printer's case, the grotesk by default.</p>
 <pre>Merz.satz('R', 150, 100);
 Merz.bauteile('R', 150, 100);
 Merz.bauteil('R', 'bowl', 150, 100);
@@ -92,7 +92,7 @@ Merz.riss('R', 150, 100);
 Merz.andruck('R', 150, 100);</pre>
 <p>Each line is a separate drawing. Geometric letters default to size 100 and black. The oval fits the source bounds. Riss and andruck use their fixed default amounts and seeds. <code>ausschnitt()</code>, <code>schnitt()</code> and <code>splitter()</code> need an explicit cut, so they always return fragments; draw those with <code>stempel()</code>. Coordinates place the geometry origin or the top-left of the cut output; ordinary text stamps use a baseline.</p>
 <p>Options come after x and y, when you need them: <code>Merz.riss('R', 150, 100, { size: 160, color: Merz.farbe.rot })</code>. Color, angle and scale apply to placement; size, weight, proportion, spacing and leading apply when making letters. Riss also accepts amount and seed; andruck accepts ink, paper and seed. In instance mode, pass the p5 instance or graphics buffer last, with or without options: <code>Merz.riss('R', 150, 100, p)</code>.</p>
-<p>Direct calls return the number of pieces drawn. They also accept prepared geometry, images and fragments for cutting and surface operations. Without drawing coordinates, the calls below return their usual editable data or images. Keep those when you want to reuse material, choose exact cuts or export composition geometry. Direct raster operations process the source on each call; draw static results in setup().</p>
+<p>Direct calls return the number of pieces drawn and also accept prepared geometry, images and fragments. Without x and y, the same calls return their data or images, for reuse, exact cuts or export. Raster results are made on each call; draw them in setup().</p>
 <h2 id="settings">The default colo(u)rs</h2>
 <p>p5.merz includes five colours, ready to use through <code>Merz.farbe</code>. <code>grau</code> is the background colour at index 0.</p>
 <ul class="palette-swatches" aria-label="Default library colours">
