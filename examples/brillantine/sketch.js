@@ -10,10 +10,10 @@ function setup() {
 
   // Two small lines between rules, then the heavy headline filling two boxes.
   Merz.stempel(['BRILLANTINE. ESSENZ FÜR DAS HAAR.', 'FORM. GLANZ. EIN WENIG GENÜGT.'], 30, 37,
-    { size: 11, leading: 27, rule: { weight: 3, after: true } }, bogen);
-  Merz.stempel('BRILL', 26, 286, { width: 540, height: 175 }, bogen);
-  Merz.stempel('ANTINE', 29, 421, { width: 508, height: 111 }, bogen);
-  Merz.stempel('04', 25, 562, { size: 122 }, bogen);
+    { size: 11, weight: 700, leading: 27, rule: { weight: 3, after: true } }, bogen);
+  Merz.stempel('BRILL', 26, 286, { weight: 900, stretch: 75, width: 540, height: 175 }, bogen);
+  Merz.stempel('ANTINE', 29, 421, { weight: 900, stretch: 75, width: 508, height: 111 }, bogen);
+  Merz.stempel('04', 25, 562, { size: 122, weight: 900 }, bogen);
 
   // A small bottle as a marginal illustration, with a geometric B on its label.
   bogen.push(); bogen.translate(48, 603); bogen.rotate(-0.13); bogen.scale(0.34);
@@ -27,15 +27,15 @@ function setup() {
   bogen.pop();
 
   // Product notes, a framed quotation and a vertical reference.
-  Merz.stempel('ESSENZ — 50 ml', 339, 472, { size: 13, font: 'Arial' }, bogen);
+  Merz.stempel('ESSENZ — 50 ml', 339, 472, { size: 13, weight: 400 }, bogen);
   bogen.fill(farbe.rot); bogen.rect(342, 486, 224, 7);
   bogen.noFill(); bogen.stroke(farbe.schwarz); bogen.strokeWeight(5); bogen.rect(235, 523, 331, 76); bogen.noStroke();
-  Merz.stempel('Nichts ist Zufall.', 249, 554, { size: 26 }, bogen);
-  Merz.stempel('Ein wenig genügt. Form und Glanz.', 250, 579, { size: 12, font: 'Arial' }, bogen);
-  Merz.stempel('ESSENZ / BRILLANTINE / NR. 04', 580, 426, { size: 9, font: 'monospace', angle: -90 }, bogen);
-  Merz.stempel('FORM UND GLANZ', 132, 661, { size: 23 }, bogen);
-  Merz.stempel('BRILLANTINE / ESSENZ / NR. 04', 132, 684, { size: 12 }, bogen);
-  Merz.stempel('50 ml. Ein wenig genügt.', 132, 702, { size: 10, font: 'Arial' }, bogen);
+  Merz.stempel('Nichts ist Zufall.', 249, 554, { size: 26, weight: 900 }, bogen);
+  Merz.stempel('Ein wenig genügt. Form und Glanz.', 250, 579, { size: 12, weight: 400 }, bogen);
+  Merz.stempel('ESSENZ / BRILLANTINE / NR. 04', 580, 426, { size: 9, weight: 500, spacing: 1, angle: -90 }, bogen);
+  Merz.stempel('FORM UND GLANZ', 132, 661, { size: 23, weight: 900 }, bogen);
+  Merz.stempel('BRILLANTINE / ESSENZ / NR. 04', 132, 684, { size: 12, weight: 700 }, bogen);
+  Merz.stempel('50 ml. Ein wenig genügt.', 132, 702, { size: 10, weight: 400 }, bogen);
   describe('An imagined Brillantine advertisement: tall heavy black lettering, a large 04, a small bottle and a framed quotation.');
 }
 function draw() {

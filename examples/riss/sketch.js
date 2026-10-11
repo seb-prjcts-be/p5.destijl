@@ -20,7 +20,7 @@ function setup() {
   // A torn letter drawn directly, a row of forks and three spaced lines.
   Merz.riss('K', 60, 320, { size: 200, amount: 0.5, seed: 2 }, bogen);
   Merz.stempel(Merz.bauteil('Y', 'fork', { size: 40, weight: 0.4 }), 60, 590, { repeat: 8, stepX: 44, color: farbe.blau }, bogen);
-  Merz.stempel(['ABFALL', 'KLEBSTOFF', 'MERZBILD'], 60, 680, { size: 14, font: 'monospace', leading: 18, spacing: 6 }, bogen);
+  Merz.stempel(['ABFALL', 'KLEBSTOFF', 'MERZBILD'], 60, 680, { size: 14, weight: 500, stretch: 87, leading: 18, spacing: 6 }, bogen);
   describe('MERZ in four torn and shifted strips, a torn oval piece of an R repeated three times, a large torn K, a row of blue forks and three spaced lines of monospace text.');
 }
 function draw() {

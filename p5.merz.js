@@ -6,13 +6,30 @@
   'use strict';
   const libraryURL = root.document?.currentScript?.src || null;
   let fontReady;
+  // The printer's case: a grotesk in six widths and an antiqua, both variable fonts.
+  const stretchSteps = [62, 75, 87, 100, 112, 125];
+  const nearestStretch = value => stretchSteps.reduce((best, step) => Math.abs(step - value) < Math.abs(best - value) ? step : best);
+  const faces = {
+    grotesk: { file: 'archivo/Archivo-Variable.ttf', family: 'Merz Grotesk', weight: '100 900' },
+    antiqua: { file: 'bodoni-moda/BodoniModa-Variable.ttf', family: 'Merz Antiqua', weight: '400 900' }
+  };
+  function familyFor(font, stretch) {
+    if (font === 'grotesk') return 'Merz Grotesk ' + nearestStretch(stretch);
+    if (font === 'antiqua') return 'Merz Antiqua';
+    return font;
+  }
   function ready(options = {}) {
     if (fontReady) return fontReady;
-    const url = options.fontURL || (libraryURL ? new URL('assets/fonts/archivo-black/ArchivoBlack-Regular.ttf', libraryURL).href : null);
-    if (!url) return Promise.reject(new Error('Merz.ready needs fontURL when the library has no script URL'));
+    if (!options || typeof options !== 'object') return Promise.reject(new TypeError('ready options must be an object'));
+    const base = options.fontsURL || (libraryURL ? new URL('assets/fonts/', libraryURL).href : null);
+    if (!base) return Promise.reject(new Error('Merz.ready needs fontsURL, the folder with archivo/ and bodoni-moda/, when the library has no script URL'));
     if (!root.FontFace || !root.document?.fonts) return Promise.reject(new Error('Merz.ready needs browser font loading'));
-    fontReady = new root.FontFace('Archivo Black', 'url(' + JSON.stringify(String(url)) + ')').load().then(face => {
-      root.document.fonts.add(face);
+    const list = [...stretchSteps.map(step => [faces.grotesk.family + ' ' + step, faces.grotesk.file, { weight: faces.grotesk.weight, stretch: step + '%' }]),
+      [faces.antiqua.family, faces.antiqua.file, { weight: faces.antiqua.weight }]];
+    fontReady = Promise.all(list.map(([family, file, descriptors]) =>
+      new root.FontFace(family, 'url(' + JSON.stringify(new URL(file, base).href) + ')', descriptors).load()
+    )).then(loaded => {
+      for (const face of loaded) root.document.fonts.add(face);
     }).catch(error => { fontReady = null; throw error; });
     return fontReady;
   }
@@ -991,8 +1008,10 @@
       const segments=items.filter(isSegment);
       if(segments.length&&segments.length!==items.length)throw new TypeError('Use strings for lines or segments for one line, not both');
       for(const segment of segments){
-        for(const key of Object.keys(segment))if(!['text','size','font','color','spacing','width','height'].includes(key))throw new RangeError('Unknown segment option: '+key);
+        for(const key of Object.keys(segment))if(!['text','size','font','weight','stretch','color','spacing','width','height'].includes(key))throw new RangeError('Unknown segment option: '+key);
         if(segment.size!==undefined)number(segment.size,'segment size',.001);
+        if(segment.weight!==undefined&&(number(segment.weight,'segment weight',100)>900))throw new RangeError('segment weight must be between 100 and 900');
+        if(segment.stretch!==undefined&&(number(segment.stretch,'segment stretch',62)>125))throw new RangeError('segment stretch must be between 62 and 125');
         if(segment.font!==undefined&&(typeof segment.font!=='string'||!segment.font.trim()))throw new TypeError('segment font must be a font family name');
         if(segment.color!==undefined)colour(segment.color);
         if(segment.spacing!==undefined)number(segment.spacing,'segment spacing');
@@ -1030,12 +1049,16 @@
     }
     const copies=expanded.map(item=>{
       if(!item||typeof item!=='object')throw new TypeError('Each placement needs x and y');
-      for(const key of Object.keys(item))if(!(isText?['x','y','angle','scale','color','size','font','rows','leading','spacing','width','height','rule','align','gap']:['x','y','angle','scale','color']).includes(key))throw new RangeError('Unknown placement option: '+key);
+      for(const key of Object.keys(item))if(!(isText?['x','y','angle','scale','color','size','font','weight','stretch','rows','leading','spacing','width','height','rule','align','gap']:['x','y','angle','scale','color']).includes(key))throw new RangeError('Unknown placement option: '+key);
       const textOptions={};
       if(isText){
         textOptions.size=number(item.size??32,'size',.001);
-        textOptions.font=item.font??'Archivo Black';
-        if(typeof textOptions.font!=='string'||!textOptions.font.trim())throw new TypeError('font must be a font family name');
+        textOptions.font=item.font??'grotesk';
+        if(typeof textOptions.font!=='string'||!textOptions.font.trim())throw new TypeError('font must be grotesk, antiqua or a loaded font family name');
+        textOptions.weight=number(item.weight??800,'weight',100);
+        if(textOptions.weight>900)throw new RangeError('weight must be between 100 and 900');
+        textOptions.stretch=number(item.stretch??100,'stretch',62);
+        if(textOptions.stretch>125)throw new RangeError('stretch must be between 62 and 125');
         textOptions.rows=item.rows??1;
         if(!Number.isSafeInteger(textOptions.rows)||textOptions.rows<1||textOptions.rows>1024)throw new RangeError('rows must be a whole number from 1 to 1024');
         textOptions.leading=number(item.leading??textOptions.size*1.2,'leading',.001);
@@ -1075,11 +1098,11 @@
           const stretches=item.height!==undefined||lines.some(line=>line.some(segment=>segment.height!==undefined));
           if((stretches||item.rule)&&typeof p.textBounds!=='function')throw new TypeError('height and rule need text measurement from p5.js 2.x');
           const all=[];for(let row=0;row<item.rows;row++)all.push(...lines);
-          const setFont=segment=>{p.textFont(segment.font);p.textSize(segment.size);};
+          const setFont=segment=>{p.textFont(familyFor(segment.font,segment.stretch));p.textSize(segment.size);if(typeof p.textWeight==='function')p.textWeight(segment.weight);};
           // Measure every segment first, then draw rules under the text.
           const layout=all.map((line,i)=>{
             const segments=line.map(raw=>{
-              const segment={text:raw.text,size:raw.size??item.size,font:raw.font??item.font,color:raw.color??item.color,spacing:raw.spacing??(raw.width!==undefined?0:item.spacing),width:raw.width,height:raw.height};
+              const segment={text:raw.text,size:raw.size??item.size,font:raw.font??item.font,weight:raw.weight??item.weight,stretch:raw.stretch??item.stretch,color:raw.color??item.color,spacing:raw.spacing??(raw.width!==undefined?0:item.spacing),width:raw.width,height:raw.height};
               if(line.length===1&&segment.width===undefined&&item.width!==undefined){segment.width=item.width;segment.height=item.height;}
               setFont(segment);
               if(segment.height!==undefined){
@@ -1101,7 +1124,7 @@
             return {y:i*item.leading,segments,gap,width,start};
           });
           if(item.rule){
-            p.textFont(item.font);p.textSize(item.size);
+            setFont(item);
             const cap=item.height??p.textBounds('H',0,0).h,span=item.width??Math.max(...layout.map(row=>row.width));
             const left=item.align==='right'?-span:item.align==='center'?-span/2:0;
             const slots=[];

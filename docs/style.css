@@ -1,6 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
 @import url("prose.css?v=2");
-@font-face { font-family: "Archivo Black"; src: url("../assets/fonts/archivo-black/ArchivoBlack-Regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("../assets/fonts/archivo/Archivo-Variable.ttf") format("truetype"); font-style: normal; font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
 h1, h2, h3, h4, h5, h6 { text-transform: uppercase; }
 :root{--paper:#f7f7f2;--site:#f1f1ed;--ink:#20201e;--red:#b92d26;--blue:#234b92;--yellow:#e8bb32;--muted:#62625b;--line:#d2d2c9}
 .study-nav{display:flex;justify-content:flex-end;gap:18px;flex-wrap:wrap;padding:12px 4vw;border-bottom:1px solid var(--line);font-size:14px}.study-nav a[aria-current]{font-weight:bold;text-decoration-thickness:2px}
@@ -39,14 +38,14 @@ h1, h2, h3, h4, h5, h6 { text-transform: uppercase; }
 }
 
 /* Shared reading conventions; artwork keeps its own drawing settings. */
-body { font-family: "Inter", "Segoe UI", system-ui, sans-serif; }
-h1, h2, .brand { font-family: "Archivo Black", Arial, sans-serif; font-weight: 400; }
+body { font-family: "Archivo", "Segoe UI", system-ui, sans-serif; }
+h1, h2, .brand { font-family: "Archivo", Arial, sans-serif; font-weight: 900; }
 pre, code { font-family: Consolas, "Courier New", monospace; }
 button, input, textarea, select { font-family: inherit; }
 
 .example-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
 .example-grid article { min-width:0; }
-.example-grid h3 { font-family:"Archivo Black",Arial,sans-serif; font-weight:400; }
+.example-grid h3 { font-family:"Archivo",Arial,sans-serif; font-weight:900; }
 .sketch-preview .source-comparison, .sketch-preview main>h2 { display:none; }
 @media(max-width:760px) { .example-grid { grid-template-columns:1fr; } }
 

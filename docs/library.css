@@ -1,5 +1,5 @@
 @import url('../experiments/shared/studies.css?v=site-warm-1');
-.about-page h2 { font-family: "Archivo Black", Arial, sans-serif; font-weight: 400; text-transform: none; }
+.about-page h2 { font-family: "Archivo", Arial, sans-serif; font-weight: 900; text-transform: none; }
 .palette-swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 18px; padding: 0; margin: 24px 0; list-style: none; }
 .palette-swatches li { display: flex; flex-direction: column; gap: 4px; font-family: inherit; font-size: 14px; }
 .palette-swatch { display: block; height: 80px; margin-bottom: 6px; background: var(--swatch); border: 1px solid var(--line); }

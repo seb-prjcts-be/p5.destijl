@@ -5,7 +5,7 @@ let baseline, linesBaseline;
 for (const file of ['p5.merz.js', 'p5.merz.min.js']) {
   const calls = [];
   const p = {};
-  for (const name of ['push','pop','applyMatrix','noFill','stroke','strokeCap','strokeJoin','strokeWeight','beginShape','vertex','endShape','noStroke','fill','textFont','textSize','textStyle','textAlign','textLeading','text','rect','rectMode','translate','scale']) p[name] = (...args) => calls.push([name,...args]);
+  for (const name of ['push','pop','applyMatrix','noFill','stroke','strokeCap','strokeJoin','strokeWeight','beginShape','vertex','endShape','noStroke','fill','textFont','textSize','textWeight','textStyle','textAlign','textLeading','text','rect','rectMode','translate','scale']) p[name] = (...args) => calls.push([name,...args]);
   // Ten units per character; a seven-unit cap height with a one-unit left bearing.
   p.textWidth = s => { calls.push(['textWidth', s]); return s.length * 10; };
   p.textBounds = s => { calls.push(['textBounds', s]); return { x: 1, y: -7, w: s.length * 10, h: 7 }; };
@@ -29,7 +29,8 @@ for (const file of ['p5.merz.js', 'p5.merz.min.js']) {
   calls.length=0;
   assert.equal(m.stempel('rrrt',{x:28,y:98,size:105,color:'#b92d26',rows:4,leading:20},p),1);
   assert.deepEqual(calls.filter(c=>c[0]==='text'),[['text','rrrt',0,0],['text','rrrt',0,20],['text','rrrt',0,40],['text','rrrt',0,60]]);
-  assert.ok(calls.some(c=>c[0]==='textFont'&&c[1]==='Archivo Black'));
+  assert.ok(calls.some(c=>c[0]==='textFont'&&c[1]==='Merz Grotesk 100'));
+  assert.ok(calls.some(c=>c[0]==='textWeight'&&c[1]===800));
   assert.equal(calls.at(-1)[0],'pop');
   calls.length=0;
   assert.throws(()=>m.stempel('x',[{x:0,y:0},{x:0,y:0,rows:1.5}],p));
@@ -121,7 +122,22 @@ for (const file of ['p5.merz.js', 'p5.merz.min.js']) {
   calls.length=0; m.stempel('A',0,0,{leading:40,rule:{after:true}},p);
   assert.deepEqual(calls.filter(c=>c[0]==='rect').map(c=>c[2]),[14.5]);
   for(const source of [['A',{text:'B'}],[{text:'A',colour:'#ffffff'}],[{text:'A',height:5}],[{text:'A',width:10,spacing:1}],[{word:'A'}]])assert.throws(()=>m.stempel(source,0,0,p));
-  for(const options of [{align:'top'},{gap:NaN},{rule:{before:1}}])assert.throws(()=>m.stempel('AB',0,0,options,p));
+  for(const options of [{align:'top'},{gap:NaN},{rule:{before:1}},{weight:50},{weight:901},{stretch:61},{stretch:126},{font:''}])assert.throws(()=>m.stempel('AB',0,0,options,p));
+  // The printer's case: grotesk widths snap to six steps, antiqua is one face, other families pass through.
+  const family=(options)=>{calls.length=0;m.stempel('A',0,0,options,p);return calls.find(c=>c[0]==='textFont')[1];};
+  assert.equal(family({}),'Merz Grotesk 100');
+  assert.equal(family({stretch:62}),'Merz Grotesk 62');
+  assert.equal(family({stretch:70}),'Merz Grotesk 75');
+  assert.equal(family({stretch:120}),'Merz Grotesk 125');
+  assert.equal(family({stretch:118}),'Merz Grotesk 112');
+  assert.equal(family({font:'antiqua',stretch:62}),'Merz Antiqua');
+  assert.equal(family({font:'Georgia'}),'Georgia');
+  calls.length=0; m.stempel([{text:'8',font:'antiqua',weight:500},{text:'MERZ',stretch:62}],0,0,{weight:900},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='textFont').map(c=>c[1]).slice(-2),['Merz Antiqua','Merz Grotesk 62']);
+  assert.deepEqual(calls.filter(c=>c[0]==='textWeight').map(c=>c[1]).slice(-2),[500,900]);
+  const noWeight={...p};delete noWeight.textWeight;
+  assert.equal(m.stempel('A',0,0,noWeight),1); // p5 without textWeight still draws.
+  for(const segment of [{text:'A',weight:0},{text:'A',stretch:200}])assert.throws(()=>m.stempel([segment],0,0,p));
   calls.length=0; m.stempel(['A','BCD'],5,6,{rule:true,width:120,leading:40},p);
   const linesResult=JSON.stringify(calls); if(linesBaseline)assert.equal(linesResult,linesBaseline); linesBaseline=linesResult;
 }

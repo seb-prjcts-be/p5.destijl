@@ -14,7 +14,7 @@ This library and its language reflect the vocabulary Kurt Schwitters used to doc
 ## Using the library
 
 Load p5.js, then p5.merz.js or its min-build, then your sketch.
-Text stamps use Archivo Black, loaded before setup() in p5.js 2.x. Keep `assets/fonts/` next to the library file.
+Text stamps come from a printer's case of two bundled fonts, loaded before setup() in p5.js 2.x: Archivo as the grotesk, in six widths and every weight, and Bodoni Moda as the antiqua for numerals and contrast. Keep `assets/fonts/` next to the library file.
 Use the Merz API. p5.merz.js is the source of truth; the build regenerates
 the min-build.
 
@@ -173,7 +173,7 @@ spacing, SVG, renderer settings and repeatable ink coverage. Source and
 min-build produce the same SVG. The bundled p5.js 2.3.4 has its own licence.
 The library code uses the MIT licence. The facsimiles and derived samples in `assets/fundsachen/` are excluded from that licence. They come from Merz 2 and Merz 8/9, held by the International Dada Archive, University of Iowa Libraries. See [source credits and reuse notes](assets/fundsachen/SOURCES.md). The Merz 2 reuse record remains to be verified.
 
-Archivo Black by Omnibus-Type is bundled under the [SIL Open Font License](assets/fonts/archivo-black/OFL.txt).
+The printer's case is bundled under the SIL Open Font License: [Archivo](assets/fonts/archivo/README.md) by Omnibus-Type and [Bodoni Moda](assets/fonts/bodoni-moda/README.md) by Owen Earl, both taken unmodified from the [Google Fonts repository](https://github.com/google/fonts). Our thanks to both designers and to the Google Fonts project for keeping these faces free and available.
 
 ## Sources
 

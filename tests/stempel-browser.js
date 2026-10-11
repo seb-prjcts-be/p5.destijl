@@ -1,6 +1,7 @@
 function setup() {
   createCanvas(300, 240); pixelDensity(1); noLoop();
-  const results = [['Archivo Black loaded before setup', Array.from(document.fonts).some(face => face.family.replaceAll('"', '') === 'Archivo Black' && face.status === 'loaded')]];
+  const loaded = name => Array.from(document.fonts).some(face => face.family.replaceAll('"', '') === name && face.status === 'loaded');
+  const results = [['printer case loaded before setup', loaded('Merz Grotesk 100') && loaded('Merz Grotesk 62') && loaded('Merz Antiqua')]];
   const word = Merz.satz('M', {size:50});
   const bowl = Merz.bauteile('R',{size:40})[0];
   const piece = Merz.ausschnitt(word, 0, 0, 50, 50);
@@ -28,9 +29,15 @@ function setup() {
   results.push(['width and height fill the ink box', Math.abs(stretched.w-200)<=2 && Math.abs(stretched.h-60)<=2 && Math.abs(stretched.x0-10)<=1 && Math.abs(stretched.y1-79)<=1]);
   g2.clear(); Merz.stempel(['AB','CD'],10,40,{leading:50,rule:{weight:6,color:'#b92d26'}},g2);
   const d2=g2.drawingContext.getImageData(0,0,300,120).data; const at=(x,y)=>d2.slice((y*300+x)*4,(y*300+x)*4+4);
-  g2.textFont('Archivo Black'); g2.textSize(32); const cap=g2.textBounds('H',0,0).h; const mid=at(12,Math.round(40+(50-cap)/2));
+  g2.textFont('Merz Grotesk 100'); g2.textSize(32); g2.textWeight(800); const cap=g2.textBounds('H',0,0).h; const mid=at(12,Math.round(40+(50-cap)/2));
   results.push(['rule between the lines', mid[0]>150 && mid[1]<90 && mid[3]>0]);
   results.push(['no rule above the first line', at(12,8)[3]===0]);
+  g2.clear(); Merz.stempel('MERZ',10,80,{size:60,stretch:62},g2); const narrow=inkBox();
+  g2.clear(); Merz.stempel('MERZ',10,80,{size:60,stretch:125},g2); const wide=inkBox();
+  results.push(['stretch changes the width', wide.w > narrow.w * 1.4]);
+  g2.clear(); Merz.stempel('8',10,80,{size:60,font:'antiqua',weight:500},g2); const antiqua=inkBox();
+  g2.clear(); Merz.stempel('8',10,80,{size:60,weight:500},g2); const grotesk=inkBox();
+  results.push(['antiqua differs from grotesk', antiqua.w !== grotesk.w || antiqua.h !== grotesk.h]);
   g2.remove();
   new p5(p=>{p.setup=()=>{
     p.createCanvas(300,240);p.pixelDensity(1);p.noLoop();render(p);

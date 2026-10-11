@@ -22,7 +22,7 @@ async function setup() {
 
   // Our own word in the geometric alphabet, and a note in system text.
   Merz.stempel(Merz.satz('ZWEI', { size: 72, weight: 0.6 }), 36, 640, { color: farbe.rot }, bogen);
-  Merz.stempel(['MERZ 2 / MERZ 8', 'GEFUNDEN, GESCHNITTEN, GESETZT'], 330, 690, { size: 10, font: 'monospace', leading: 15 }, bogen);
+  Merz.stempel(['MERZ 2 / MERZ 8', 'GEFUNDEN, GESCHNITTEN, GESETZT'], 330, 690, { size: 10, weight: 500, spacing: 1, leading: 15 }, bogen);
   describe('A large found numeral 2, four blue found letters descending like stairs, a torn oval boat, a stack of found rules, a pointing hand and the red geometric word ZWEI.');
 }
 function draw() {

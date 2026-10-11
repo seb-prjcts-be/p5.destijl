@@ -17,9 +17,9 @@ function draw() {
   const farbe = Merz.farbe;
 
   Merz.stempel(Merz.satz('M', { size: page.m[2], weight: 0.48 }), page.m[0], page.m[1], { color: farbe.rot });
-  Merz.stempel('Fümms', page.word[0], page.word[1], { size: page.word[2], font: 'Georgia' });
+  Merz.stempel('Fümms', page.word[0], page.word[1], { size: page.word[2], weight: 900, stretch: 62 });
   for (let i = 0; i < 5; i++) {
-    Merz.stempel('m', page.row[0] + i * 34.4, page.row[1] - i * 6.3, { size: 15 + i * 5, font: 'monospace', angle: -10.3 });
+    Merz.stempel('m', page.row[0] + i * 34.4, page.row[1] - i * 6.3, { size: 15 + i * 5, weight: 500, angle: -10.3 });
   }
   Merz.stempel(Merz.bauteil('Y', 'fork', { size: 35, weight: 0.4 }), page.forks[0], page.forks[1], { repeat: 5, stepX: 34 });
   stroke(farbe.schwarz); strokeWeight(2);

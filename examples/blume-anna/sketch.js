@@ -13,8 +13,8 @@ function draw() {
 }
 // The page is drawn once on the sheet. Change a word, a position or the curve here.
 function compose(g) {
-  Merz.stempel('Die Blume Anna', 142, 442, { size: 43, font: 'Georgia', angle: -90 }, g);
-  Merz.stempel('Die neue Anna Blume', 218, 442, { size: 32, font: 'Georgia', angle: -90 }, g);
+  Merz.stempel('Die Blume Anna', 142, 442, { size: 43, weight: 700, angle: -90 }, g);
+  Merz.stempel('Die neue Anna Blume', 218, 442, { size: 32, weight: 500, angle: -90 }, g);
   g.noFill(); g.stroke(Merz.farbe.schwarz); g.strokeWeight(49); g.strokeCap(ROUND);
   g.bezier(332, 44, 545, 159, 470, 348, 305, 466);
   g.noStroke(); g.fill(Merz.farbe.schwarz);
@@ -23,8 +23,8 @@ function compose(g) {
   }
   for (let i = 0; i < 20; i++) g.rect(45 + i * 18, 531, 10, 45);
   g.rect(191, 590, 79, 16);
-  Merz.stempel('Kurt Merz Schwitters', 515, 485, { size: 22, font: 'Georgia', angle: -90 }, g);
-  Merz.stempel('Die Blume Anna', 44, 665, { size: 43, font: 'Georgia' }, g);
-  Merz.stempel('Die neue Anna Blume', 171, 699, { size: 23, font: 'Georgia' }, g);
-  Merz.stempel('WORT / FORM / WIEDERHOLUNG', 240, 729, { size: 9, font: 'monospace' }, g);
+  Merz.stempel('Kurt Merz Schwitters', 515, 485, { size: 22, weight: 500, angle: -90 }, g);
+  Merz.stempel('Die Blume Anna', 44, 665, { size: 43, weight: 700 }, g);
+  Merz.stempel('Die neue Anna Blume', 171, 699, { size: 23, weight: 500 }, g);
+  Merz.stempel('WORT / FORM / WIEDERHOLUNG', 240, 729, { size: 9, weight: 500, spacing: 1 }, g);
 }
