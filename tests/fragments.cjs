@@ -84,6 +84,11 @@ for (const file of ["p5.merz.js", "p5.merz.min.js"]) {
     ])
   );
   assert.throws(() => api.schnitt({}, outline));
+  // A fragment can be cut again; the new cut starts from its source material.
+  const strip = api.ausschnitt(word, 10, 0, 200, 80);
+  assert.equal(JSON.stringify(api.rundschnitt(strip, 10, 0, 200, 80).outline()), JSON.stringify(api.rundschnitt(word, 10, 0, 200, 80).outline()));
+  assert.equal(JSON.stringify(api.splitter(strip, { rows: 2 }).map(p => [p.x, p.y, p.width, p.height])), JSON.stringify([[10, 0, 200, 40], [10, 40, 200, 40]]));
+  assert.equal(JSON.stringify(api.ausschnitt(api.riss(strip, { amount: 0.5 }), 10, 0, 200, 80).outline()), JSON.stringify(strip.outline()));
   const result = JSON.stringify(
     [api.riss(api.schnitt(api.satz("A"), outline), { amount: 0.8, seed: 42 }).outline(),
      api.riss(api.rundschnitt(api.satz("A"), 0, 0, 180, 120), { amount: 0.8, seed: 42 }).outline(),

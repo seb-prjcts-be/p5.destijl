@@ -1124,7 +1124,8 @@
     const rows = options.rows ?? 1, columns = options.columns ?? 1;
     if (![rows, columns].every(n => Number.isSafeInteger(n) && n >= 1) || rows * columns > 1024) throw new RangeError('splitter needs positive whole counts, at most 1024 pieces');
     let x = 0, y = 0, width = source?.width, height = source?.height;
-    if (Array.isArray(source?.paths) || Array.isArray(source) || width === undefined || height === undefined) {
+    if (fragmentData.has(source)) { x = source.x; y = source.y; }
+    else if (Array.isArray(source?.paths) || Array.isArray(source) || width === undefined || height === undefined) {
       const paths = Array.isArray(source) ? source.flatMap(bauteil => bauteil?.paths || []) : source?.paths;
       if (!Array.isArray(paths) || !paths.length) throw new TypeError('splitter needs an image, geometry or letter parts');
       let right = -Infinity, bottom = -Infinity;
@@ -1180,7 +1181,9 @@
     }
     const paths = Array.isArray(source) ? source.flatMap(bauteil => bauteil.paths || []) : source && source.paths;
     let material;
-    if (paths) {
+    // A fragment can be cut again; the new cut starts from its source material.
+    if (fragmentData.has(source)) material = fragmentData.get(source).material;
+    else if (paths) {
       if (!paths.length || paths.some(path => !Number.isFinite(path.width) || path.width <= 0 || !Array.isArray(path.points) || path.points.length < 2 || path.points.some(point => !Array.isArray(point) || point.length !== 2 || !point.every(Number.isFinite)))) throw new TypeError('source needs valid paths');
       material = { paths: copy(paths) };
     } else if (source && typeof source.get === 'function' && source.width > 0 && source.height > 0) {
