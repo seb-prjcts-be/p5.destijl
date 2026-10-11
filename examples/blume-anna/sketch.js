@@ -1,12 +1,28 @@
 // A new cover composition after the supplied Die Blume Anna cover.
 // The curve and bars are redrawn with p5; this is not a facsimile.
-const pageDescription = 'Two vertical Anna Blume titles beside a sweeping black curve, a corner of repeated bars and a compact footer.';
+let paper, ink;
+function setup() {
+  createCanvas(600, 760).parent('drawing');
+  pixelDensity(1); noLoop();
+  const ground = createGraphics(width, height); ground.pixelDensity(1);
+  ground.background(Merz.farbe.grau);
+  paper = Merz.andruck(ground, { ink: 0, paper: 0.3, seed: 41 }); ground.remove();
+  const layer = createGraphics(width, height); layer.pixelDensity(1); layer.clear();
+  compose(layer);
+  ink = Merz.andruck(layer, { ink: 0.22, paper: 0, seed: 17 }); layer.remove();
+  describe('Two vertical Anna Blume titles beside a sweeping black curve, a corner of repeated bars and a compact footer.');
+}
+function draw() {
+  image(paper, 0, 0);
+  image(ink, 0, 0);
+}
+// The page is drawn once on a transparent ink layer. Change a word, a position or the curve here.
 function compose(g) {
   Merz.stempel('Die Blume Anna', 142, 442, { size: 43, font: 'Georgia', angle: -90 }, g);
   Merz.stempel('Die neue Anna Blume', 218, 442, { size: 32, font: 'Georgia', angle: -90 }, g);
-  g.noFill(); g.stroke('#20201e'); g.strokeWeight(49); g.strokeCap(ROUND);
+  g.noFill(); g.stroke(Merz.farbe.schwarz); g.strokeWeight(49); g.strokeCap(ROUND);
   g.bezier(332, 44, 545, 159, 470, 348, 305, 466);
-  g.noStroke(); g.fill('#20201e');
+  g.noStroke(); g.fill(Merz.farbe.schwarz);
   for (let i = 0; i < 23; i++) {
     g.push(); g.translate(362, 40 + i * 21); g.rotate(-0.06); g.rect(0, 0, 43, 11); g.pop();
   }

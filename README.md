@@ -56,7 +56,7 @@ function setup() {
   createCanvas(600, 600);
   noLoop();
   work = Merz.create({ width: 600, height: 600 });
-  work.plane(50, 330, 200, 150, { color: Merz.palette.blue });
+  work.plane(50, 330, 200, 150, { color: Merz.farbe.blau });
   work.line(50, 280, 550, 280, { strokeWeight: 8 });
   work.text('FORM', 50, 90, { size: 100 });
 }
