@@ -51,7 +51,7 @@ The sheet is made once in `setup()`; `draw()` prints it. Change a word, a size o
 
 ## Letters and parts
 
-`Merz.satz('MERZ', { size: 100 })` returns the geometric alphabet as paths: our own drawings after Van Doesburg, 26 letters, numerals and punctuation. `Merz.bauteile('R')` returns its named parts, `Merz.bauteil('R', 'bowl')` one of them. Draw them with `stempel()` or with your own `vertex()` loop. [Geometry](https://seb-prjcts-be.github.io/p5.merz/docs/guide.html#geometry).
+`Merz.satz('MERZ', { size: 100 })` returns the geometric alphabet as paths: our own drawings, 26 letters, numerals and punctuation. `Merz.bauteile('R')` returns its named parts, `Merz.bauteil('R', 'bowl')` one of them. Draw them with `stempel()` or with your own `vertex()` loop. [Geometry](https://seb-prjcts-be.github.io/p5.merz/docs/guide.html#geometry).
 
 ## Cut and tear
 
@@ -103,7 +103,7 @@ Version 0.3.0 is prepared here; it has no release tag yet.
 
 ## How this was made
 
-Designed and directed by Sebastien Vanblaere, written with AI assistance; the responsibility is his. The geometric letters come out of studies of Van Doesburg's alphabet; the pages follow the Merz scans at the University of Iowa.
+Designed and directed by Sebastien Vanblaere, written with AI assistance; the responsibility is his. The pages follow the Merz scans at the University of Iowa.
 
 ## Licence and credits
 
