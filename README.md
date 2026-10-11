@@ -2,7 +2,7 @@
 
 [Showcase](https://seb-prjcts-be.github.io/p5.merz/) · [Examples](https://seb-prjcts-be.github.io/p5.merz/docs/examples.html) · [Guide](https://seb-prjcts-be.github.io/p5.merz/docs/guide.html) · [Merzbilder catalogue](https://seb-prjcts-be.github.io/p5.merz/docs/fundsachen.html) · [About](https://seb-prjcts-be.github.io/p5.merz/docs/about.html)
 
-You set a page the way the magazine *Merz* (1923–1932) was set: a sheet of paper, stamps of text from a printer's case, found letters and rules from the scans, pieces cut and torn, red and blue on cream. The library keeps the mechanics, the sheet, the measure, the fonts, the cutting and the surface; you choose every word, size and position in ordinary p5 code.
+You set a page with the means of the magazine *Merz* (1923–1932): a sheet of paper, stamps of text from a printer's case, found letters and rules from the scans, pieces cut and torn, red and blue on cream. The library keeps the mechanics, the sheet, the measure, the fonts, the cutting and the surface; you choose every word, size and position in ordinary p5 code.
 
 The names are Kurt Schwitters' own words for his work: Satz, Bauteile, Schnitt, Riss, Andruck, Stempel, Merzbilder. [About](https://seb-prjcts-be.github.io/p5.merz/docs/about.html) tells where the affection comes from.
 
