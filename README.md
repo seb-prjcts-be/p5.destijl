@@ -26,7 +26,7 @@ function setup() {
   createCanvas(600, 760);
   noLoop();
   const farbe = Merz.farbe;
-  blatt = Merz.andruck({ paper: 0.25, ink: 0.15, seed: 17 });
+  blatt = Merz.andruck({ paper: 0.55, ink: 0.15, seed: 17, color: '#e3d5bd' });
   blatt.stempel('MERZ', 142, 215, { stretch: 62, width: 318, height: 158, color: farbe.blau });
   blatt.stempel('NASCI', 372, 357, { width: 203, height: 44, color: farbe.rot });
   blatt.stempel(['WAS SICH AUS SICH', 'SELBST DURCH EIGENE', 'KRAFT ENTWICKELT'], 165, 401,
@@ -66,10 +66,7 @@ The array runs left to right, then top to bottom. Each piece works with
 
 See [three fragment examples](docs/examples.html#fragment-scan) and the
 [cutting guide](docs/guide.html#fragments).
-`Merz.andruck(image, { ink: 0.12, paper: 0, seed: 17 })` adds quiet surface
-variation to an image or graphics layer. Keep ink and paper on separate layers;
-ordinary p5 code still draws the result. See [Merzbilder](experiments/merz-sheet/)
-and the [surface guide](docs/guide.html#surface).
+`Merz.andruck(image, { ink: 0.12, paper: 0, seed: 17 })` treats an image or graphics layer: ink loses a little coverage, paper gets tonal clouds, fibre-like streaks and grain. At paper 1 the variation matches the covers of Merz 2 and Merz 8/9 measured at 600 pixels wide; their colours are #a08962 and #e3d5bd, and the showcase prints on them. Keep ink and paper on separate layers; ordinary p5 code still draws the result. See the [surface guide](docs/guide.html#surface).
 
 `Merz.andruck({ paper: 0.3, ink: 0.2 })` returns a proof sheet the size of the canvas. Draw on it with p5 or with the calls it carries, then `Merz.stempel(blatt, 0, 0)` prints paper and ink in draw(). See the [sheet guide](docs/guide.html#sheet).
 

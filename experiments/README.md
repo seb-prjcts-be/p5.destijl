@@ -15,7 +15,7 @@ The older studies remain available for comparison. Their local helpers do not de
 | [merz-fragment-route](merz-fragment-route/scan.html) | Current library examples | The same cutting and tearing operations on a scan, a word and a letter part. |
 | [merz-fragments](merz-fragments/) | Earlier sample route, retained | Explicit crops and their source record. Fundsachen now provides numbered samples. |
 | [merz-fundsachen](merz-fundsachen/) | Current library examples | Loading samples by number or name, then placing and treating them. |
-| [merz-material](merz-material/) | Research retained for comparison | Separate paper fields, contours and ink experiments. Its shader studies remain research; library andruck() now uses the CPU. |
+| [merz-material](merz-material/) | Research retained for comparison | Separate paper fields, contours and ink experiments. Its connected paper field is now the paper of andruck(), measured against the covers; the shader ink and contour studies remain research. |
 | [merz-materials](merz-materials/clippings.html) | Composition studies | Scans, syllables and drawn connections. Helpers specific to these drawings remain local. |
 | [merz-pages](merz-pages/) | Composition references | Scale, overlap, reading direction and open space in three clean pages. |
 | [merz-parts](merz-parts/module-parts.html) | Current examples alongside earlier adapters | module-start and module-parts use satz(), bauteil() and stempel(). The adapter and path-index studies show the earlier approach. |
