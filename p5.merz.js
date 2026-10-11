@@ -631,18 +631,18 @@
 ].map(item=>Object.freeze({...item,crop:Object.freeze(item.crop)}));
   // END FUNDSACHEN CATALOGUE
   const foundImages = new WeakMap();
-  async function fundsachen(id, options={}, p=root, width, context=root) {
+  async function merzbilder(id, options={}, p=root, width, context=root) {
     let placement;
     if (typeof options === 'number') {
       placement = { x: number(options, 'x'), y: number(p, 'y'), width: number(width, 'width', 1) };
       options = {}; p = context;
-      if (!p || typeof p.image !== 'function' || typeof p.push !== 'function') throw new TypeError('fundsachen needs a p5 drawing context');
+      if (!p || typeof p.image !== 'function' || typeof p.push !== 'function') throw new TypeError('merzbilder needs a p5 drawing context');
     }
-    if (!options || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('fundsachen options must be an object');
+    if (!options || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('merzbilder options must be an object');
     const key=typeof id==='number'&&Number.isInteger(id)?String(id).padStart(3,'0'):id;
     const item=foundItems.find(item=>item.id===key||item.name===key);
     if(!item)throw new RangeError('Unknown Fundsachen item: '+id);
-    if(!p||typeof p.loadImage!=='function')throw new TypeError('fundsachen needs a p5 instance or globalThis');
+    if(!p||typeof p.loadImage!=='function')throw new TypeError('merzbilder needs a p5 instance or globalThis');
     for(const key of Object.keys(options))if(!['baseURL','url','variant'].includes(key))throw new RangeError('Unknown Fundsachen option: '+key);
     const variant=options.variant??'ink';
     if(!['ink','scan','svg'].includes(variant))throw new RangeError('variant must be ink, scan or svg');
@@ -669,8 +669,8 @@
     }
     return ausschnitt(image, 0, 0, image.width, image.height);
   }
-  fundsachen.list=()=>foundItems.map(item=>({...item,crop:[...item.crop]}));
-  Object.freeze(fundsachen);
+  merzbilder.list=()=>foundItems.map(item=>({...item,crop:[...item.crop]}));
+  Object.freeze(merzbilder);
   const L=.5,R=4.5,M=2.5,path=(...points)=>points;
   const glyphs = {
     A:[path([L,R],[L,L],[R,L],[R,R]),path([L,M],[R,M])],
@@ -1341,6 +1341,6 @@
     satz:drawingCall('satz',satz),bauteile:drawingCall('bauteile',bauteile),bauteil:drawingCall('bauteil',bauteil),
     ausschnitt:drawingCall('ausschnitt',ausschnitt),rundschnitt:drawingCall('rundschnitt',rundschnitt),
     splitter:drawingCall('splitter',splitter),schnitt:drawingCall('schnitt',schnitt),riss:drawingCall('riss',riss),
-    andruck:drawingCall('andruck',andruck),stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
+    andruck:drawingCall('andruck',andruck),stempel,merzbilder,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
   root.MerzComposition=MerzComposition;
 })(globalThis);

@@ -3,14 +3,14 @@ async function setup() {
   const canvas = createCanvas(600, 760);
   if (document.getElementById('drawing')) canvas.parent('drawing');
   pixelDensity(1); noLoop();
-  const m = await Merz.fundsachen('001');
+  const m = await Merz.merzbilder('001');
   // A name works here too.
-  const r = await Merz.fundsachen('merz-2-cover-r');
-  const rule = await Merz.fundsachen('003');
+  const r = await Merz.merzbilder('merz-2-cover-r');
+  const rule = await Merz.merzbilder('003');
   background(Merz.farbe.grau);
-  await Merz.fundsachen('001', 40, 50, 140);
+  await Merz.merzbilder('001', 40, 50, 140);
   push(); translate(320, 330); rotate(radians(8));
-  await Merz.fundsachen('001', 0, 0, 105);
+  await Merz.merzbilder('001', 0, 0, 105);
   pop();
   Merz.stempel(Merz.riss(r, { amount: 0.2, seed: 17 }), [{ x: 250, y: 90, scale: 2.4, angle: -8 }]);
   const lines = [];

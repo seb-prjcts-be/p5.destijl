@@ -4,7 +4,7 @@ async function setup() {
   if (document.getElementById('drawing')) canvas.parent('drawing');
   pixelDensity(1); noLoop();
   const [nasci, eight, nine, hand, rule, kraft] = await Promise.all(
-    ['022', '020', '021', '026', '025', '024'].map(id => Merz.fundsachen(id))
+    ['022', '020', '021', '026', '025', '024'].map(id => Merz.merzbilder(id))
   );
   const paper = createGraphics(width, height);
   paper.pixelDensity(1);

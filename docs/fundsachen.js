@@ -1,4 +1,4 @@
-const items = Merz.fundsachen.list();
+const items = Merz.merzbilder.list();
 const grid = document.getElementById('catalogue');
 const icons = {
   download: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>',
@@ -15,8 +15,8 @@ function selectedFile(item) {
 function snippetFor(item) {
   const local = document.getElementById('usage').value === 'download';
   const variant=selectedVariant(item);
-  if (!local && variant === 'ink') return `await Merz.fundsachen('${item.id}', 40, 40, 140);`;
-  return `const piece = await Merz.fundsachen('${item.name}'${local ? `, {\n  url: '${selectedFile(item)}'\n}` : variant==='ink'?'':`, { variant: '${variant}' }`});\nMerz.stempel(piece, [{ x: 40, y: 40 }]);`;
+  if (!local && variant === 'ink') return `await Merz.merzbilder('${item.id}', 40, 40, 140);`;
+  return `const piece = await Merz.merzbilder('${item.name}'${local ? `, {\n  url: '${selectedFile(item)}'\n}` : variant==='ink'?'':`, { variant: '${variant}' }`});\nMerz.stempel(piece, [{ x: 40, y: 40 }]);`;
 }
 for (const item of items) {
   const card = document.createElement('section');

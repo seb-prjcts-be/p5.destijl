@@ -47,7 +47,7 @@ See [three fragment examples](docs/examples.html#fragment-scan) and the
 [cutting guide](docs/guide.html#fragments).
 `Merz.andruck(image, { ink: 0.12, paper: 0, seed: 17 })` adds quiet surface
 variation to an image or graphics layer. Keep ink and paper on separate layers;
-ordinary p5 code still draws the result. See [Fundsachen](experiments/merz-sheet/)
+ordinary p5 code still draws the result. See [Merzbilder](experiments/merz-sheet/)
 and the [surface guide](docs/guide.html#surface).
 
 ```js
@@ -113,19 +113,19 @@ For a custom palette, use `const farbe = Merz.settings({ rot: '#c4382d', grau: '
 The order is grau, rot, schwarz, blau, gelb (indices 0–4).
 Keep `farbe` outside setup when draw() also uses it.
 
-## Fundsachen
+## Merzbilder
 
 Draw a sample directly in async setup():
 
 ```js
-await Merz.fundsachen('001', 40, 60, 140);
+await Merz.merzbilder('001', 40, 60, 140);
 ```
 
 The last value is its width; proportions are preserved. Loading is handled by the library.
 
-Browse the [sample catalogue](docs/fundsachen.html), then load a fragment with `await Merz.fundsachen('001')` or its name, `merz-2-cover-m`. Use it with `riss()` and `stempel()`. The catalogue contains 28 letters, numbers, words, rules and images from Merz 2 and Merz 8/9. Each entry has a transparent PNG download; 17 letters, numbers and rules also have SVG silhouettes. Use `{ variant: 'scan' }` to load the original paper-backed crop.
+Browse the [sample catalogue](docs/fundsachen.html), then load a fragment with `await Merz.merzbilder('001')` or its name, `merz-2-cover-m`. Use it with `riss()` and `stempel()`. The catalogue contains 28 letters, numbers, words, rules and images from Merz 2 and Merz 8/9. Each entry has a transparent PNG download; 17 letters, numbers and rules also have SVG silhouettes. Use `{ variant: 'scan' }` to load the original paper-backed crop.
 
-For a downloaded sample use `await Merz.fundsachen('022', { url: 'merz-8-cover-nasci-ink.png' })`. The image path is relative to your sketch page; the library can remain online. To load the hosted collection, keep `assets/fundsachen/` beside the library, or provide its absolute URL as `{ baseURL: 'https://your-site.example/samples/' }`. Source credits and crop coordinates accompany the assets. See the [working sketch](experiments/merz-fundsachen/index.html).
+For a downloaded sample use `await Merz.merzbilder('022', { url: 'merz-8-cover-nasci-ink.png' })`. The image path is relative to your sketch page; the library can remain online. To load the hosted collection, keep `assets/fundsachen/` beside the library, or provide its absolute URL as `{ baseURL: 'https://your-site.example/samples/' }`. Source credits and crop coordinates accompany the assets. See the [working sketch](experiments/merz-fundsachen/index.html).
 
 ## Development
 
@@ -143,7 +143,7 @@ npm test
 
 After editing `assets/fundsachen/catalogue.json`, run `npm run sync:fundsachen` to update its readable copy in the library. The min-build checks that both copies agree and writes only `p5.merz.min.js`.
 
-The [browser runner](tests/run-browser.html) runs all browser checks sequentially. Select the full Fundsachen catalogue for every scan and SVG; the default run samples letters, rules, numbers, words, images and text.
+The [browser runner](tests/run-browser.html) runs all browser checks sequentially. Select the full Merzbilder catalogue for every scan and SVG; the default run samples letters, rules, numbers, words, images and text.
 
 Checks cover letter geometry, stable ids, atomic updates, drawing order,
 spacing, SVG, renderer settings and repeatable ink coverage. Source and

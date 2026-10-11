@@ -2,7 +2,9 @@
 
 For a new sketch, start with [Stempel](merz-stempel/), [Fundsachen](merz-fundsachen/), [cut fragments](merz-fragment-route/scan.html) or [paper and ink](merz-sheet/). The [guide](../docs/guide.html) describes the current library API.
 
-The [Brillantine advertisement](../examples/brillantine/) combines a complete page with fixed paper and ink and an optional horizontal and vertical reveal.
+The [Brillantine advertisement](../examples/brillantine/) combines a complete page with fixed paper and ink in a still composition.
+
+The showcase also includes [Die Blume Anna](../examples/blume-anna/), [NASCI](../examples/nasci-page/) and [OI EI](../examples/lautfolge/). These are new compositions; the earlier drawings remain in Examples and the study folders.
 
 The older studies remain available for comparison. Their local helpers do not define the library API.
 
@@ -23,3 +25,5 @@ The older studies remain available for comparison. Their local helpers do not de
 | [merz-surface](merz-surface/) | Earlier research, retained | Printing, ageing and edge hypotheses compared on fixed compositions. These helpers have not all become library functions. |
 | [page-study](page-study/) | Earlier composition study | Text spacing and reading direction. |
 | [shared](shared/) | Supporting code | Styles and geometric bars shared by the earlier studies; not a separate experiment. |
+
+[Showcase motion](showcase-motion/) retains the earlier reveal and playback code for comparison. Public showcase pages are static.

@@ -47,7 +47,7 @@ for source_id, language, *groups in selections:
                                              url=source['source'], pdf=source['file'], image=source['image']))
 items = sorted(records.values(), key=lambda r: int(r['id'][1:]))
 output.write_text(json.dumps(items, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-lines = ['Fundsachen - words and phrases', '', 'International Dada Archive, University of Iowa Libraries.',
+lines = ['Merzbilder - words and phrases', '', 'International Dada Archive, University of Iowa Libraries.',
          'Selected short passages; not a complete transcription. Original spelling and case.', '']
 for item in items:
     lines += [item['id'] + ' / ' + item['kind'], item['text']]
