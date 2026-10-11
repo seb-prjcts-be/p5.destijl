@@ -20,3 +20,4 @@
 .merz-hero-note{margin:0;padding:16px 4vw;font-size:13px;color:var(--muted);max-width:100ch}
 @media(max-width:699px){#hero{height:clamp(640px,126.67vw,885px)}.merz-hero-copy{top:64%;left:6%;width:88%;max-width:none}.merz-hero-copy h1{font-size:54px}.merz-hero-copy p{font-size:16px;max-width:32ch}}
 .copy-source{font:inherit;font-size:13px;padding:6px 12px;margin:0 0 8px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}.copy-source:hover,.copy-source:focus-visible{border-color:var(--ink)}
+.guide-toc{display:flex;flex-wrap:wrap;gap:6px 18px;margin:18px 0 28px;font-size:14px}.guide-toc a{color:var(--ink)}

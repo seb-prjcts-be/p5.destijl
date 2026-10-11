@@ -10,8 +10,7 @@ function setup() {
 
   // Two small lines between rules, then the heavy headline filling two boxes.
   Merz.stempel(['BRILLANTINE. ESSENZ FÜR DAS HAAR.', 'FORM. GLANZ. EIN WENIG GENÜGT.'], 30, 37,
-    { size: 11, leading: 27, rule: { weight: 3 } }, bogen);
-  bogen.fill(farbe.schwarz); bogen.rect(30, 72, 538, 3);
+    { size: 11, leading: 27, rule: { weight: 3, after: true } }, bogen);
   Merz.stempel('BRILL', 26, 286, { width: 540, height: 175 }, bogen);
   Merz.stempel('ANTINE', 29, 421, { width: 508, height: 111 }, bogen);
   Merz.stempel('04', 25, 562, { size: 122 }, bogen);

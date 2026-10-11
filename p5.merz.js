@@ -982,9 +982,26 @@
       p=context;
     }
     const paths=Array.isArray(source)?source.flatMap(bauteil=>bauteil?.paths||[]):source?.paths;
-    const isText=typeof source==='string'||(Array.isArray(source)&&source.length>0&&source.every(line=>typeof line==='string'));
-    // Lines come from an array of strings or from line breaks in one string.
-    const lines=isText?(Array.isArray(source)?source:[source]).flatMap(line=>line.split('\n')):null;
+    const isSegment=value=>!!value&&typeof value==='object'&&!Array.isArray(value)&&typeof value.text==='string';
+    const isText=typeof source==='string'||(Array.isArray(source)&&source.length>0&&source.every(line=>typeof line==='string'||isSegment(line)));
+    // Strings are lines, split at line breaks. An array of segments is one line of pieces on a shared baseline.
+    let lines=null;
+    if(isText){
+      const items=Array.isArray(source)?source:[source];
+      const segments=items.filter(isSegment);
+      if(segments.length&&segments.length!==items.length)throw new TypeError('Use strings for lines or segments for one line, not both');
+      for(const segment of segments){
+        for(const key of Object.keys(segment))if(!['text','size','font','color','spacing','width','height'].includes(key))throw new RangeError('Unknown segment option: '+key);
+        if(segment.size!==undefined)number(segment.size,'segment size',.001);
+        if(segment.font!==undefined&&(typeof segment.font!=='string'||!segment.font.trim()))throw new TypeError('segment font must be a font family name');
+        if(segment.color!==undefined)colour(segment.color);
+        if(segment.spacing!==undefined)number(segment.spacing,'segment spacing');
+        if(segment.width!==undefined)number(segment.width,'segment width',1);
+        if(segment.height!==undefined){if(segment.width===undefined)throw new RangeError('segment height needs width');number(segment.height,'segment height',1);}
+        if(segment.width!==undefined&&segment.spacing!==undefined)throw new RangeError('Use width or spacing in a segment, not both');
+      }
+      lines=segments.length?[items]:items.flatMap(line=>line.split('\n').map(text=>[{text}]));
+    }
     const fragmentSeries=Array.isArray(source)&&source.length>0&&source.every(piece=>fragmentData.has(piece));
     const isFragment=fragmentSeries||fragmentData.has(source);
     if(!isText&&!isFragment&&(!Array.isArray(paths)||!paths.length||paths.some(path=>!path||!Number.isFinite(path.width)||path.width<=0||!Array.isArray(path.points)||path.points.length<2||path.points.some(point=>!Array.isArray(point)||point.length!==2||!point.every(Number.isFinite)))))throw new TypeError('stempel needs text, geometry, letter parts or a cut piece');
@@ -1013,7 +1030,7 @@
     }
     const copies=expanded.map(item=>{
       if(!item||typeof item!=='object')throw new TypeError('Each placement needs x and y');
-      for(const key of Object.keys(item))if(!(isText?['x','y','angle','scale','color','size','font','rows','leading','spacing','width','height','rule']:['x','y','angle','scale','color']).includes(key))throw new RangeError('Unknown placement option: '+key);
+      for(const key of Object.keys(item))if(!(isText?['x','y','angle','scale','color','size','font','rows','leading','spacing','width','height','rule','align','gap']:['x','y','angle','scale','color']).includes(key))throw new RangeError('Unknown placement option: '+key);
       const textOptions={};
       if(isText){
         textOptions.size=number(item.size??32,'size',.001);
@@ -1029,11 +1046,15 @@
           textOptions.height=number(item.height,'height',1);
         }
         if(item.width!==undefined&&item.spacing!==undefined)throw new RangeError('Use width or spacing, not both');
+        textOptions.align=item.align??'left';
+        if(!['left','center','right'].includes(textOptions.align))throw new RangeError('align must be left, center or right');
+        textOptions.gap=item.gap===undefined?null:number(item.gap,'gap');
         if(item.rule!==undefined&&item.rule!==false){
           const rule=item.rule===true?{}:item.rule;
-          if(!rule||typeof rule!=='object'||Array.isArray(rule))throw new TypeError('rule must be true or an object with weight and color');
-          for(const key of Object.keys(rule))if(!['weight','color'].includes(key))throw new RangeError('Unknown rule option: '+key);
-          textOptions.rule={weight:number(rule.weight??4,'rule weight',.01),color:rule.color===undefined?null:colour(rule.color)};
+          if(!rule||typeof rule!=='object'||Array.isArray(rule))throw new TypeError('rule must be true or an object with weight, color, before and after');
+          for(const key of Object.keys(rule))if(!['weight','color','before','after'].includes(key))throw new RangeError('Unknown rule option: '+key);
+          for(const key of ['before','after'])if(rule[key]!==undefined&&typeof rule[key]!=='boolean')throw new TypeError('rule '+key+' must be true or false');
+          textOptions.rule={weight:number(rule.weight??4,'rule weight',.01),color:rule.color===undefined?null:colour(rule.color),before:rule.before===true,after:rule.after===true};
         }
       }
       return {...textOptions,x:number(item.x,'x'),y:number(item.y,'y'),angle:number(item.angle??0,'angle'),scale:number(item.scale??1,'scale',.001),color:colour(item.color??palette.ink)};
@@ -1050,34 +1071,58 @@
         const a=item.angle*Math.PI/180,c=Math.cos(a)*item.scale,s=Math.sin(a)*item.scale;
         p.applyMatrix(c,s,-s,c,item.x,item.y);
         if(isText){
-          p.noStroke();p.fill(item.color);p.textFont(item.font);p.textSize(item.size);
-          p.textStyle(p.NORMAL??'normal');p.textAlign(p.LEFT??'left',p.BASELINE??'alphabetic');p.textLeading(item.leading);
-          if((item.height!==undefined||item.rule)&&typeof p.textBounds!=='function')throw new TypeError('height and rule need text measurement from p5.js 2.x');
+          p.noStroke();p.fill(item.color);p.textStyle(p.NORMAL??'normal');p.textAlign(p.LEFT??'left',p.BASELINE??'alphabetic');p.textLeading(item.leading);
+          const stretches=item.height!==undefined||lines.some(line=>line.some(segment=>segment.height!==undefined));
+          if((stretches||item.rule)&&typeof p.textBounds!=='function')throw new TypeError('height and rule need text measurement from p5.js 2.x');
           const all=[];for(let row=0;row<item.rows;row++)all.push(...lines);
-          // Measure first, then draw rules under the text.
+          const setFont=segment=>{p.textFont(segment.font);p.textSize(segment.size);};
+          // Measure every segment first, then draw rules under the text.
           const layout=all.map((line,i)=>{
-            const y=i*item.leading;
-            if(item.height!==undefined){
-              const b=p.textBounds(line,0,0);
-              if(!(b.w>0&&b.h>0))return {y,width:0};
-              return {y,line,bounds:b,sx:item.width/b.w,sy:item.height/b.h,width:item.width};
-            }
-            if(item.width===undefined&&item.spacing===0)return {y,line,width:p.textWidth(line)};
-            const chars=[...line],advances=chars.map(ch=>p.textWidth(ch));
-            const natural=advances.reduce((sum,w)=>sum+w,0);
-            const gap=item.width===undefined?item.spacing:chars.length>1?(item.width-natural)/(chars.length-1):0;
-            return {y,chars,advances,gap,width:item.width??Math.max(0,natural+gap*(chars.length-1))};
+            const segments=line.map(raw=>{
+              const segment={text:raw.text,size:raw.size??item.size,font:raw.font??item.font,color:raw.color??item.color,spacing:raw.spacing??(raw.width!==undefined?0:item.spacing),width:raw.width,height:raw.height};
+              if(line.length===1&&segment.width===undefined&&item.width!==undefined){segment.width=item.width;segment.height=item.height;}
+              setFont(segment);
+              if(segment.height!==undefined){
+                const b=p.textBounds(segment.text,0,0);
+                if(!(b.w>0&&b.h>0))return {...segment,width:0,empty:true};
+                return {...segment,bounds:b,sx:segment.width/b.w,sy:segment.height/b.h};
+              }
+              if(segment.width===undefined&&segment.spacing===0)return {...segment,width:p.textWidth(segment.text)};
+              const chars=[...segment.text],advances=chars.map(ch=>p.textWidth(ch));
+              const natural=advances.reduce((sum,w)=>sum+w,0);
+              const gap=segment.width===undefined?segment.spacing:chars.length>1?(segment.width-natural)/(chars.length-1):0;
+              return {...segment,chars,advances,gap,width:segment.width??Math.max(0,natural+gap*(chars.length-1))};
+            });
+            const natural=segments.reduce((sum,segment)=>sum+segment.width,0);
+            let gap=item.gap??item.size*.3;
+            if(segments.length>1&&item.width!==undefined)gap=(item.width-natural)/(segments.length-1);
+            const width=segments.length>1?natural+gap*(segments.length-1):segments[0].width;
+            const start=item.align==='right'?-width:item.align==='center'?-width/2:0;
+            return {y:i*item.leading,segments,gap,width,start};
           });
-          if(item.rule&&layout.length>1){
+          if(item.rule){
+            p.textFont(item.font);p.textSize(item.size);
             const cap=item.height??p.textBounds('H',0,0).h,span=item.width??Math.max(...layout.map(row=>row.width));
+            const left=item.align==='right'?-span:item.align==='center'?-span/2:0;
+            const slots=[];
+            if(item.rule.before)slots.push(-1);
+            for(let i=0;i<layout.length-1;i++)slots.push(i);
+            if(item.rule.after)slots.push(layout.length-1);
             p.rectMode(p.CORNER??'corner');p.fill(item.rule.color??item.color);
-            for(let i=0;i<layout.length-1;i++){const cy=layout[i].y+(item.leading-cap)/2;p.rect(0,cy-item.rule.weight/2,span,item.rule.weight);}
+            for(const i of slots){const cy=i*item.leading+(item.leading-cap)/2;p.rect(left,cy-item.rule.weight/2,span,item.rule.weight);}
             p.fill(item.color);
           }
           for(const row of layout){
-            if(row.bounds){const b=row.bounds;p.push();p.translate(-b.x*row.sx,row.y-(b.y+b.h)*row.sy);p.scale(row.sx,row.sy);p.text(row.line,0,0);p.pop();}
-            else if(row.chars){let x=0;for(const [k,ch] of row.chars.entries()){p.text(ch,x,row.y);x+=row.advances[k]+row.gap;}}
-            else if(row.line!==undefined)p.text(row.line,0,row.y);
+            let x=row.start;
+            for(const segment of row.segments){
+              if(!segment.empty){
+                setFont(segment);p.fill(segment.color);
+                if(segment.bounds){const b=segment.bounds;p.push();p.translate(x-b.x*segment.sx,row.y-(b.y+b.h)*segment.sy);p.scale(segment.sx,segment.sy);p.text(segment.text,0,0);p.pop();}
+                else if(segment.chars){let cx=x;for(const [k,ch] of segment.chars.entries()){p.text(ch,cx,row.y);cx+=segment.advances[k]+segment.gap;}}
+                else p.text(segment.text,x,row.y);
+              }
+              x+=segment.width+row.gap;
+            }
           }
         }
         else if(isFragment){p.imageMode(p.CORNER??'corner');p.noTint();p.image(images.get(material).get(item.color),0,0);}

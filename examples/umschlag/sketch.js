@@ -23,16 +23,14 @@ async function setup() {
   Merz.stempel('HEFT 1, NR. 8/9', 52, 668, { size: 9, color: farbe.blau }, bogen);
   Merz.stempel(['OKTO', 'BER', '2026'], 52, 700, { size: 24, leading: 27, width: 72, color: farbe.blau }, bogen);
 
-  // The text: one mixed line, then a measure of red lines between blue rules.
-  Merz.stempel('NATUR', 165, 357, { size: 30, color: farbe.rot }, bogen);
-  Merz.stempel('ODER', 292, 357, { size: 14, color: farbe.rot }, bogen);
-  Merz.stempel('NASCI', 372, 357, { width: 203, height: 44, color: farbe.rot }, bogen);
-  bogen.rect(165, 365, 410, 9);
+  // The text: one line in three sizes across the measure, then red lines between blue rules.
+  Merz.stempel([{ text: 'NATUR', size: 30 }, { text: 'ODER', size: 14 }, { text: 'NASCI', width: 203, height: 44 }],
+    165, 357, { width: 410, color: farbe.rot }, bogen);
   Merz.stempel(['HEISST WERDEN:', 'WAS SICH AUS SICH', 'SELBST DURCH EIGENE', 'KRAFT ENTWICKELT', 'GESTALTET UND BEWEGT'],
-    165, 401, { size: 26, leading: 44.6, width: 410, color: farbe.rot, rule: { weight: 9, color: farbe.blau } }, bogen);
-  Merz.stempel('NASCI', 230, 712, { size: 44, color: farbe.rot }, bogen);
-  Merz.stempel(['Natur, Form und Kraft:', 'was sich aus sich selbst entwickelt.'], 165, 728,
-    { size: 9, font: 'Georgia', leading: 12 }, bogen);
+    165, 401, { size: 26, leading: 44.6, width: 410, color: farbe.rot, rule: { weight: 9, color: farbe.blau, before: true } }, bogen);
+  Merz.stempel('NASCI', 370, 712, { size: 44, align: 'center', color: farbe.rot }, bogen);
+  Merz.stempel('Natur, Form und Kraft:', 165, 728, { size: 9, font: 'Georgia' }, bogen);
+  Merz.stempel('was sich aus sich selbst entwickelt.', 575, 728, { size: 9, font: 'Georgia', align: 'right' }, bogen);
   describe('A cover after Merz 8/9: a stretched blue MERZ between the numerals 8 and 9, a measure of red lines between blue rules, a pointing hand and notes read upwards.');
 }
 function draw() {

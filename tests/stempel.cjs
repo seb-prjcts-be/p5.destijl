@@ -89,7 +89,7 @@ for (const file of ['p5.merz.js', 'p5.merz.min.js']) {
   const rect=calls.find(c=>c[0]==='rect');
   assert.deepEqual(rect.slice(1),[0,13.5,30,6]); // Centred in the gap, spanning the longest line.
   assert.ok(calls.indexOf(rect)<calls.findIndex(c=>c[0]==='text')); // Rules lie under the text.
-  assert.deepEqual(calls.filter(c=>c[0]==='fill').map(c=>c[1]),['#20201e','#b92d26','#20201e']);
+  assert.deepEqual(calls.filter(c=>c[0]==='fill').map(c=>c[1]).slice(0,3),['#20201e','#b92d26','#20201e']);
   calls.length=0; m.stempel(['A','B'],0,0,{rule:true,width:200},p);
   assert.deepEqual(calls.find(c=>c[0]==='rect').slice(3),[200,4]);
   calls.length=0; m.stempel('A',0,0,{rule:true},p);
@@ -97,7 +97,32 @@ for (const file of ['p5.merz.js', 'p5.merz.min.js']) {
   for(const options of [{height:50},{width:100,spacing:2},{rule:{weight:0}},{rule:{colour:'#ffffff'}},{rule:'yes'},{width:0},{spacing:NaN}])assert.throws(()=>m.stempel('AB',0,0,options,p));
   assert.throws(()=>m.stempel(['A',1],0,0,p));
   assert.throws(()=>m.stempel([],0,0,p));
+  // Segments on one line, alignment and rules before and after.
+  calls.length=0; m.stempel([{text:'A',size:30},{text:'BC',size:10}],0,0,{gap:5},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='text'),[['text','A',0,0],['text','BC',15,0]]);
+  assert.deepEqual(calls.filter(c=>c[0]==='textSize').map(c=>c[1]).slice(-2),[30,10]);
+  calls.length=0; m.stempel([{text:'A'},{text:'BC'}],0,0,{width:100},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='text'),[['text','A',0,0],['text','BC',80,0]]); // Gaps fill the measure.
+  calls.length=0; m.stempel([{text:'A'},{text:'BC'}],0,0,{size:20},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='text').map(c=>c[2]),[0,16]); // Default gap: 0.3 of the size.
+  calls.length=0; m.stempel([{text:'A',width:50,height:20},{text:'B'}],0,0,{gap:5},p);
+  assert.deepEqual(calls.find(c=>c[0]==='scale').slice(1),[5,20/7]);
+  assert.deepEqual(calls.filter(c=>c[0]==='text').at(-1),['text','B',55,0]);
+  calls.length=0; m.stempel([{text:'A',color:'#b92d26'},{text:'B'}],0,0,p);
+  assert.deepEqual(calls.filter(c=>c[0]==='fill').map(c=>c[1]).slice(-2),['#b92d26','#20201e']);
+  calls.length=0; m.stempel('AB',0,0,{align:'right'},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='text'),[['text','AB',-20,0]]);
+  calls.length=0; m.stempel('AB',0,0,{align:'center'},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='text'),[['text','AB',-10,0]]);
+  calls.length=0; m.stempel(['A','BCD'],0,0,{align:'right',leading:40,rule:true},p);
+  assert.deepEqual(calls.find(c=>c[0]==='rect').slice(1),[-30,14.5,30,4]);
+  calls.length=0; m.stempel(['A','B'],0,0,{leading:40,rule:{before:true,after:true}},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='rect').map(c=>c[2]),[-25.5,14.5,54.5]);
+  calls.length=0; m.stempel('A',0,0,{leading:40,rule:{after:true}},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='rect').map(c=>c[2]),[14.5]);
+  for(const source of [['A',{text:'B'}],[{text:'A',colour:'#ffffff'}],[{text:'A',height:5}],[{text:'A',width:10,spacing:1}],[{word:'A'}]])assert.throws(()=>m.stempel(source,0,0,p));
+  for(const options of [{align:'top'},{gap:NaN},{rule:{before:1}}])assert.throws(()=>m.stempel('AB',0,0,options,p));
   calls.length=0; m.stempel(['A','BCD'],5,6,{rule:true,width:120,leading:40},p);
   const linesResult=JSON.stringify(calls); if(linesBaseline)assert.equal(linesResult,linesBaseline); linesBaseline=linesResult;
 }
-console.log('Stempel: transforms, source/min parity, global/instance routing, lines, measure, spacing, stretch, rules, validation and state restoration passed.');
+console.log('Stempel: transforms, source/min parity, global/instance routing, lines, segments, measure, spacing, stretch, alignment, rules, validation and state restoration passed.');
