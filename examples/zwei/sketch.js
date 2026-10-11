@@ -20,7 +20,7 @@ async function setup() {
   blatt.stempel(rule, 330, 520, { repeat: 6, stepY: 26, scale: 0.3 });
   await blatt.merzbilder('010', 520, 560, 40);
 
-  // Our own word in the geometric alphabet, and a note in system text.
+  // Our own word in the geometric alphabet, and a small note in the grotesk.
   blatt.stempel(Merz.satz('ZWEI', { size: 72, weight: 0.6 }), 36, 640, { color: farbe.rot });
   blatt.stempel(['MERZ 2 / MERZ 8', 'GEFUNDEN, GESCHNITTEN, GESETZT'], 330, 690, { size: 10, weight: 500, spacing: 1, leading: 15 });
   describe('A large found numeral 2, four blue found letters descending like stairs, a torn oval boat, a stack of found rules, a pointing hand and the red geometric word ZWEI.');

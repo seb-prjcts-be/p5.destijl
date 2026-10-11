@@ -14,7 +14,7 @@ This library and its language reflect the vocabulary Kurt Schwitters used to doc
 ## Using the library
 
 Load p5.js, then p5.merz.js or its min-build, then your sketch.
-Text stamps come from a printer's case of two bundled fonts, loaded before setup() in p5.js 2.x: Archivo as the grotesk, in six widths and every weight, and Bodoni Moda as the antiqua for numerals and contrast. Keep `assets/fonts/` next to the library file.
+Text stamps come from a printer's case of two bundled fonts, loaded before setup() in p5.js 2.x: Archivo as the grotesk, in six widths and any weight from 100 to 900, and Bodoni Moda as the antiqua for numerals and contrast. Keep `assets/fonts/` next to the library file.
 Use the Merz API. p5.merz.js is the source of truth; the build regenerates
 the min-build.
 

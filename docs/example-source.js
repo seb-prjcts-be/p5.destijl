@@ -17,7 +17,7 @@
             await navigator.clipboard.writeText(code.textContent);
             button.textContent = 'Copied';
           } catch {
-            button.textContent = 'Select the code to copy it';
+            button.textContent = 'Could not copy';
           }
           setTimeout(() => { button.textContent = 'Copy sketch'; }, 2000);
         });

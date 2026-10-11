@@ -1,4 +1,4 @@
-// The geometric alphabet cut, torn and repeated. Every mark here comes from the library.
+// The geometric alphabet cut, torn and repeated. No font and no image: letters, cuts and tears all come from the library.
 let blatt;
 function setup() {
   createCanvas(600, 760).parent('drawing');

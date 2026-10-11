@@ -27,7 +27,7 @@ function setup() {
   blatt.pop();
 
   // Product notes, a framed quotation and a vertical reference.
-  blatt.stempel('ESSENZ — 50 ml', 339, 472, { size: 13, weight: 400 });
+  blatt.stempel('ESSENZ, 50 ml', 339, 472, { size: 13, weight: 400 });
   blatt.fill(farbe.rot); blatt.rect(342, 486, 224, 7);
   blatt.noFill(); blatt.stroke(farbe.schwarz); blatt.strokeWeight(5); blatt.rect(235, 523, 331, 76); blatt.noStroke();
   blatt.stempel('Nichts ist Zufall.', 249, 554, { size: 26, weight: 900 });
