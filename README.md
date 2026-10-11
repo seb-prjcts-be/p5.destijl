@@ -18,6 +18,27 @@ Text stamps use Archivo Black, loaded before setup() in p5.js 2.x. Keep `assets/
 Use the Merz API. p5.merz.js is the source of truth; the build regenerates
 the min-build.
 
+A page needs a sheet and a few stamps. This is a cover after Merz 8/9, with found words from the catalogue:
+
+```js
+let bogen;
+function setup() {
+  createCanvas(600, 760);
+  noLoop();
+  const farbe = Merz.farbe;
+  bogen = Merz.bogen({ paper: 0.25, ink: 0.15, seed: 17 });
+  Merz.stempel('MERZ', 142, 215, { width: 318, height: 158, color: farbe.blau }, bogen);
+  Merz.stempel('NASCI', 372, 357, { width: 203, height: 44, color: farbe.rot }, bogen);
+  Merz.stempel(['WAS SICH AUS SICH', 'SELBST DURCH EIGENE', 'KRAFT ENTWICKELT'], 165, 401,
+    { size: 26, leading: 44.6, width: 410, color: farbe.rot, rule: { weight: 9, color: farbe.blau } }, bogen);
+}
+function draw() {
+  bogen.druck();
+}
+```
+
+`bogen()` is a sheet the size of the canvas with its own paper and ink. `stempel()` sets text, geometry or a cut piece; a `width` fills the measure, `width` with `height` stretches the letters, and `rule` draws bars between lines. The [showcase](https://seb-prjcts-be.github.io/p5.merz/) runs four complete pages beside their code.
+
 The library also includes `Merz.bauteile('R', { size: 100 })`:
 named paths to draw, change and repeat in ordinary p5 code. Use `Merz.bauteil('R', 'bowl')` to pick one by name. `Merz.satz()`
 returns whole-text paths and dimensions. See the [drawing guide](docs/guide.html#geometry)

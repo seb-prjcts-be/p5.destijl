@@ -1,65 +1,33 @@
-// A few letters borrowed from Kurt Schwitters' Ursonate.
-const fragment = "Fümms";
-
+// A few sounds from Kurt Schwitters' Ursonate, set with the library itself.
 function setup() {
-  const holder = document.getElementById("hero-canvas");
+  const holder = document.getElementById('hero-canvas');
   createCanvas(holder.clientWidth, holder.clientHeight).parent(holder);
-  pixelDensity(1);
   noLoop();
-  describe(
-    "Fümms in large serif letters, a red geometric M and repeated letter parts. The open space holds the p5.merz title."
-  );
+  describe('Fümms in large serif letters, a red geometric M and repeated letter parts. The open space holds the p5.merz title.');
 }
 
 function draw() {
   resetMatrix();
-  background("#f7f7f2");
-  const compact = width < 700;
-  const pageWidth = compact ? 600 : 1200;
-  const pageHeight = compact ? 760 : 620;
-  scale(width / pageWidth, height / pageHeight);
-  const ink = "#20201e";
-  const red = "#b92d26";
+  background(Merz.farbe.grau);
+  // One page for wide screens, a taller one for phones; the canvas scales to fit.
+  const page = width < 700
+    ? { width: 600, height: 760, word: [24, 174, 155], m: [290, 155, 220], row: [45, 327], forks: [330, 421], line: [28, 389, 238] }
+    : { width: 1200, height: 620, word: [46, 215, 244], m: [805, 210, 310], row: [658, 342], forks: [870, 559], line: [644, 430, 763] };
+  scale(width / page.width, height / page.height);
+  const farbe = Merz.farbe;
 
-  // A large M behind the smaller letters.
-  paint(
-    Merz.satz("M", { size: compact ? 220 : 310, weight: 0.48 }).paths,
-    compact ? 290 : 805,
-    compact ? 155 : 210,
-    red
-  );
-  noStroke();
-  fill(ink);
-  textFont("Georgia");
-  textSize(compact ? 155 : 244);
-  text(fragment, compact ? 24 : 46, compact ? 174 : 215);
-
+  Merz.stempel(Merz.satz('M', { size: page.m[2], weight: 0.48 }), page.m[0], page.m[1], { color: farbe.rot });
+  Merz.stempel('Fümms', page.word[0], page.word[1], { size: page.word[2], font: 'Georgia' });
   for (let i = 0; i < 5; i++) {
-    Merz.stempel('m', (compact ? 45 : 658) + Math.cos(-0.18) * i * 35,
-      (compact ? 327 : 342) + Math.sin(-0.18) * i * 35,
-      { size: 15 + i * 5, font: 'monospace', angle: -0.18 * 180 / Math.PI });
+    Merz.stempel('m', page.row[0] + i * 34.4, page.row[1] - i * 6.3, { size: 15 + i * 5, font: 'monospace', angle: -10.3 });
   }
-  const fork = Merz.bauteile("Y", { size: 35, weight: 0.4 }).find(
-    (part) => part.id === "fork"
-  );
-  for (let i = 0; i < 5; i++)
-    paint(fork.paths, (compact ? 330 : 870) + i * 34, compact ? 421 : 559, ink);
-  stroke(ink);
-  strokeWeight(2);
-  line(
-    compact ? 28 : 644,
-    compact ? 389 : 430,
-    compact ? 238 : 763,
-    compact ? 389 : 430
-  );
-}
-
-function paint(paths, x, y, colour) {
-  Merz.stempel({ paths }, x, y, { color: colour });
+  Merz.stempel(Merz.bauteil('Y', 'fork', { size: 35, weight: 0.4 }), page.forks[0], page.forks[1], { repeat: 5, stepX: 34 });
+  stroke(farbe.schwarz); strokeWeight(2);
+  line(page.line[0], page.line[1], page.line[2], page.line[1]);
 }
 
 function windowResized() {
-  const holder = document.getElementById("hero-canvas");
+  const holder = document.getElementById('hero-canvas');
   resizeCanvas(holder.clientWidth, holder.clientHeight);
   redraw();
 }
