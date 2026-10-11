@@ -1,4 +1,4 @@
-// The geometric alphabet cut, torn and repeated. No font and no image: letters, cuts and tears all come from the library.
+// The geometric alphabet cut, torn and repeated. Letters, cuts and tears all come from the library.
 let blatt;
 function setup() {
   createCanvas(600, 760).parent('drawing');
@@ -17,10 +17,10 @@ function setup() {
   const piece = Merz.riss(Merz.rundschnitt(bowl, 60, 0, 150, 120), { amount: 0.6, seed: 11 });
   blatt.stempel(piece, 420, 290, { repeat: 3, stepY: 125, offsetX: -30, color: [farbe.rot, farbe.schwarz] });
 
-  // A torn letter drawn directly, a row of forks and three spaced lines.
+  // A torn letter drawn directly, a row of forks and the three tear amounts used on this page.
   blatt.riss('K', 60, 320, { size: 200, amount: 0.5, seed: 2 });
   blatt.stempel(Merz.bauteil('Y', 'fork', { size: 40, weight: 0.4 }), 60, 590, { repeat: 8, stepX: 44, color: farbe.blau });
-  blatt.stempel(['ABFALL', 'KLEBSTOFF', 'MERZBILD'], 60, 680, { size: 14, weight: 500, stretch: 87, leading: 18, spacing: 6 });
+  blatt.stempel(['RISS 0.35', 'RISS 0.6', 'RISS 0.5'], 60, 680, { size: 14, weight: 500, stretch: 87, leading: 18, spacing: 6 });
   describe('MERZ in four torn and shifted strips, a torn oval piece of an R repeated three times, a large torn K, a row of blue forks and three spaced lines of monospace text.');
 }
 function draw() {
