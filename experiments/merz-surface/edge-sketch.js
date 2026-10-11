@@ -1,7 +1,7 @@
 // Found texts: T020/T025, Merz 1, p. 4.
 // See assets/fundsachen/texts/catalogue.json for source scans.
 // Load p5.js, p5.merz.js and the local edges.js study first.
-const word = "STEM";
+const word = "STAB";
 const edgeAmount = 0.7;
 const edgeSeed = 17;
 

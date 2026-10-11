@@ -11,7 +11,7 @@
         height: 840,
         background: null
       });
-      work.text("STEM", 48, 110, {
+      work.text("STAB", 48, 110, {
         size: 128,
         spacing: 12,
         weight: 0.8
@@ -30,7 +30,7 @@
       );
     }
     if (index === 2) {
-      Merz.stempel('WACHT', 540, 620, { size: 22, font: 'Arial', color: '#b92d26', angle: -90 }, layer);
+      Merz.stempel('KRAFT', 540, 620, { size: 22, font: 'Arial', color: '#b92d26', angle: -90 }, layer);
     }
     if (index === 3) {
       layer.stroke("#20201e");
@@ -40,7 +40,7 @@
       layer.fill("#20201e");
       layer.textFont("Arial");
       layer.textSize(12);
-      layer.text("STILTE", 48, 748);
+      layer.text("NUMMER", 48, 748);
     }
     layer.pop();
   }

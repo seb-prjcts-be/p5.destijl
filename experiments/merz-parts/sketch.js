@@ -1,6 +1,6 @@
 // Found texts: T022, Merz 1, p. 4; T429, Merz 8/9, p. 78.
 // See assets/fundsachen/texts/catalogue.json for source scans.
-const word = "WAAK";
+const word = "BAND";
 const partColour = "#b92d26";
 const repeats = 5;
 let crossbar;
@@ -17,7 +17,7 @@ function setup() {
     weight: 0.65
   }).paths[1];
   describe(
-    "An A with a red crossbar, five repeated crossbars and the word WAAK beside ordinary serif text."
+    "An A with a red crossbar, five repeated crossbars and the word BAND beside ordinary serif text."
   );
 }
 

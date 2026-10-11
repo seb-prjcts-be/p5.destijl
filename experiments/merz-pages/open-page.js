@@ -6,7 +6,7 @@ const leftGroup = {
   x: 45,
   y: 58,
   size: 28,
-  text: "STILTE\nWACHT\nWAAK"
+  text: "NUMMER\nKRAFT\nBAND"
 };
 const rules = { x: 490, y: 50, width: 270, gap: 15, count: 6 };
 const rightGroup = {
@@ -57,7 +57,7 @@ function draw() {
   fill(ink);
   textSize(24);
   text("Nichts ist Zufall.", 300, 500);
-  text("WEK", 45, 555);
+  text("WEG", 45, 555);
 }
 
 function keyPressed() {

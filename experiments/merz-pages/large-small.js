@@ -1,6 +1,6 @@
 // Found texts: T019-T025, Merz 1, p. 4.
 // See assets/fundsachen/texts/catalogue.json for source scans.
-const word = "STEM";
+const word = "STAB";
 const title = { x: 48, y: 110, size: 128 };
 const smallText = {
   x: 48,
@@ -8,7 +8,7 @@ const smallText = {
   size: 19,
   text: "DADA erwacht."
 };
-const sideText = { x: 540, y: 620, size: 22, text: "WACHT" };
+const sideText = { x: 540, y: 620, size: 22, text: "KRAFT" };
 const ink = "#20201e",
   accent = "#b92d26";
 
@@ -43,7 +43,7 @@ function draw() {
   fill(ink);
   textFont("Arial");
   textSize(12);
-  text("STILTE", 48, 748);
+  text("NUMMER", 48, 748);
 }
 
 function keyPressed() {

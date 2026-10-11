@@ -1,7 +1,7 @@
 // Found texts: T020/T025, Merz 1, p. 4.
 // See assets/fundsachen/texts/catalogue.json for source scans.
 // Load p5.js, p5.merz.js, ink.js and surface.js first.
-const word = "STEM";
+const word = "STAB";
 const printAmount = 0.15;
 const printSeed = 17;
 const ageAmount = 0;

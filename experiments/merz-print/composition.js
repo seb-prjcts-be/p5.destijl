@@ -50,7 +50,7 @@
     p.text('Nichts ist Zufall.', 52, 339);
     p.textFont('Georgia'); p.textSize(85);
     p.text('m', 345, 479);
-    Merz.stempel('WACHT', 543, 570, { size: 14, font: 'Arial', angle: -90 }, p);
+    Merz.stempel('KRAFT', 543, 570, { size: 14, font: 'Arial', angle: -90 }, p);
     p.textFont('Arial'); p.textSize(14);
     p.text('01', 52, 744);
     p.text('DADA COMPLET', 100, 744);

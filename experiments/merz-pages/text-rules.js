@@ -1,12 +1,12 @@
 // Found texts: T019-T025, Merz 1, p. 4.
 // See assets/fundsachen/texts/catalogue.json for source scans.
 const lines = [
-  "STILTE",
-  "STEM",
-  "WACHT",
-  "WAAK"
+  "NUMMER",
+  "STAB",
+  "KRAFT",
+  "BAND"
 ];
-const heading = { text: "WEK", x: 52, y: 92, size: 100 };
+const heading = { text: "WEG", x: 52, y: 92, size: 100 };
 const layout = { x: 90, y: 330, width: 450, gap: 57 };
 const ink = "#20201e";
 const accent = "#b92d26";
