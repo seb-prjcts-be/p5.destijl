@@ -62,7 +62,7 @@ for (const file of ["p5.merz.js", "p5.merz.min.js"]) {
   assert.deepEqual(Array.from(rgba), clean);
   for (const options of [{ ink: -1 }, { ink: 2 }, { paper: 2 }, { seed: NaN }])
     assert.throws(() => surface(options));
-  assert.equal(require('node:crypto').createHash('sha256').update(Buffer.from([...light,...strong,...paper])).digest('hex'),'5b96c509327e4c52ec43dc2dc08ec4d20e28ec2d3768f3f81631f88b3cc70118','original CPU bytes');
+  assert.equal(require('node:crypto').createHash('sha256').update(Buffer.from([...light,...strong,...paper])).digest('hex'),'b33b929451b19453db227c3c1dc7c06966073791763fc8e159a1b016e0ba0c5b','original CPU bytes');
   for(let seed=200;seed<206;seed++)surface({ink:.12,paper:0,seed});
   const evicted=hypotCalls;assert.deepEqual(surface({ink:.12,paper:0,seed:17}),light);assert.ok(hypotCalls>evicted,'evicted masks recompute identically');
   if (reference) assert.deepEqual(light, reference);

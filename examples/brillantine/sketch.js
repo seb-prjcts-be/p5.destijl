@@ -5,7 +5,7 @@ function setup() {
   createCanvas(600, 760).parent('drawing');
   noLoop();
   const farbe = Merz.farbe;
-  blatt = Merz.andruck({ paper: 0.25, ink: 0.17, seed: 17 });
+  blatt = Merz.andruck({ paper: 0.5, ink: 0.17, seed: 17, color: '#e3d5bd' });
   blatt.noStroke();
 
   // Two small lines between rules, then the heavy headline filling two boxes.

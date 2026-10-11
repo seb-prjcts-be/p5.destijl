@@ -5,7 +5,7 @@ async function setup() {
   createCanvas(600, 760).parent('drawing');
   noLoop();
   const farbe = Merz.farbe;
-  blatt = Merz.andruck({ paper: 0.3, ink: 0.1, seed: 23 });
+  blatt = Merz.andruck({ paper: 0.8, ink: 0.1, seed: 23, color: '#a08962' });
 
   // The found numeral, large, and the four blue letters as a descending stair.
   await blatt.merzbilder('006', 36, 48, 250);

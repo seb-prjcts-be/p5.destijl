@@ -3,7 +3,7 @@ let blatt;
 function setup() {
   createCanvas(600, 760).parent('drawing');
   noLoop();
-  blatt = Merz.andruck({ paper: 0.3, ink: 0.22, seed: 17 });
+  blatt = Merz.andruck({ paper: 0.45, ink: 0.22, seed: 17 });
   compose(blatt);
   describe('A sound poem with large OI EI, small repeated syllables, a vertical black passage and red punctuation. The groups form a fixed composition.');
 }

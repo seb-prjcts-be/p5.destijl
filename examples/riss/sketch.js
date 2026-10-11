@@ -4,7 +4,7 @@ function setup() {
   createCanvas(600, 760).parent('drawing');
   noLoop();
   const farbe = Merz.farbe;
-  blatt = Merz.andruck({ paper: 0.2, ink: 0.12, seed: 5 });
+  blatt = Merz.andruck({ paper: 0.4, ink: 0.12, seed: 5 });
 
   // A word in four torn strips, each shifted a little further.
   const word = Merz.satz('MERZ', { size: 118, weight: 0.7 });

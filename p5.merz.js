@@ -1358,6 +1358,10 @@
     let n=Math.imul(x,374761393)^Math.imul(y,668265263)^Math.imul(seed,1442695041);
     n=Math.imul(n^(n>>>13),1274126177);return ((n^(n>>>16))>>>0)/4294967295;
   }
+  function surfaceField(x,y,seed) {
+    const ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy,a=fx*fx*(3-2*fx),b=fy*fy*(3-2*fy);
+    return (1-b)*((1-a)*surfaceHash(ix,iy,seed)+a*surfaceHash(ix+1,iy,seed))+b*((1-a)*surfaceHash(ix,iy+1,seed)+a*surfaceHash(ix+1,iy+1,seed));
+  }
   function surfaceMask(width,height,settings) {
     const key=[width,height,settings.ink,settings.paper,settings.seed].join(':');
     if(surfaceMasks.has(key)){
@@ -1366,13 +1370,23 @@
     }
     const pixels=new Uint8ClampedArray(width*height*4);
     const spots=Array.from({length:3},(_,i)=>({x:surfaceHash(i,1,settings.seed)*width,y:surfaceHash(i,2,settings.seed)*height,r:(.12+.14*surfaceHash(i,3,settings.seed))*Math.min(width,height)}));
+    const seed=settings.seed;
     for(let y=0;y<height;y++)for(let x=0;x<width;x++) {
-      const grain=surfaceHash(x,y,settings.seed),i=4*(y*width+x);
+      const grain=surfaceHash(x,y,seed),i=4*(y*width+x);
       let stain=0;
       for(const spot of spots) {const d=Math.hypot(x-spot.x,y-spot.y)/spot.r;stain=Math.max(stain,Math.max(0,1-d)**2);}
       // Sparse marks stay faint; solid ink remains solid enough to read.
       pixels[i]=Math.round(255*settings.ink*(.035*grain+.12*stain+(grain<.003?.25:0)));
-      pixels[i+1]=Math.round(255*settings.paper*(.015*grain+.06*stain+(grain>.998?.12:0)));
+      // Paper: tonal clouds, a finer field, fibre-like streaks and grain, measured against the Merz 2 and 8/9 covers at amount 1.
+      // Stored around 128; darker tones also warm the colour when applied.
+      let tone=0;
+      if(settings.paper>0){
+        const broad=surfaceField(x/60,y/60,seed+101)-.5,medium=surfaceField(x/14,y/14,seed+103)-.5;
+        const fibre=surfaceField((x+.35*y)/2.2,y/9,seed+107)-.5,fine=grain-.5;
+        const speck=surfaceHash(x,y,seed+109)>.9995?1:0;
+        tone=settings.paper*.17*(.5*broad+.7*medium+.6*fibre+fine-.5*stain-1.5*speck);
+      }
+      pixels[i+1]=Math.round(Math.min(255,Math.max(0,128+tone*800)));
       pixels[i+2]=0;pixels[i+3]=255;
     }
     while(surfaceMasks.size && (surfaceMasks.size>=4 || surfaceMaskBytes+pixels.byteLength>surfaceMaskLimit)){
@@ -1402,10 +1416,12 @@
     for(let i=0;i<clean.length;i+=4){
       const pixel=i/4;
       const m=4*(Math.floor(pixel/pixelWidth/density)*width+Math.floor((pixel%pixelWidth)/density));
-      const shade=mask[m+1]/255;
-      result.pixels[i]=Math.round(clean[i]*(1-shade*.65));
-      result.pixels[i+1]=Math.round(clean[i+1]*(1-shade*.82));
-      result.pixels[i+2]=Math.round(clean[i+2]*(1-shade));
+      const tone=(mask[m+1]-128)/800;
+      // Darker paper tones warm the colour; lighter tones stay neutral.
+      const r=tone<0?1+tone*.65:1+tone,g=tone<0?1+tone*.82:1+tone,b=1+tone;
+      result.pixels[i]=Math.round(clean[i]*r);
+      result.pixels[i+1]=Math.round(clean[i+1]*g);
+      result.pixels[i+2]=Math.round(clean[i+2]*b);
       result.pixels[i+3]=Math.round(clean[i+3]*(1-mask[m]/255));
     }
     result.updatePixels();

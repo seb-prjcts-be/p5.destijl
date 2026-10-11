@@ -5,7 +5,7 @@ async function setup() {
   createCanvas(600, 760).parent('drawing');
   noLoop();
   const farbe = Merz.farbe;
-  blatt = Merz.andruck({ paper: 0.25, ink: 0.15, seed: 17 });
+  blatt = Merz.andruck({ paper: 0.55, ink: 0.15, seed: 17, color: '#e3d5bd' });
 
   // The masthead: a stretched title between two numerals in another face.
   blatt.stempel('MERZ', 142, 215, { stretch: 62, weight: 800, width: 318, height: 158, color: farbe.blau });

@@ -4,7 +4,7 @@ let blatt;
 function setup() {
   createCanvas(600, 760).parent('drawing');
   noLoop();
-  blatt = Merz.andruck({ paper: 0.3, ink: 0.22, seed: 17 });
+  blatt = Merz.andruck({ paper: 0.45, ink: 0.22, seed: 17 });
   compose(blatt);
   describe('A large NASCI title above branching geometric forms, a red field, narrow vertical text and small notes separated by open paper.');
 }
