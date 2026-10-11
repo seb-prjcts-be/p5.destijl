@@ -49,7 +49,7 @@ function draw() {
   fill(ink);
   rect(65, 390, 30, 95);
   rect(105, 365, 45, 120);
-  letters("R", rightGroup.x, rightGroup.y, {
+  Merz.satz("R", rightGroup.x, rightGroup.y, {
     size: 105,
     weight: 0.65
   });
@@ -58,22 +58,6 @@ function draw() {
   textSize(24);
   text("Nichts ist Zufall.", 300, 500);
   text("WEK", 45, 555);
-}
-
-function letters(value, x, y, options) {
-  push();
-  translate(x, y);
-  noFill();
-  stroke(options.color || "#20201e");
-  strokeCap(SQUARE);
-  strokeJoin(MITER);
-  for (const part of Merz.satz(value, options).paths) {
-    strokeWeight(part.width);
-    beginShape();
-    for (const point of part.points) vertex(...point);
-    endShape();
-  }
-  pop();
 }
 
 function keyPressed() {

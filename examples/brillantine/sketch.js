@@ -74,13 +74,7 @@ function setup() {
   g.textSize(12);
   g.text('Ein wenig genügt. Form und Glanz.', 250, 579);
 
-  g.push();
-  g.translate(580, 426);
-  g.rotate(-HALF_PI);
-  g.textFont('monospace');
-  g.textSize(9);
-  g.text('ESSENZ / BRILLANTINE / NR. 04', 0, 0);
-  g.pop();
+  Merz.stempel('ESSENZ / BRILLANTINE / NR. 04', 580, 426, { size: 9, font: 'monospace', angle: -90 }, g);
 
   g.textFont('Archivo Black');
   g.textSize(23);

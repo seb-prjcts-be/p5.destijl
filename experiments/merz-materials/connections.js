@@ -72,17 +72,5 @@ function draw() {
 }
 
 function paint(paths, x, y, colour) {
-  push();
-  translate(x, y);
-  noFill();
-  stroke(colour);
-  strokeCap(SQUARE);
-  strokeJoin(MITER);
-  for (const path of paths) {
-    strokeWeight(path.width);
-    beginShape();
-    for (const point of path.points) vertex(...point);
-    endShape();
-  }
-  pop();
+  Merz.stempel({ paths }, x, y, { color: colour });
 }

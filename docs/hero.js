@@ -34,16 +34,11 @@ function draw() {
   textSize(compact ? 155 : 244);
   text(fragment, compact ? 24 : 46, compact ? 174 : 215);
 
-  push();
-  translate(compact ? 45 : 658, compact ? 327 : 342);
-  rotate(-0.18);
-  textFont("monospace");
   for (let i = 0; i < 5; i++) {
-    textSize(15 + i * 5);
-    text("m", i * 35, 0);
+    Merz.stempel('m', (compact ? 45 : 658) + Math.cos(-0.18) * i * 35,
+      (compact ? 327 : 342) + Math.sin(-0.18) * i * 35,
+      { size: 15 + i * 5, font: 'monospace', angle: -0.18 * 180 / Math.PI });
   }
-  pop();
-
   const fork = Merz.bauteile("Y", { size: 35, weight: 0.4 }).find(
     (part) => part.id === "fork"
   );
@@ -60,19 +55,7 @@ function draw() {
 }
 
 function paint(paths, x, y, colour) {
-  push();
-  translate(x, y);
-  noFill();
-  stroke(colour);
-  strokeCap(SQUARE);
-  strokeJoin(MITER);
-  for (const path of paths) {
-    strokeWeight(path.width);
-    beginShape();
-    for (const point of path.points) vertex(...point);
-    endShape();
-  }
-  pop();
+  Merz.stempel({ paths }, x, y, { color: colour });
 }
 
 function windowResized() {

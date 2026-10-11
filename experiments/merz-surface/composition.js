@@ -30,13 +30,7 @@
       );
     }
     if (index === 2) {
-      layer.translate(540, 620);
-      layer.rotate(-Math.PI / 2);
-      layer.noStroke();
-      layer.fill("#b92d26");
-      layer.textFont("Arial");
-      layer.textSize(22);
-      layer.text("WACHT", 0, 0);
+      Merz.stempel('WACHT', 540, 620, { size: 22, font: 'Arial', color: '#b92d26', angle: -90 }, layer);
     }
     if (index === 3) {
       layer.stroke("#20201e");

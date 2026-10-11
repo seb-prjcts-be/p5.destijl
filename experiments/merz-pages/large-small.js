@@ -24,7 +24,7 @@ function setup() {
 
 function draw() {
   background("#f7f7f2");
-  letters(word, title.x, title.y, {
+  Merz.satz(word, title.x, title.y, {
     size: title.size,
     spacing: 12,
     weight: 0.8,
@@ -35,14 +35,7 @@ function draw() {
   textFont("Georgia");
   textSize(smallText.size);
   text(smallText.text, smallText.x, smallText.y);
-  push();
-  translate(sideText.x, sideText.y);
-  rotate(-HALF_PI);
-  fill(accent);
-  textFont("Arial");
-  textSize(sideText.size);
-  text(sideText.text, 0, 0);
-  pop();
+  Merz.stempel(sideText.text, sideText.x, sideText.y, { size: sideText.size, font: 'Arial', color: accent, angle: -90 });
   stroke(ink);
   strokeWeight(3);
   line(48, 690, 450, 690);
@@ -51,22 +44,6 @@ function draw() {
   textFont("Arial");
   textSize(12);
   text("STILTE", 48, 748);
-}
-
-function letters(value, x, y, options) {
-  push();
-  translate(x, y);
-  noFill();
-  stroke(options.color || "#20201e");
-  strokeCap(SQUARE);
-  strokeJoin(MITER);
-  for (const part of Merz.satz(value, options).paths) {
-    strokeWeight(part.width);
-    beginShape();
-    for (const point of part.points) vertex(...point);
-    endShape();
-  }
-  pop();
 }
 
 function keyPressed() {

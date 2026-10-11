@@ -15,6 +15,3 @@ function draw() {
   image(pagePaper, 0, 0);
   image(pageInk, 0, 0);
 }
-function textAt(g, value, x, y, size, font = 'Archivo Black', colour = '#20201e') {
-  g.noStroke(); g.fill(colour); g.textFont(font); g.textSize(size); g.text(value, x, y);
-}

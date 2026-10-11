@@ -2,9 +2,8 @@
 // The curve and bars are redrawn with p5; this is not a facsimile.
 const pageDescription = 'Two vertical Anna Blume titles beside a sweeping black curve, a corner of repeated bars and a compact footer.';
 function compose(g) {
-  g.push(); g.translate(142, 442); g.rotate(-HALF_PI);
-  textAt(g, 'Die Blume Anna', 0, 0, 43, 'Georgia');
-  textAt(g, 'Die neue Anna Blume', 0, 76, 32, 'Georgia'); g.pop();
+  Merz.stempel('Die Blume Anna', 142, 442, { size: 43, font: 'Georgia', angle: -90 }, g);
+  Merz.stempel('Die neue Anna Blume', 218, 442, { size: 32, font: 'Georgia', angle: -90 }, g);
   g.noFill(); g.stroke('#20201e'); g.strokeWeight(49); g.strokeCap(ROUND);
   g.bezier(332, 44, 545, 159, 470, 348, 305, 466);
   g.noStroke(); g.fill('#20201e');
@@ -13,9 +12,8 @@ function compose(g) {
   }
   for (let i = 0; i < 20; i++) g.rect(45 + i * 18, 531, 10, 45);
   g.rect(191, 590, 79, 16);
-  g.push(); g.translate(515, 485); g.rotate(-HALF_PI);
-  textAt(g, 'Kurt Merz Schwitters', 0, 0, 22, 'Georgia'); g.pop();
-  textAt(g, 'Die Blume Anna', 44, 665, 43, 'Georgia');
-  textAt(g, 'Die neue Anna Blume', 171, 699, 23, 'Georgia');
-  textAt(g, 'WORT / FORM / WIEDERHOLUNG', 240, 729, 9, 'monospace');
+  Merz.stempel('Kurt Merz Schwitters', 515, 485, { size: 22, font: 'Georgia', angle: -90 }, g);
+  Merz.stempel('Die Blume Anna', 44, 665, { size: 43, font: 'Georgia' }, g);
+  Merz.stempel('Die neue Anna Blume', 171, 699, { size: 23, font: 'Georgia' }, g);
+  Merz.stempel('WORT / FORM / WIEDERHOLUNG', 240, 729, { size: 9, font: 'monospace' }, g);
 }

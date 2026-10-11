@@ -23,7 +23,7 @@ function setup() {
 
 function draw() {
   background("#f7f7f2");
-  letters(heading.text, heading.x, heading.y, {
+  Merz.satz(heading.text, heading.x, heading.y, {
     size: heading.size,
     spacing: 12,
     weight: 0.75
@@ -39,34 +39,11 @@ function draw() {
     strokeWeight(4);
     line(layout.x, y + 15, layout.x + layout.width, y + 15);
   }
-  push();
-  translate(50, 570);
-  rotate(-HALF_PI);
-  noStroke();
-  fill(ink);
-  textSize(12);
-  text("DADA COMPLET", 0, 0);
-  pop();
+  Merz.stempel('DADA COMPLET', 50, 570, { size: 12, font: 'Arial', angle: -90 });
   noStroke();
   fill(ink);
   textSize(12);
   text("DADA erwacht.", 52, 748);
-}
-
-function letters(value, x, y, options) {
-  push();
-  translate(x, y);
-  noFill();
-  stroke(options.color || "#20201e");
-  strokeCap(SQUARE);
-  strokeJoin(MITER);
-  for (const part of Merz.satz(value, options).paths) {
-    strokeWeight(part.width);
-    beginShape();
-    for (const point of part.points) vertex(...point);
-    endShape();
-  }
-  pop();
 }
 
 function keyPressed() {

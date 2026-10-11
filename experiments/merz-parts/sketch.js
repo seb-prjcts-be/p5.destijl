@@ -21,29 +21,15 @@ function setup() {
   );
 }
 
-function path(part, x, y, colour) {
-  push();
-  translate(x, y);
-  noFill();
-  stroke(colour);
-  strokeWeight(part.width);
-  strokeCap(SQUARE);
-  strokeJoin(MITER);
-  beginShape();
-  for (const point of part.points) vertex(...point);
-  endShape();
-  pop();
-}
-
 function draw() {
   background("#f7f7f2");
   const letter = Merz.satz("A", {
     size: 170,
     weight: 0.65
   });
-  path(letter.paths[0], 55, 100, "#20201e");
-  path(crossbar, 55, 100, partColour);
-  for (let i = 0; i < repeats; i++) path(crossbar, 330, 100 + i * 38, partColour);
+  Merz.stempel({ paths: [letter.paths[0]] }, 55, 100);
+  Merz.stempel({ paths: [crossbar] }, 55, 100, { color: partColour });
+  for (let i = 0; i < repeats; i++) Merz.stempel({ paths: [crossbar] }, 330, 100 + i * 38, { color: partColour });
   const work = Merz.create({
     width: 600,
     height: 840,

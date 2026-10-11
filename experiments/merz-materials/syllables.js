@@ -25,16 +25,11 @@ function draw() {
   textSize(145);
   text(syllables[2], 205, 368);
   textStyle(NORMAL);
-  push();
-  translate(65, 475);
-  rotate(-0.48);
-  fill("#20201e");
-  textFont("monospace");
   for (let i = 0; i < repetitions; i++) {
-    textSize(18 + i * 3);
-    text(syllables[1], i * 62, 0);
+    Merz.stempel(syllables[1], 65 + Math.cos(-0.48) * i * 62,
+      475 + Math.sin(-0.48) * i * 62,
+      { size: 18 + i * 3, font: 'monospace', angle: -0.48 * 180 / Math.PI });
   }
-  pop();
   const fork = Merz.bauteile("Y", { size: 46, weight: 0.45 }).find(
     (part) => part.id === "fork"
   );
@@ -50,17 +45,5 @@ function draw() {
 }
 
 function paint(paths, x, y, colour) {
-  push();
-  translate(x, y);
-  noFill();
-  stroke(colour);
-  strokeCap(SQUARE);
-  strokeJoin(MITER);
-  for (const path of paths) {
-    strokeWeight(path.width);
-    beginShape();
-    for (const point of path.points) vertex(...point);
-    endShape();
-  }
-  pop();
+  Merz.stempel({ paths }, x, y, { color: colour });
 }

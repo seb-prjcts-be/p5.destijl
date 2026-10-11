@@ -9,9 +9,7 @@ async function setup() {
   const rule = await Merz.merzbilder('003');
   background(Merz.farbe.grau);
   await Merz.merzbilder('001', 40, 50, 140);
-  push(); translate(320, 330); rotate(radians(8));
-  await Merz.merzbilder('001', 0, 0, 105);
-  pop();
+  Merz.stempel(m, 320, 330, { scale: 1.5, angle: 8 });
   Merz.stempel(Merz.riss(r, { amount: 0.2, seed: 17 }), [{ x: 250, y: 90, scale: 2.4, angle: -8 }]);
   const lines = [];
   for (let i = 0; i < 7; i++) lines.push({ x: 40 + i * 8, y: 530 + i * 20, scale: 1.6 });
