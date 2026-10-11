@@ -122,6 +122,21 @@ image(cut, 40, 80);</pre>
 const sheet = Merz.andruck(paperLayer, { ink: 0, paper: 0.18, seed: 17 });
 image(sheet, 0, 0);
 image(printed, 0, 0);</pre><p>andruck(source, options, p) takes a p5.Image or p5.Graphics and returns a new p5.Image. It leaves the source unchanged. In instance mode pass p as the third argument. Make the result once in setup() and draw it with ordinary image(). The operation uses a 2D image.</p><p>ink gently reduces coverage, with sparse small losses. paper adds faint warm tonal variation and sparse marks without changing alpha. Keep ink on a transparent layer and paper on its own layer. Applying either operation to a scan treats all its pixels; the library cannot identify the original ink or paper for you.</p><p>Both amounts range from 0 to 1. Defaults are ink 0.12, paper 0, seed 17. Set both to zero for a clean snapshot. Always return to the original source when changing values; treating an already treated result compounds the changes. The pattern is fixed for the same dimensions and seed. It belongs to the supplied layer and follows that layer when placed in p5.</p><p>andruck() preserves the source pixel density. piece.bau() preserves image density; for geometry and parts it follows the p5 drawing context. A 600 × 600 source at pixelDensity(2) returns a 600 × 600 image with 1200 × 1200 backing pixels. Coordinates and surface marks keep their logical scale. The limit is 16 million physical pixels, so density 2 allows up to 2000 × 2000 logical pixels. Density 2 processes four times as many pixels as density 1. A low-resolution scan does not gain detail from a higher-density display. Resizing the source changes the pattern; resolution-independent export and fields shared across independently cropped fragments remain research. The result is raster and is not included in geometric SVG export.</p><p>The implementation runs on the CPU. Up to four surface masks are reused, within a 64 MiB cache. Each call still reads and processes the current source pixels; large images take time even with a cached mask. Exact pixels across different devices are not promised. <a href="../experiments/merz-sheet/compare.html">Compare the clean and light versions</a>.</p>
+<h2 id="bogen">A sheet with paper and ink</h2><pre>let bogen;
+function setup() {
+  createCanvas(600, 760);
+  noLoop();
+  bogen = Merz.bogen({ paper: 0.3, ink: 0.2, seed: 17 });
+  Merz.stempel('NASCI', 25, 139, { size: 115 }, bogen);
+  bogen.noStroke();
+  bogen.fill(Merz.farbe.rot);
+  bogen.rect(351, 222, 212, 320);
+}
+function draw() {
+  bogen.druck();
+}</pre>
+<p><code>bogen(options, p)</code> returns a transparent p5.Graphics the size of the canvas and keeps a paper ground beside it. Draw on it with ordinary p5 calls, or pass it as the context to <code>stempel()</code> and the direct calls. <code>druck(x, y)</code> prints paper and ink onto the canvas with the top-left corner at x and y (default 0, 0) and restores your drawing settings. The ink is treated once and kept for every later print; after <code>clear()</code> or <code>background()</code> on the sheet, the next <code>druck()</code> treats the new drawing.</p>
+<p>Options: <code>width</code> and <code>height</code> (default: the canvas size), <code>paper</code> (default 0.2) and <code>ink</code> (default 0.12) as in <code>andruck()</code>, <code>seed</code> (default 17; paper and ink take different patterns from one seed) and <code>color</code> for the paper (default grau). Set paper and ink to 0 for a clean sheet. The sheet follows the canvas pixel density. In instance mode pass p last, with or without options. The print is raster and is not part of a composition or its SVG.</p>
 <h2>Keep a composition</h2><p>Store elements when you want to edit them by id or export their geometry as SVG. A composition holds geometric letters, lines and planes only. Stamps, fragments and surface results are drawn directly and stay outside it; most sketches need no composition at all.</p><pre>let work;
 
 function setup() {
@@ -184,6 +199,7 @@ Merz.stempel(piece, [{ x: 40, y: 60 }]);</pre><p>Load a catalogue sample by its 
 <tr><td><code>Merz.splitter(source, { rows, columns })</code></td><td>An array of fragments. Counts default to 1; at most 1024 pieces. Source material is copied once for the set. <a href="#splitter">Bounds and order</a>.</td></tr>
 <tr><td><code>Merz.riss(piece, { amount, seed })</code></td><td>A new fragment with an inward torn edge. Defaults: amount 0.3, seed 1. Amount is 0–1; seed is a safe integer. Starts from the clean cut each time. <a href="#fragments">Edges</a>.</td></tr>
 <tr><td><code>Merz.andruck(source, { ink, paper, seed }, p)</code></td><td>A new p5.Image; the source stays unchanged. Defaults: ink 0.12, paper 0, seed 17. Ink and paper are 0–1; seed is a safe integer. Preserves source density. <a href="#surface">Surface behaviour and limits</a>.</td></tr>
+<tr><td><code>Merz.bogen(options, p)</code></td><td>A p5.Graphics of the canvas size with a <code>druck(x, y)</code> method that prints paper and ink. Defaults: paper 0.2, ink 0.12, seed 17, grau paper. Needs a canvas or explicit whole-number width and height. <a href="#bogen">Sheet</a>.</td></tr>
 <tr><td><code>Merz.stempel(source, x, y, options, p)</code><br><code>Merz.stempel(source, placements, p)</code></td><td>The number of impressions drawn. Preserves drawing settings. <a href="#stempel">Placement, repetition and text options</a>.</td></tr>
 <tr><td><code>Merz.merzbilder(id, options, p)</code></td><td>A Promise for a fresh fragment. Images are cached per URL and context. <a href="#fundsachen">Variants and loading</a>.</td></tr>
 <tr><td><code>Merz.merzbilder(id, x, y, width, p)</code></td><td>A Promise that resolves without a value after drawing the sample. Width must be at least 1; proportions are preserved.</td></tr>

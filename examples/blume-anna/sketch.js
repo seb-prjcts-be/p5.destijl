@@ -1,22 +1,17 @@
 // A new cover composition after the supplied Die Blume Anna cover.
 // The curve and bars are redrawn with p5; this is not a facsimile.
-let paper, ink;
+let bogen;
 function setup() {
   createCanvas(600, 760).parent('drawing');
-  pixelDensity(1); noLoop();
-  const ground = createGraphics(width, height); ground.pixelDensity(1);
-  ground.background(Merz.farbe.grau);
-  paper = Merz.andruck(ground, { ink: 0, paper: 0.3, seed: 41 }); ground.remove();
-  const layer = createGraphics(width, height); layer.pixelDensity(1); layer.clear();
-  compose(layer);
-  ink = Merz.andruck(layer, { ink: 0.22, paper: 0, seed: 17 }); layer.remove();
+  noLoop();
+  bogen = Merz.bogen({ paper: 0.3, ink: 0.22, seed: 17 });
+  compose(bogen);
   describe('Two vertical Anna Blume titles beside a sweeping black curve, a corner of repeated bars and a compact footer.');
 }
 function draw() {
-  image(paper, 0, 0);
-  image(ink, 0, 0);
+  bogen.druck();
 }
-// The page is drawn once on a transparent ink layer. Change a word, a position or the curve here.
+// The page is drawn once on the sheet. Change a word, a position or the curve here.
 function compose(g) {
   Merz.stempel('Die Blume Anna', 142, 442, { size: 43, font: 'Georgia', angle: -90 }, g);
   Merz.stempel('Die neue Anna Blume', 218, 442, { size: 32, font: 'Georgia', angle: -90 }, g);

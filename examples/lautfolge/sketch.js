@@ -1,21 +1,16 @@
 // Recombined sound fragments from Merz 1, p. 8 and Merz 4, p. 37.
-let paper, ink;
+let bogen;
 function setup() {
   createCanvas(600, 760).parent('drawing');
-  pixelDensity(1); noLoop();
-  const ground = createGraphics(width, height); ground.pixelDensity(1);
-  ground.background(Merz.farbe.grau);
-  paper = Merz.andruck(ground, { ink: 0, paper: 0.3, seed: 41 }); ground.remove();
-  const layer = createGraphics(width, height); layer.pixelDensity(1); layer.clear();
-  compose(layer);
-  ink = Merz.andruck(layer, { ink: 0.22, paper: 0, seed: 17 }); layer.remove();
+  noLoop();
+  bogen = Merz.bogen({ paper: 0.3, ink: 0.22, seed: 17 });
+  compose(bogen);
   describe('A sound poem with large OI EI, small repeated syllables, a vertical black passage and red punctuation. The groups form a fixed composition.');
 }
 function draw() {
-  image(paper, 0, 0);
-  image(ink, 0, 0);
+  bogen.druck();
 }
-// The page is drawn once on a transparent ink layer. Change a syllable, a size or the loop here.
+// The page is drawn once on the sheet. Change a syllable, a size or the loop here.
 function compose(g) {
   Merz.stempel(Merz.satz('OI', { size: 125 }), 27, 57, g);
   Merz.stempel('EI', 258, 327, { size: 166, font: 'Georgia', color: Merz.farbe.rot }, g);

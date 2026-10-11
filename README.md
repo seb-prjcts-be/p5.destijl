@@ -50,6 +50,8 @@ variation to an image or graphics layer. Keep ink and paper on separate layers;
 ordinary p5 code still draws the result. See [Merzbilder](experiments/merz-sheet/)
 and the [surface guide](docs/guide.html#surface).
 
+`Merz.bogen({ paper: 0.3, ink: 0.2 })` returns a sheet the size of the canvas. Draw on it with p5 or `stempel()`, then `bogen.druck()` prints paper and ink in draw(). See the [sheet guide](docs/guide.html#bogen).
+
 ```js
 let work;
 function setup() {

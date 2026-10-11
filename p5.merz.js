@@ -1296,6 +1296,43 @@
     return result;
   }
   // Coordinates select the short drawing route; data calls keep their own signatures.
+  function bogen(options={},p=root) {
+    if(isContext(options)&&p===root){p=options;options={};}
+    if(!options||typeof options!=='object'||Array.isArray(options))throw new TypeError('bogen options must be an object');
+    for(const key of Object.keys(options))if(!['width','height','paper','ink','seed','color'].includes(key))throw new RangeError('Unknown bogen option: '+key);
+    const settings=surfaceSettings({ink:options.ink??0.12,paper:options.paper??0.2,seed:options.seed??17});
+    const color=colour(options.color??palette.paper);
+    if(!p||typeof p.createGraphics!=='function'||typeof p.image!=='function')throw new TypeError('bogen needs a p5 drawing context');
+    const size={};
+    for(const key of ['width','height']){
+      if(options[key]===undefined&&!(Number.isFinite(p[key])&&p[key]>=1))throw new TypeError('bogen needs a canvas size: call createCanvas() first, or pass width and height');
+      size[key]=number(options[key]??p[key],key,1);
+      if(!Number.isInteger(size[key]))throw new RangeError(key+' must be a whole number');
+    }
+    if(size.width*size.height>16000000)throw new RangeError('bogen must fit within 16 million pixels');
+    const sheet=p.createGraphics(size.width,size.height);
+    sheet.clear();
+    // The paper ground is treated once; the ink is treated when printed.
+    const ground=p.createGraphics(size.width,size.height);
+    ground.pixelDensity(sheet.pixelDensity());
+    ground.background(color);
+    const paper=andruck(ground,{ink:0,paper:settings.paper,seed:settings.seed+1},p);
+    ground.remove();
+    let print=null;
+    for(const name of ['clear','background']){
+      const original=sheet[name];
+      sheet[name]=function(...args){print=null;return original.apply(this,args);};
+    }
+    sheet.druck=function(x=0,y=0){
+      number(x,'x');number(y,'y');
+      if(!print)print=andruck(sheet,{ink:settings.ink,paper:0,seed:settings.seed},p);
+      p.push();
+      try{p.imageMode(p.CORNER??'corner');p.noTint();p.image(paper,x,y);p.image(print,x,y);}
+      finally{p.pop();}
+      return sheet;
+    };
+    return sheet;
+  }
   function drawingCall(name, original) {
     return function(source, ...args) {
       const offset = name === 'bauteil' ? 1 : 0;
@@ -1335,6 +1372,6 @@
   root.Merz=Object.freeze({version:'0.3.0',palette,farbe:settings(),ready,settings,
     satz:drawingCall('satz',satz),bauteile:drawingCall('bauteile',bauteile),bauteil:drawingCall('bauteil',bauteil),
     ausschnitt,rundschnitt:drawingCall('rundschnitt',rundschnitt),splitter,schnitt,riss:drawingCall('riss',riss),
-    andruck:drawingCall('andruck',andruck),stempel,merzbilder,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
+    andruck:drawingCall('andruck',andruck),bogen,stempel,merzbilder,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
   root.MerzComposition=MerzComposition;
 })(globalThis);

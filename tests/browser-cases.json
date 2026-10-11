@@ -14,5 +14,7 @@
   "surface-library-min-browser.html",
   "audit-browser.html?min=1",
   "direct-browser.html",
-  "direct-min-browser.html"
+  "direct-min-browser.html",
+  "bogen-browser.html",
+  "bogen-min-browser.html"
 ]

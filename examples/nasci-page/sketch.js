@@ -1,22 +1,17 @@
 // A new page informed by NASCI's contrasting scales and reading directions.
 // Found phrases: Kunst ist Form (Merz 8/9, p. 78); NASCI (cover).
-let paper, ink;
+let bogen;
 function setup() {
   createCanvas(600, 760).parent('drawing');
-  pixelDensity(1); noLoop();
-  const ground = createGraphics(width, height); ground.pixelDensity(1);
-  ground.background(Merz.farbe.grau);
-  paper = Merz.andruck(ground, { ink: 0, paper: 0.3, seed: 41 }); ground.remove();
-  const layer = createGraphics(width, height); layer.pixelDensity(1); layer.clear();
-  compose(layer);
-  ink = Merz.andruck(layer, { ink: 0.22, paper: 0, seed: 17 }); layer.remove();
+  noLoop();
+  bogen = Merz.bogen({ paper: 0.3, ink: 0.22, seed: 17 });
+  compose(bogen);
   describe('A large NASCI title above branching geometric forms, a red field, narrow vertical text and small notes separated by open paper.');
 }
 function draw() {
-  image(paper, 0, 0);
-  image(ink, 0, 0);
+  bogen.druck();
 }
-// The page is drawn once on a transparent ink layer. Change a word, the red field or the Y loop here.
+// The page is drawn once on the sheet. Change a word, the red field or the Y loop here.
 function compose(g) {
   Merz.stempel(Merz.satz('NASCI', { size: 83 }), 25, 56, g);
   Merz.stempel('Kunst ist Form.', 31, 177, { size: 16, font: 'Georgia' }, g);
