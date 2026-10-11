@@ -60,7 +60,7 @@
   }
   function svg(scene) {
     const n=v=>Number(v.toFixed(4));
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${scene.width}" height="${scene.height}" viewBox="0 0 ${scene.width} ${scene.height}"><title>${scene.text || 'Empty letter study'} - p5.merz</title><desc>A geometric letter study inspired by Theo van Doesburg, using our own letter drawings.</desc><rect width="100%" height="100%" fill="${palette.paper}"/>`+scene.rects.map(r=>`<rect x="${n(r.x)}" y="${n(r.y)}" width="${n(r.w)}" height="${n(r.h)}" fill="${r.fill}"/>`).join('')+'</svg>';
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${scene.width}" height="${scene.height}" viewBox="0 0 ${scene.width} ${scene.height}"><title>${scene.text || 'Empty letter study'} - p5.merz</title><desc>A geometric letter study with our own letter drawings.</desc><rect width="100%" height="100%" fill="${palette.paper}"/>`+scene.rects.map(r=>`<rect x="${n(r.x)}" y="${n(r.y)}" width="${n(r.w)}" height="${n(r.h)}" fill="${r.fill}"/>`).join('')+'</svg>';
   }
   root.MerzStudy=Object.freeze({build,svg,normalize,defaults,palette});
 })(globalThis);

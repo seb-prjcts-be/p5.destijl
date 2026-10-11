@@ -1,6 +1,5 @@
 /* p5.merz 0.3.0 - Sebastien Vanblaere. MIT license.
- * Contemporary geometric lettering inspired by Theo van Doesburg.
- * Own redraws; not a historical font reconstruction.
+ * A sheet, a printer's case, cut pieces and found letters after the magazine Merz.
  */
 (function (root) {
   'use strict';
