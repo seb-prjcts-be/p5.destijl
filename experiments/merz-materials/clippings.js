@@ -1,4 +1,4 @@
-// Found texts: T169, Merz 2, p. 31; T103, p. 17; T166, p. 30.
+// Found texts: T169, Merz 2, p. 31; T103, p. 17; T041, Merz 1, Page 7.
 // See assets/fundsachen/texts/catalogue.json for source scans.
 // Load p5.js and p5.merz.js before this sketch.
 const seed = 17;
@@ -73,7 +73,7 @@ function draw() {
   fill("#20201e");
   textFont("Georgia");
   textSize(18);
-  text("Hierin is het onmogelijke mogelijk.", 235, 601);
+  text("Nichts ist Zufall.", 235, 601);
 }
 
 function paint(paths, x, y, colour) {

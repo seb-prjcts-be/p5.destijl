@@ -9,6 +9,8 @@ Short found texts from the eight Merz issues made available by the [Internationa
 - `coverage.json`: which reviewed pages supplied text. Blank pages and a page containing only a drawing and a question mark supplied no verbal passage.
 - `source-scans/`: the preserved PDFs and extracted embedded images. Some Merz 6 embedded images are inverted; use the original PDF for page presentation.
 
+Dutch-language words and passages are omitted from this selection. Non-verbal sound fragments and German words on Dutch-language pages remain.
+
 Each text was checked visually against the scan. Original spelling, case and punctuation are retained; ordinary layout line wraps and hyphenated word wraps are joined. Sound fragments preserve the selected reading order and line breaks, not a facsimile of the spatial typography. A sentence excerpt may begin or end inside a longer sentence. `pageLanguages` is a reading aid for the source page, not a language classification of every isolated word; `mul` marks mixed language material. Different case or punctuation can give distinct records. Exact repeats share an ID with multiple source references.
 
 Source references identify where the text was found. They do not assign every line to the issue editor: pages include quotations, advertisements, contributors' writing and found material. The handwritten question in Merz 2 is recorded as handwriting, rather than magazine body type. The archive identifies it as Schwitters's note. The Merz 20 scan includes a 1975 reprint imprint; the issue text is catalogued as Merz 20 (1927), without describing the scanned copy as an original 1927 printing.

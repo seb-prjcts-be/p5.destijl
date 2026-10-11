@@ -1,4 +1,4 @@
-@import url('../experiments/shared/studies.css?v=platypi-1');
+@import url('../experiments/shared/studies.css?v=site-warm-1');
 .about-page h2 { font-family: "Archivo Black", Arial, sans-serif; font-weight: 400; text-transform: none; }
 .palette-swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 18px; padding: 0; margin: 24px 0; list-style: none; }
 .palette-swatches li { display: flex; flex-direction: column; gap: 4px; font-family: inherit; font-size: 14px; }
@@ -10,6 +10,10 @@
 #hero{position:relative;width:100%;height:clamp(510px,51.67vw,720px);overflow:hidden;border-bottom:1px solid var(--line)}
 #hero-canvas{position:absolute;inset:0}
 #hero-canvas canvas{display:block}
+.hero-showcase{display:inline-flex;align-items:center;gap:18px;min-height:48px;font-size:18px;color:var(--ink);text-decoration:none}
+.hero-showcase>span:first-child{text-decoration:underline;text-underline-offset:5px}
+.hero-showcase-arrow{font-family:Arial,sans-serif;font-size:44px;font-weight:900;line-height:1}
+.hero-showcase:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
 .merz-hero-copy{position:absolute;left:5%;top:48%;width:43%;max-width:510px}
 .merz-hero-copy h1{font-size:clamp(52px,6vw,90px);margin:0 0 16px;line-height:1.05}
 .merz-hero-copy p{max-width:34ch;font-size:18px;line-height:1.55}

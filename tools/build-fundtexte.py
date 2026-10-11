@@ -23,7 +23,8 @@ reviewed = set()
 for source_id, language, *groups in selections:
     assert source_id in sources, source_id
     assert source_id not in reviewed, source_id
-    reviewed.add(source_id)
+    if any(groups):
+        reviewed.add(source_id)
     source = sources[source_id]
     for kind, texts in zip(['word', 'phrase', 'sentence', 'sound'], groups):
         for text in texts:

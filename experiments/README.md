@@ -2,6 +2,8 @@
 
 For a new sketch, start with [Stempel](merz-stempel/), [Fundsachen](merz-fundsachen/), [cut fragments](merz-fragment-route/scan.html) or [paper and ink](merz-sheet/). The [guide](../docs/guide.html) describes the current library API.
 
+The [Brillantine advertisement](../examples/brillantine/) combines a complete page with fixed paper and ink and an optional horizontal and vertical reveal.
+
 The older studies remain available for comparison. Their local helpers do not define the library API.
 
 | Folder | Status | What remains useful |

@@ -52,10 +52,6 @@ T012 / word
 PYJAMA
 Merz 1, Page 2 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/02.pdf
 
-T013 / phrase
-GROOTE BALANS OPRUIMING
-Merz 1, Page 2 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/02.pdf
-
 T014 / phrase
 KOPF KÜHL, FÜSSE WARM
 Merz 1, Page 2 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/02.pdf
@@ -76,26 +72,6 @@ T018 / phrase
 HOLLAND IST DADA
 Merz 1, Page 3 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/03.pdf
 
-T019 / word
-STILTE
-Merz 1, Page 4 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/04.pdf
-
-T020 / word
-STEM
-Merz 1, Page 4 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/04.pdf
-
-T021 / word
-WACHT
-Merz 1, Page 4 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/04.pdf
-
-T022 / word
-WAAK
-Merz 1, Page 4 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/04.pdf
-
-T023 / word
-WEK
-Merz 1, Page 4 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/04.pdf
-
 T024 / phrase
 DADA COMPLET
 Merz 1, Page 4 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/04.pdf
@@ -110,10 +86,6 @@ Merz 1, Page 5 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/05.pdf
 
 T027 / word
 Windmühlen
-Merz 1, Page 5 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/05.pdf
-
-T028 / sentence
-Begrijp U dat?
 Merz 1, Page 5 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/05.pdf
 
 T029 / sentence
@@ -171,14 +143,6 @@ Merz 1, Page 7 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/07.pdf
 T042 / sentence
 Und wir wollen den Stil.
 Merz 1, Page 7 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/07.pdf
-
-T043 / phrase
-LETTERKLANKBEELDEN (1921)
-Merz 1, Page 8 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/08.pdf
-
-T044 / phrase
-IV (in dissonanten)
-Merz 1, Page 8 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/08.pdf
 
 T045 / sound
 OI EI
@@ -275,36 +239,8 @@ T067 / sentence
 MERZ will nicht bauen, MERZ will umbauen.
 Merz 1, Page 11 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/11.pdf
 
-T068 / word
-PRIJSVRAAG
-Merz 1, Page 12 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/12.pdf
-
-T069 / word
-Rundervet
-Merz 1, Page 12 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/12.pdf
-
-T070 / phrase
-AAN ANNA BLOEME
-Merz 1, Page 12 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/12.pdf
-
-T071 / sentence
-Je, jou, gij, uw, ik je, jou mij, wij?
-Merz 1, Page 12 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/12.pdf
-
 T072 / word
 TANZPUPPE
-Merz 1, Page 13 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/13.pdf
-
-T073 / word
-tusschenruimten
-Merz 1, Page 13 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/13.pdf
-
-T074 / phrase
-MECHANISCHE DANSFIGUUR
-Merz 1, Page 13 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/13.pdf
-
-T075 / sentence
-Elke beweging is recht hoekig berekend, en er is niets toevalligs bij.
 Merz 1, Page 13 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/13.pdf
 
 T076 / word
@@ -339,27 +275,6 @@ T083 / sentence
 Auf diese einfache Weise entstand die Stadt Babylon.
 Merz 1, Page 15 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/15.pdf
 
-T084 / word
-DADAÏSME
-Merz 1, Page 16 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/16.pdf
-Merz 2, Page 28 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/28.pdf
-
-T085 / word
-spontaneïteit
-Merz 2, Page 30 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/30.pdf
-
-T086 / word
-laboratoria
-Merz 1, Page 16 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/16.pdf
-
-T087 / word
-mikroskopisch
-Merz 1, Page 16 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/16.pdf
-
-T088 / phrase
-I. Dada vormt zich.
-Merz 1, Page 16 - https://sdrc.lib.uiowa.edu/dada/merz/1/images/16.pdf
-
 T089 / word
 MERZLITERATUR
 Merz 1, Back - https://sdrc.lib.uiowa.edu/dada/merz/1/images/back.pdf
@@ -370,11 +285,6 @@ Merz 1, Back - https://sdrc.lib.uiowa.edu/dada/merz/1/images/back.pdf
 
 T091 / word
 MECANO
-Merz 1, Back - https://sdrc.lib.uiowa.edu/dada/merz/1/images/back.pdf
-Merz 2, Page 23 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/23.pdf
-
-T092 / phrase
-DE STIJL
 Merz 1, Back - https://sdrc.lib.uiowa.edu/dada/merz/1/images/back.pdf
 Merz 2, Page 23 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/23.pdf
 
@@ -460,18 +370,6 @@ T112 / word
 Schöpfung
 Merz 2, Page 19 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/19.pdf
 
-T113 / word
-Dames-Hemden
-Merz 2, Page 19 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/19.pdf
-
-T114 / word
-Dames-Pantalons
-Merz 2, Page 19 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/19.pdf
-
-T115 / word
-Dames-Combinaison
-Merz 2, Page 19 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/19.pdf
-
 T116 / phrase
 Unsittliches i-Gedicht
 Merz 2, Page 19 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/19.pdf
@@ -502,10 +400,6 @@ Merz 2, Page 20 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/20.pdf
 
 T123 / word
 KÜNSTLER!
-Merz 2, Page 21 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/21.pdf
-
-T124 / word
-KOMPOSITIE
 Merz 2, Page 21 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/21.pdf
 
 T125 / sentence
@@ -577,30 +471,6 @@ T141 / word
 FABRIKANSICHT
 Merz 2, Page 26 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/26.pdf
 
-T142 / word
-RUITER
-Merz 2, Page 26 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/26.pdf
-
-T143 / word
-STAP
-Merz 2, Page 26 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/26.pdf
-
-T144 / word
-PAARD
-Merz 2, Page 26 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/26.pdf
-
-T145 / word
-WOLK
-Merz 2, Page 26 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/26.pdf
-
-T146 / sound
-STAP PAARD STAP PAARD STAP PAARD.
-Merz 2, Page 26 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/26.pdf
-
-T147 / sound
-STIPPE PAARD
-Merz 2, Page 26 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/26.pdf
-
 T148 / phrase
 DADA NACHRICHTEN
 Merz 2, Page 27 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/27.pdf
@@ -609,77 +479,9 @@ T149 / phrase
 DERNIER DADA à PARIS
 Merz 2, Page 27 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/27.pdf
 
-T150 / phrase
-SCHEP-HOP-HOP-HOPDIES
-Merz 2, Page 27 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/27.pdf
-
-T151 / phrase
-DADAISTISCHE-VREEMDELINGEN-VERKEER
-Merz 2, Page 27 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/27.pdf
-
-T152 / word
-lach
-Merz 2, Page 28 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/28.pdf
-
-T153 / word
-levenskracht
-Merz 2, Page 28 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/28.pdf
-
-T154 / word
-Optimisme
-Merz 2, Page 28 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/28.pdf
-
-T155 / phrase
-De veelvormigheid van Dada
-Merz 2, Page 28 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/28.pdf
-
 T156 / word
 wolkenpumpe
 Merz 2, Page 29 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/29.pdf
-
-T157 / word
-wereldbeeld
-Merz 2, Page 29 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/29.pdf
-
-T158 / word
-gedénaturaliseerde
-Merz 2, Page 29 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/29.pdf
-
-T159 / word
-phenomenaal
-Merz 2, Page 29 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/29.pdf
-
-T160 / phrase
-Hij is zijn instrument, spiegel van het geheele wereldgebeuren
-Merz 2, Page 29 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/29.pdf
-
-T161 / word
-Identiteit
-Merz 2, Page 30 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/30.pdf
-
-T162 / word
-simultaneïteit
-Merz 2, Page 30 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/30.pdf
-
-T163 / word
-geest
-Merz 2, Page 30 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/30.pdf
-
-T164 / word
-scheppende
-Merz 2, Page 30 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/30.pdf
-
-T165 / word
-verbeelding
-Merz 2, Page 30 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/30.pdf
-
-T166 / sentence
-Hierin is het onmogelijke mogelijk.
-Merz 2, Page 30 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/30.pdf
-
-T167 / word
-Handtekening
-Merz 2, Page 31 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/31.pdf
 
 T168 / word
 Signature
@@ -687,10 +489,6 @@ Merz 2, Page 31 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/31.pdf
 
 T169 / phrase
 Hier abschneiden!
-Merz 2, Page 31 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/31.pdf
-
-T170 / phrase
-De ondergeteekende wenscht zich te wederopzegging te abonneeren op het tijdschrift
 Merz 2, Page 31 - https://sdrc.lib.uiowa.edu/dada/merz/2/images/31.pdf
 
 T171 / word
@@ -914,10 +712,6 @@ T225 / phrase
 REAKTION auf STILLOSIGKEIT.
 Merz 4, Page 41 - https://sdrc.lib.uiowa.edu/dada/merz/4/images/41.pdf
 
-T226 / sentence
-De boomen zijn de beenen van het Landschap.
-Merz 4, Page 41 - https://sdrc.lib.uiowa.edu/dada/merz/4/images/41.pdf
-
 T227 / word
 SENTIMENT
 Merz 4, Page 42 - https://sdrc.lib.uiowa.edu/dada/merz/4/images/42.pdf
@@ -1008,22 +802,6 @@ Merz 4, Page 46 - https://sdrc.lib.uiowa.edu/dada/merz/4/images/46.pdf
 
 T251 / phrase
 ET VOUS?
-Merz 4, Page 46 - https://sdrc.lib.uiowa.edu/dada/merz/4/images/46.pdf
-
-T252 / phrase
-Vliegende vonken
-Merz 4, Page 46 - https://sdrc.lib.uiowa.edu/dada/merz/4/images/46.pdf
-
-T253 / phrase
-Rockelooze machines
-Merz 4, Page 46 - https://sdrc.lib.uiowa.edu/dada/merz/4/images/46.pdf
-
-T254 / phrase
-Het trouwe paard
-Merz 4, Page 46 - https://sdrc.lib.uiowa.edu/dada/merz/4/images/46.pdf
-
-T255 / sentence
-De booten hebben zwarte schoorstenen.
 Merz 4, Page 46 - https://sdrc.lib.uiowa.edu/dada/merz/4/images/46.pdf
 
 T256 / phrase
@@ -1165,58 +943,6 @@ Merz 6, Page 51 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/51.pdf
 T290 / sentence
 Die Empfindung des Gleichgewichtes des Menschen ist das Ziel aller Gestaltung.
 Merz 6, Page 52 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/52.pdf
-
-T291 / phrase
-HET NEO-PLASTICISME
-Merz 6, Page 53 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/53.pdf
-
-T292 / word
-verschijning
-Merz 6, Page 53 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/53.pdf
-
-T293 / word
-tijdbegrip
-Merz 6, Page 53 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/53.pdf
-
-T294 / word
-ruimtebegrip
-Merz 6, Page 53 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/53.pdf
-
-T295 / word
-beeldingsmiddelen
-Merz 6, Page 53 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/53.pdf
-
-T296 / word
-natuurverschijning
-Merz 6, Page 53 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/53.pdf
-
-T297 / word
-volstrekt
-Merz 6, Page 53 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/53.pdf
-
-T298 / word
-beeldend
-Merz 6, Page 54 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/54.pdf
-
-T299 / word
-vlak
-Merz 6, Page 54 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/54.pdf
-
-T300 / word
-lijn
-Merz 6, Page 54 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/54.pdf
-
-T301 / word
-verhouding
-Merz 6, Page 54 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/54.pdf
-
-T302 / word
-universeele
-Merz 6, Page 54 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/54.pdf
-
-T303 / word
-Neo-plasticisme
-Merz 6, Page 54 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/54.pdf
 
 T304 / word
 HIRSCHEL
@@ -1362,38 +1088,6 @@ Merz 6, Page 60 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/60.pdf
 T339 / phrase
 kritischer Mensch
 Merz 6, Page 60 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/60.pdf
-
-T340 / word
-WEG
-Merz 6, Page 61 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/61.pdf
-
-T341 / word
-WEGEN
-Merz 6, Page 61 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/61.pdf
-
-T342 / word
-WIL
-Merz 6, Page 61 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/61.pdf
-
-T343 / word
-WILLEN
-Merz 6, Page 61 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/61.pdf
-
-T344 / word
-WAGEN
-Merz 6, Page 61 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/61.pdf
-
-T345 / word
-ONBEWOGEN
-Merz 6, Page 61 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/61.pdf
-
-T346 / sound
-1 WEG
-WEG
-2 WEGEN
-1 WIL
-WIL
-Merz 6, Page 61 - https://sdrc.lib.uiowa.edu/dada/merz/6/images/61.pdf
 
 T347 / word
 Heliokonstruktion
