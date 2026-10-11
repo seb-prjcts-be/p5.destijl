@@ -982,7 +982,9 @@
       p=context;
     }
     const paths=Array.isArray(source)?source.flatMap(bauteil=>bauteil?.paths||[]):source?.paths;
-    const isText=typeof source==='string';
+    const isText=typeof source==='string'||(Array.isArray(source)&&source.length>0&&source.every(line=>typeof line==='string'));
+    // Lines come from an array of strings or from line breaks in one string.
+    const lines=isText?(Array.isArray(source)?source:[source]).flatMap(line=>line.split('\n')):null;
     const fragmentSeries=Array.isArray(source)&&source.length>0&&source.every(piece=>fragmentData.has(piece));
     const isFragment=fragmentSeries||fragmentData.has(source);
     if(!isText&&!isFragment&&(!Array.isArray(paths)||!paths.length||paths.some(path=>!path||!Number.isFinite(path.width)||path.width<=0||!Array.isArray(path.points)||path.points.length<2||path.points.some(point=>!Array.isArray(point)||point.length!==2||!point.every(Number.isFinite)))))throw new TypeError('stempel needs text, geometry, letter parts or a cut piece');
@@ -1011,7 +1013,7 @@
     }
     const copies=expanded.map(item=>{
       if(!item||typeof item!=='object')throw new TypeError('Each placement needs x and y');
-      for(const key of Object.keys(item))if(!(isText?['x','y','angle','scale','color','size','font','rows','leading']:['x','y','angle','scale','color']).includes(key))throw new RangeError('Unknown placement option: '+key);
+      for(const key of Object.keys(item))if(!(isText?['x','y','angle','scale','color','size','font','rows','leading','spacing','width','height','rule']:['x','y','angle','scale','color']).includes(key))throw new RangeError('Unknown placement option: '+key);
       const textOptions={};
       if(isText){
         textOptions.size=number(item.size??32,'size',.001);
@@ -1020,6 +1022,19 @@
         textOptions.rows=item.rows??1;
         if(!Number.isSafeInteger(textOptions.rows)||textOptions.rows<1||textOptions.rows>1024)throw new RangeError('rows must be a whole number from 1 to 1024');
         textOptions.leading=number(item.leading??textOptions.size*1.2,'leading',.001);
+        textOptions.spacing=number(item.spacing??0,'spacing');
+        if(item.width!==undefined)textOptions.width=number(item.width,'width',1);
+        if(item.height!==undefined){
+          if(item.width===undefined)throw new RangeError('height needs width: together they describe the box each line fills');
+          textOptions.height=number(item.height,'height',1);
+        }
+        if(item.width!==undefined&&item.spacing!==undefined)throw new RangeError('Use width or spacing, not both');
+        if(item.rule!==undefined&&item.rule!==false){
+          const rule=item.rule===true?{}:item.rule;
+          if(!rule||typeof rule!=='object'||Array.isArray(rule))throw new TypeError('rule must be true or an object with weight and color');
+          for(const key of Object.keys(rule))if(!['weight','color'].includes(key))throw new RangeError('Unknown rule option: '+key);
+          textOptions.rule={weight:number(rule.weight??4,'rule weight',.01),color:rule.color===undefined?null:colour(rule.color)};
+        }
       }
       return {...textOptions,x:number(item.x,'x'),y:number(item.y,'y'),angle:number(item.angle??0,'angle'),scale:number(item.scale??1,'scale',.001),color:colour(item.color??palette.ink)};
     });
@@ -1037,7 +1052,33 @@
         if(isText){
           p.noStroke();p.fill(item.color);p.textFont(item.font);p.textSize(item.size);
           p.textStyle(p.NORMAL??'normal');p.textAlign(p.LEFT??'left',p.BASELINE??'alphabetic');p.textLeading(item.leading);
-          for(let row=0;row<item.rows;row++)p.text(source,0,row*item.leading);
+          if((item.height!==undefined||item.rule)&&typeof p.textBounds!=='function')throw new TypeError('height and rule need text measurement from p5.js 2.x');
+          const all=[];for(let row=0;row<item.rows;row++)all.push(...lines);
+          // Measure first, then draw rules under the text.
+          const layout=all.map((line,i)=>{
+            const y=i*item.leading;
+            if(item.height!==undefined){
+              const b=p.textBounds(line,0,0);
+              if(!(b.w>0&&b.h>0))return {y,width:0};
+              return {y,line,bounds:b,sx:item.width/b.w,sy:item.height/b.h,width:item.width};
+            }
+            if(item.width===undefined&&item.spacing===0)return {y,line,width:p.textWidth(line)};
+            const chars=[...line],advances=chars.map(ch=>p.textWidth(ch));
+            const natural=advances.reduce((sum,w)=>sum+w,0);
+            const gap=item.width===undefined?item.spacing:chars.length>1?(item.width-natural)/(chars.length-1):0;
+            return {y,chars,advances,gap,width:item.width??Math.max(0,natural+gap*(chars.length-1))};
+          });
+          if(item.rule&&layout.length>1){
+            const cap=item.height??p.textBounds('H',0,0).h,span=item.width??Math.max(...layout.map(row=>row.width));
+            p.rectMode(p.CORNER??'corner');p.fill(item.rule.color??item.color);
+            for(let i=0;i<layout.length-1;i++){const cy=layout[i].y+(item.leading-cap)/2;p.rect(0,cy-item.rule.weight/2,span,item.rule.weight);}
+            p.fill(item.color);
+          }
+          for(const row of layout){
+            if(row.bounds){const b=row.bounds;p.push();p.translate(-b.x*row.sx,row.y-(b.y+b.h)*row.sy);p.scale(row.sx,row.sy);p.text(row.line,0,0);p.pop();}
+            else if(row.chars){let x=0;for(const [k,ch] of row.chars.entries()){p.text(ch,x,row.y);x+=row.advances[k]+row.gap;}}
+            else if(row.line!==undefined)p.text(row.line,0,row.y);
+          }
         }
         else if(isFragment){p.imageMode(p.CORNER??'corner');p.noTint();p.image(images.get(material).get(item.color),0,0);}
         else {

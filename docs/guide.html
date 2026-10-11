@@ -170,12 +170,19 @@ Merz.stempel('rrrt', 28, 98, { size: 105, color: farbe.rot });
 Merz.stempel('ABFALL KLEBSTOFF MERZBILD', 28, 660, {
   size: 16, font: 'monospace', rows: 4, leading: 20
 });</code></pre>
+<p>Lines, a measure and rules stay in one call. An array of strings, or a string with line breaks, sets lines at the given leading. <code>width</code> is a measure: each line is spaced out, or pulled in, by letter spacing to fill it. <code>width</code> with <code>height</code> instead stretches the letters so the ink of each line fills that box, with the bottom of the box on the baseline. <code>rule</code> draws a bar between the lines, centred in the gap. Fine for a title after Merz 8/9:</p>
+<pre><code>Merz.stempel(['NATUR VON LAT.', 'WAS SICH AUS SICH', 'KRAFT ENTWICKELT'], 60, 120, {
+  size: 40, leading: 72, width: 480, color: farbe.rot,
+  rule: { weight: 10, color: farbe.blau }
+});
+Merz.stempel('MERZ', 60, 420, { width: 480, height: 150, color: farbe.blau });</code></pre>
+<p><code>spacing</code> adds a fixed distance between letters instead of a measure; the two are not combined. <code>rule: true</code> draws a 4-unit bar in the text colour; <code>{ weight, color }</code> sets its own. Rules span the measure, or the longest line. Spaced lines are drawn letter by letter, so the font's kerning does not apply to them. <code>rows</code> repeats the whole set of lines.</p>
 <p>A repeated layout can stay in one call. <code>repeat</code> sets the count, <code>stepX</code> and <code>stepY</code> the distance between copies. <code>offsetX</code> shifts every second copy sideways. Lists of colours, angles or scales repeat in order.</p>
 <pre><code>Merz.stempel(pieces, -10, 42, {
   repeat: 10, stepY: 58, offsetX: -150,
   color: [farbe.rot, farbe.schwarz, farbe.schwarz]
 });</code></pre>
-<p>An array of fragments cycles through the pieces. An array of letter parts still draws the parts together. At most 1024 impressions can be placed in one call. Text can also use these placement options; its rows and leading describe lines within each impression.</p>
+<p>An array of fragments cycles through the pieces. An array of letter parts still draws the parts together. At most 1024 impressions can be placed in one call. Text can also use these placement options; its lines, rows and leading describe the block within each impression.</p>
 <p>For text, x and y locate the left end of the first baseline. Size defaults to 32, rows to 1 and leading to 1.2 times the size. Text uses Archivo Black by default. The library loads its bundled font before setup() in p5.js 2.x when loaded after p5.js. Keep assets/fonts/ next to the library. For a late-loaded library, await Merz.ready() before drawing; for a module without a script URL, pass { fontURL }. Font accepts another loaded font family name. Uppercase and lowercase are drawn as typed. Angle is in degrees. Use <code>stempel(source, x, y, options, p)</code> for one placement. Options are optional; in instance mode, <code>stempel(source, x, y, p)</code> draws with the defaults. This short form also accepts geometry, parts and fragments. For several placements, use <code>stempel(source, placements, p)</code>. Text settings are restored after drawing. The return value counts placements.</p><pre>const word = Merz.satz('MERZ', { size: 80 });
 Merz.stempel(word, [
   { x: 30, y: 40, color: '#b92d26' },
@@ -200,7 +207,7 @@ Merz.stempel(piece, [{ x: 40, y: 60 }]);</pre><p>Load a catalogue sample by its 
 <tr><td><code>Merz.riss(piece, { amount, seed })</code></td><td>A new fragment with an inward torn edge. Defaults: amount 0.3, seed 1. Amount is 0–1; seed is a safe integer. Starts from the clean cut each time. <a href="#fragments">Edges</a>.</td></tr>
 <tr><td><code>Merz.andruck(source, { ink, paper, seed }, p)</code></td><td>A new p5.Image; the source stays unchanged. Defaults: ink 0.12, paper 0, seed 17. Ink and paper are 0–1; seed is a safe integer. Preserves source density. <a href="#surface">Surface behaviour and limits</a>.</td></tr>
 <tr><td><code>Merz.bogen(options, p)</code></td><td>A p5.Graphics of the canvas size with a <code>druck(x, y)</code> method that prints paper and ink. Defaults: paper 0.2, ink 0.12, seed 17, grau paper. Needs a canvas or explicit whole-number width and height. <a href="#bogen">Sheet</a>.</td></tr>
-<tr><td><code>Merz.stempel(source, x, y, options, p)</code><br><code>Merz.stempel(source, placements, p)</code></td><td>The number of impressions drawn. Preserves drawing settings. <a href="#stempel">Placement, repetition and text options</a>.</td></tr>
+<tr><td><code>Merz.stempel(source, x, y, options, p)</code><br><code>Merz.stempel(source, placements, p)</code></td><td>The number of impressions drawn. Text accepts size, font, rows, leading, spacing, width, height and rule. Preserves drawing settings. <a href="#stempel">Placement, repetition and text options</a>.</td></tr>
 <tr><td><code>Merz.merzbilder(id, options, p)</code></td><td>A Promise for a fresh fragment. Images are cached per URL and context. <a href="#fundsachen">Variants and loading</a>.</td></tr>
 <tr><td><code>Merz.merzbilder(id, x, y, width, p)</code></td><td>A Promise that resolves without a value after drawing the sample. Width must be at least 1; proportions are preserved.</td></tr>
 <tr><td><code>Merz.merzbilder.list()</code></td><td>A fresh array of catalogue entries, including copied crop coordinates. Does not load images.</td></tr>

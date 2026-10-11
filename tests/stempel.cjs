@@ -1,11 +1,14 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
-let baseline;
+let baseline, linesBaseline;
 for (const file of ['p5.merz.js', 'p5.merz.min.js']) {
   const calls = [];
   const p = {};
-  for (const name of ['push','pop','applyMatrix','noFill','stroke','strokeCap','strokeJoin','strokeWeight','beginShape','vertex','endShape','noStroke','fill','textFont','textSize','textStyle','textAlign','textLeading','text']) p[name] = (...args) => calls.push([name,...args]);
+  for (const name of ['push','pop','applyMatrix','noFill','stroke','strokeCap','strokeJoin','strokeWeight','beginShape','vertex','endShape','noStroke','fill','textFont','textSize','textStyle','textAlign','textLeading','text','rect','rectMode','translate','scale']) p[name] = (...args) => calls.push([name,...args]);
+  // Ten units per character; a seven-unit cap height with a one-unit left bearing.
+  p.textWidth = s => { calls.push(['textWidth', s]); return s.length * 10; };
+  p.textBounds = s => { calls.push(['textBounds', s]); return { x: 1, y: -7, w: s.length * 10, h: 7 }; };
   const ctx = { ...p }; vm.runInNewContext(fs.readFileSync(file,'utf8'), ctx);
   const m = ctx.Merz;
   const word = m.satz('MERZ'); const original = JSON.stringify(word);
@@ -65,5 +68,36 @@ for (const file of ['p5.merz.js', 'p5.merz.min.js']) {
   const broken={...p,vertex(){throw new Error('draw failed');}};
   assert.throws(()=>m.stempel(word,[{x:0,y:0}],broken));
   assert.equal(calls.at(-1)[0],'pop');
+  // Lines, measure, spacing, stretch and rules.
+  calls.length=0;
+  assert.equal(m.stempel(['A','B'],0,0,{leading:40},p),1);
+  assert.deepEqual(calls.filter(c=>c[0]==='text'),[['text','A',0,0],['text','B',0,40]]);
+  const linesCalls=JSON.stringify(calls.filter(c=>c[0]==='text'));
+  calls.length=0; m.stempel('A'+String.fromCharCode(10)+'B',0,0,{leading:40},p);
+  assert.equal(JSON.stringify(calls.filter(c=>c[0]==='text')),linesCalls); // A line break is a line.
+  calls.length=0; m.stempel(['A','B'],0,0,{rows:2,leading:10},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='text').map(c=>c[3]),[0,10,20,30]); // rows repeat the lines.
+  calls.length=0; m.stempel('AB',0,0,{width:100},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='text'),[['text','A',0,0],['text','B',90,0]]); // Spaced to the measure.
+  calls.length=0; m.stempel('AB',0,0,{spacing:5},p);
+  assert.deepEqual(calls.filter(c=>c[0]==='text'),[['text','A',0,0],['text','B',15,0]]);
+  calls.length=0; m.stempel('AB',0,0,{width:100,height:50},p);
+  assert.deepEqual(calls.find(c=>c[0]==='scale').slice(1),[5,50/7]);
+  assert.deepEqual(calls.find(c=>c[0]==='translate').slice(1),[-5,0]); // Ink box left at 0, bottom on the baseline.
+  assert.equal(calls.filter(c=>c[0]==='text').length,1);
+  calls.length=0; m.stempel(['A','BCD'],0,0,{leading:40,rule:{weight:6,color:'#b92d26'}},p);
+  const rect=calls.find(c=>c[0]==='rect');
+  assert.deepEqual(rect.slice(1),[0,13.5,30,6]); // Centred in the gap, spanning the longest line.
+  assert.ok(calls.indexOf(rect)<calls.findIndex(c=>c[0]==='text')); // Rules lie under the text.
+  assert.deepEqual(calls.filter(c=>c[0]==='fill').map(c=>c[1]),['#20201e','#b92d26','#20201e']);
+  calls.length=0; m.stempel(['A','B'],0,0,{rule:true,width:200},p);
+  assert.deepEqual(calls.find(c=>c[0]==='rect').slice(3),[200,4]);
+  calls.length=0; m.stempel('A',0,0,{rule:true},p);
+  assert.ok(!calls.some(c=>c[0]==='rect'));
+  for(const options of [{height:50},{width:100,spacing:2},{rule:{weight:0}},{rule:{colour:'#ffffff'}},{rule:'yes'},{width:0},{spacing:NaN}])assert.throws(()=>m.stempel('AB',0,0,options,p));
+  assert.throws(()=>m.stempel(['A',1],0,0,p));
+  assert.throws(()=>m.stempel([],0,0,p));
+  calls.length=0; m.stempel(['A','BCD'],5,6,{rule:true,width:120,leading:40},p);
+  const linesResult=JSON.stringify(calls); if(linesBaseline)assert.equal(linesResult,linesBaseline); linesBaseline=linesResult;
 }
-console.log('Stempel: transforms, source/min parity, global/instance routing, validation and state restoration passed.');
+console.log('Stempel: transforms, source/min parity, global/instance routing, lines, measure, spacing, stretch, rules, validation and state restoration passed.');
