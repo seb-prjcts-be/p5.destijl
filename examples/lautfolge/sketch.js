@@ -17,7 +17,7 @@ function draw() {
 }
 // The page is drawn once on a transparent ink layer. Change a syllable, a size or the loop here.
 function compose(g) {
-  Merz.stempel('OI', 27, 182, { size: 182 }, g);
+  Merz.stempel(Merz.satz('OI', { size: 125 }), 27, 57, g);
   Merz.stempel('EI', 258, 327, { size: 166, font: 'Georgia', color: Merz.farbe.rot }, g);
   Merz.stempel('BI DI', 38, 273, { size: 25, font: 'monospace' }, g);
   Merz.stempel('ZI C S B P D', 40, 308, { size: 14, font: 'monospace' }, g);

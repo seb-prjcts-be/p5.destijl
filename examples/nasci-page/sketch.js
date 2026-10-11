@@ -18,7 +18,7 @@ function draw() {
 }
 // The page is drawn once on a transparent ink layer. Change a word, the red field or the Y loop here.
 function compose(g) {
-  Merz.stempel('NASCI', 25, 139, { size: 115 }, g);
+  Merz.stempel(Merz.satz('NASCI', { size: 83 }), 25, 56, g);
   Merz.stempel('Kunst ist Form.', 31, 177, { size: 16, font: 'Georgia' }, g);
   g.noStroke(); g.fill(Merz.farbe.blau); g.rect(32, 207, 106, 12);
   g.fill(Merz.farbe.rot); g.rect(351, 222, 212, 320);

@@ -13,7 +13,7 @@ async function setup() {
   const pieces = Merz.splitter(source, { rows: 3 });
   for (const [row, piece] of pieces.entries()) {
     strips.push(
-      Merz.riss(piece, { amount, seed: seed + row }).bau(globalThis, {
+      Merz.riss(piece, { amount, seed: seed + row }).bau({
         color: row === 1 ? Merz.farbe.rot : Merz.farbe.schwarz
       })
     );

@@ -5,10 +5,10 @@
     ['satz', 'A geometric letter', "Merz.satz('R', 150, 100);"],
     ['bauteile', 'The parts of a letter', "Merz.bauteile('R', 150, 100);"],
     ['bauteil', 'One letter part', "Merz.bauteil('R', 'bowl', 150, 100);"],
-    ['ausschnitt', 'A rectangular cut', "Merz.ausschnitt('R', 150, 120);"],
+    ['ausschnitt', 'A rectangular cut', "const r = Merz.satz('R');\nconst half = Merz.ausschnitt(r, 0, 0, r.width, r.height / 2);\nMerz.stempel(half, 150, 120);"],
     ['rundschnitt', 'An oval cut', "Merz.rundschnitt('R', 150, 100);"],
-    ['schnitt', 'A cut with three points', "Merz.schnitt('R', 150, 100);"],
-    ['splitter', 'A letter in strips', "Merz.splitter('R', 150, 90);"],
+    ['schnitt', 'A cut with three points', "const r = Merz.satz('R');\nconst corner = Merz.schnitt(r, [[0, 0], [r.width, 0], [0, r.height]]);\nMerz.stempel(corner, 150, 100);"],
+    ['splitter', 'A letter in strips', "const strips = Merz.splitter(Merz.satz('R'), { rows: 3 });\nstrips.forEach((strip, i) => {\n  Merz.stempel(strip, 150, 90 + strip.y + i * 8);\n});"],
     ['riss', 'A torn edge', "Merz.riss('R', 150, 100);"],
     ['andruck', 'A printed surface', "Merz.andruck('R', 150, 100);"],
     ['stempel', 'A text stamp', "Merz.stempel('Merz', 150, 150);"]
@@ -28,7 +28,7 @@
     const frame = document.createElement('iframe');
     frame.title = title;
     frame.loading = 'eager';
-    frame.srcdoc = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{margin:0;height:100%;background:#f7f7f2}body{display:grid;place-items:center}canvas{display:block;max-width:100%;height:auto!important}</style><script defer src="${new URL('vendor/p5-2.3.4.min.js', base)}"></script><script defer src="${new URL('p5.merz.js?v=direct-1', base)}"></script></head><body><script>${source}</script></body></html>`;
+    frame.srcdoc = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>html,body{margin:0;height:100%;background:#f7f7f2}body{display:grid;place-items:center}canvas{display:block;max-width:100%;height:auto!important}</style><script defer src="${new URL('vendor/p5-2.3.4.min.js', base)}"></script><script defer src="${new URL('p5.merz.js?v=direct-2', base)}"></script></head><body><script>${source}</script></body></html>`;
     table.querySelector('tbody td:last-child').append(frame);
     const link = document.createElement('a');
     link.href = `guide.html#${['satz', 'bauteile', 'bauteil'].includes(name) ? 'geometry' : ['ausschnitt', 'rundschnitt', 'schnitt', 'riss'].includes(name) ? 'fragments' : name === 'andruck' ? 'surface' : name}`;

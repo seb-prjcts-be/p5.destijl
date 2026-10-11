@@ -633,6 +633,7 @@
   const foundImages = new WeakMap();
   async function merzbilder(id, options={}, p=root, width, context=root) {
     let placement;
+    if (isContext(options) && p === root) { p = options; options = {}; }
     if (typeof options === 'number') {
       placement = { x: number(options, 'x'), y: number(p, 'y'), width: number(width, 'width', 1) };
       options = {}; p = context;
@@ -764,6 +765,7 @@
   }
   const copy=value=>JSON.parse(JSON.stringify(value));
   const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+  const isContext=value=>!!value&&typeof value==='object'&&typeof value.push==='function'&&typeof value.applyMatrix==='function';
   function number(value,name,min=-Infinity){if(!Number.isFinite(value)||value<min)throw new RangeError(name+' must be a finite number >= '+min);return value;}
   function colour(value){if(typeof value!=='string'||!/^#[0-9a-f]{6}$/i.test(value))throw new TypeError('Use a six-digit hex colour, such as #234b92');return value;}
   function text(value){if(typeof value!=='string')throw new TypeError('Text must be a string');const result=value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\r\n?/g,'\n').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[\u00a0\u202f]/g,' ');for(const c of result)if(c!==' '&&c!=='\n'&&!glyphs[c])throw new RangeError('Unsupported character: '+c);return result;}
@@ -973,6 +975,7 @@
   // Repeat supplied material at explicit positions, within the caller's p5 transform.
   function stempel(source, placements, p=root, options={}, context=root) {
     if(typeof placements==='number'){
+      if(isContext(options)&&context===root){context=options;options={};}
       if(!options||typeof options!=='object'||Array.isArray(options))throw new TypeError('stempel options must be an object');
       if('x' in options||'y' in options)throw new RangeError('Pass x and y before the options');
       placements=[{...options,x:placements,y:p}];
@@ -1046,6 +1049,9 @@
     return copies.length;
   }
   // All cutting routes use source coordinates and return the same piece type.
+  function noText(name, source) {
+    if (typeof source === 'string') throw new TypeError(name + ' cuts geometry, an image or a fragment, not text. Make the letters first with Merz.satz(' + JSON.stringify(source.length > 24 ? source.slice(0, 24) + '…' : source) + ')');
+  }
   function cutBounds(x, y, width, height) {
     number(x, 'x'); number(y, 'y');
     number(width, 'width', 1); number(height, 'height', 1);
@@ -1055,10 +1061,12 @@
     }
   }
   function ausschnitt(source, x, y, width, height) {
+    noText('ausschnitt', source);
     cutBounds(x, y, width, height);
     return schnitt(source, [[x,y], [x+width,y], [x+width,y+height], [x,y+height]]);
   }
   function rundschnitt(source, x, y, width, height = width) {
+    noText('rundschnitt', source);
     cutBounds(x, y, width, height);
     const outline = Array.from({ length: 64 }, (_, i) => {
       const angle = i * Math.PI / 32;
@@ -1069,6 +1077,7 @@
     return schnitt(source, outline);
   }
   function splitter(source, options = {}) {
+    noText('splitter', source);
     if (!options || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('splitter options must be an object');
     for (const key of Object.keys(options)) if (!['rows', 'columns'].includes(key)) throw new RangeError('Unknown splitter option: ' + key);
     const rows = options.rows ?? 1, columns = options.columns ?? 1;
@@ -1109,6 +1118,7 @@
   }
   // Fragments keep source coordinates; rendering places the crop at image origin.
   function schnitt(source, outline) {
+    noText('schnitt', source);
     if (!Array.isArray(outline) || outline.length < 3) throw new TypeError('outline needs at least three points');
     const boundary = outline.map(point => {
       if (!Array.isArray(point) || point.length !== 2 || !point.every(Number.isFinite)) throw new TypeError('outline points must be finite [x, y] pairs');
@@ -1156,7 +1166,11 @@
     const result = { x,y,width,height,
       outline: () => copy(edge),
       bau(p = root, options = {}) {
+        if (p && typeof p === 'object' && !Array.isArray(p) && typeof p.createImage !== 'function' && typeof p.push !== 'function') { options = p; p = root; }
         if (!p || typeof p.createImage !== 'function') throw new TypeError('bau needs a p5 instance or globalThis');
+        if (!options || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('bau options must be an object');
+        for (const key of Object.keys(options)) if (key !== 'color') throw new RangeError('Unknown bau option: ' + key);
+        if (options.color !== undefined) colour(options.color);
         const canvas=root.document.createElement('canvas');
         const density=rasterDensity(material.image || p);
         const pixelWidth=width*density,pixelHeight=height*density;
@@ -1285,16 +1299,16 @@
   function drawingCall(name, original) {
     return function(source, ...args) {
       const offset = name === 'bauteil' ? 1 : 0;
-      const [x, y, options = {}, p = root] = args.slice(offset);
+      let [x, y, options = {}, p = root] = args.slice(offset);
       const direct = typeof x === 'number' && typeof y === 'number' &&
         (args[offset + 2] === undefined || typeof args[offset + 2] === 'object');
       if (!direct) return original(source, ...args);
+      if (isContext(options) && args.length === offset + 3) { p = options; options = {}; }
       number(x, 'x'); number(y, 'y');
       if (!options || Array.isArray(options)) throw new TypeError(name + ' options must be an object');
       const allowed = ['color', 'angle', 'scale', 'size', 'weight', 'proportion', 'spacing', 'leading'];
       if (name === 'riss') allowed.push('amount', 'seed');
       if (name === 'andruck') allowed.push('ink', 'paper', 'seed');
-      if (name === 'splitter') allowed.push('rows', 'columns', 'gap');
       for (const key of Object.keys(options)) if (!allowed.includes(key)) throw new RangeError('Unknown ' + name + ' option: ' + key);
       const placement = { x, y, color: options.color ?? palette.ink, angle: options.angle ?? 0, scale: options.scale ?? 1 };
       colour(placement.color); number(placement.angle, 'angle'); number(placement.scale, 'scale', .001);
@@ -1304,43 +1318,23 @@
       else if (name === 'bauteile') material = bauteile(source, options);
       else material = typeof source === 'string' ? satz(source, options) : source;
       if (name === 'satz' || name === 'bauteil' || name === 'bauteile') return stempel(material, placement, p);
-      if (['ausschnitt', 'rundschnitt', 'schnitt'].includes(name) && fragmentData.has(material)) material = material.bau(p, { color: placement.color });
+      if (name === 'rundschnitt' && fragmentData.has(material)) material = material.bau(p, { color: placement.color });
       // One full-size cut supplies the natural bounds, including path strokes.
       const full = fragmentData.has(material) ? material : splitter(material)[0];
       const left = full.x, top = full.y, width = full.width, height = full.height;
       let piece;
-      if (name === 'ausschnitt') piece = ausschnitt(material, left, top, width, Math.max(1, height / 2));
       if (name === 'rundschnitt') piece = rundschnitt(material, left, top, width, height);
-      if (name === 'schnitt') piece = schnitt(material, [[left, top], [left + width, top], [left, top + height]]);
       if (name === 'riss') piece = riss(full, options);
       if (name === 'andruck') {
         const printed = andruck(full.bau(p, { color: placement.color }), options, p);
         piece = ausschnitt(printed, 0, 0, printed.width, printed.height);
-      }
-      if (name === 'splitter') {
-        const gap = number(options.gap ?? 8, 'gap', 0);
-        const rows = options.rows ?? (options.columns === undefined ? 3 : 1);
-        const columns = options.columns ?? 1;
-        const pieces = splitter(fragmentData.has(material) ? full.bau(p, { color: placement.color }) : material, { rows, columns });
-        // Gap is local to the object, so the whole set shares one transform.
-        p.push();
-        try {
-          const angle = placement.angle * Math.PI / 180, c = Math.cos(angle) * placement.scale, s = Math.sin(angle) * placement.scale;
-          p.applyMatrix(c, s, -s, c, x, y);
-          return pieces.reduce((count, strip, index) => count + stempel(strip, {
-            x: (index % columns) * (width / columns + gap),
-            y: Math.floor(index / columns) * (height / rows + gap),
-            color: placement.color
-          }, p), 0);
-        } finally { p.pop(); }
       }
       return stempel(piece, placement, p);
     };
   }
   root.Merz=Object.freeze({version:'0.3.0',palette,farbe:settings(),ready,settings,
     satz:drawingCall('satz',satz),bauteile:drawingCall('bauteile',bauteile),bauteil:drawingCall('bauteil',bauteil),
-    ausschnitt:drawingCall('ausschnitt',ausschnitt),rundschnitt:drawingCall('rundschnitt',rundschnitt),
-    splitter:drawingCall('splitter',splitter),schnitt:drawingCall('schnitt',schnitt),riss:drawingCall('riss',riss),
+    ausschnitt,rundschnitt:drawingCall('rundschnitt',rundschnitt),splitter,schnitt,riss:drawingCall('riss',riss),
     andruck:drawingCall('andruck',andruck),stempel,merzbilder,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
   root.MerzComposition=MerzComposition;
 })(globalThis);

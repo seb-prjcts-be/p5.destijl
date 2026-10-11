@@ -33,6 +33,10 @@ for (const file of ['p5.merz.js', 'p5.merz.min.js']) {
   assert.equal(calls.length,0);
   m.stempel('global',{x:0,y:0});
   assert.ok(calls.some(c=>c[0]==='text'));
+  calls.length=0;
+  assert.equal(m.stempel(word,28,98,{},p),1); const withOptions=JSON.stringify(calls); calls.length=0;
+  assert.equal(m.stempel(word,28,98,p),1); // A drawing context may replace the options.
+  assert.equal(JSON.stringify(calls),withOptions);
   for(const source of ['rrrt',word,m.bauteile('R')]){
     calls.length=0;
     m.stempel(source,{x:28,y:98,color:'#b92d26'},p);
