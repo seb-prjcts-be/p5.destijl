@@ -1,3 +1,5 @@
+// Found texts: T429, Merz 8/9, p. 78.
+// See assets/fundsachen/texts/catalogue.json for source scans.
 // Load p5.js and p5.merz.js before this sketch.
 const letter = "R";
 const partName = "bowl";
@@ -26,5 +28,5 @@ function draw() {
   fill("#20201e");
   textFont("Georgia");
   textSize(20);
-  text("A part can become another drawing.", 55, 530);
+  text("Kunst ist Form. Formen heißt entformeln.", 55, 530);
 }

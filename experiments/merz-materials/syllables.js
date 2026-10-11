@@ -1,6 +1,6 @@
 // Load p5.js and p5.merz.js before this sketch.
-// These syllables are invented for this visual study.
-const syllables = ["ta", "rr", "oum", "eh"];
+// Sound fragments: T045-T047, Merz 1, p. 8. Recombined here.
+const syllables = ["OI", "BI", "EI", "DI"];
 const repetitions = 7;
 
 function setup() {

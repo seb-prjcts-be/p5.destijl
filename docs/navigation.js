@@ -7,6 +7,14 @@
 
   const narrow = matchMedia('(max-width: 760px)');
   document.querySelectorAll('nav.study-nav').forEach((nav, index) => {
+    if (!nav.querySelector('a[href$="bauteile.html"]')) {
+      const parts = document.createElement('a');
+      parts.href = new URL('bauteile.html', script.src).href;
+      parts.textContent = 'Bauteile';
+      const examples = nav.querySelector('a[href$="examples.html"]');
+      if (examples) examples.after(parts);
+      else nav.append(parts);
+    }
     const wrapper = document.createElement('div');
     wrapper.className = 'site-navigation';
     nav.before(wrapper);

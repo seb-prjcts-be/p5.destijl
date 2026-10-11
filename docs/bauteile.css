@@ -1,0 +1,14 @@
+.bauteile-page { max-width: 1120px; }
+.bauteile-page section { margin: 36px 0 52px; }
+.bauteile-table { width: 100%; table-layout: fixed; border-collapse: collapse; }
+.bauteile-table th, .bauteile-table td { width: 50%; border: 1px solid var(--line); text-align: left; }
+.bauteile-table th { padding: 10px 20px; font-size: 13px; font-weight: normal; }
+.bauteile-table td { padding: 0; vertical-align: middle; }
+.bauteile-table pre { margin: 0; padding: 20px; height: 340px; max-height: none; box-sizing: border-box; font-size: 12px; }
+.bauteile-table iframe { display: block; width: 100%; height: 340px; border: 0; }
+@media (max-width: 760px) {
+  .bauteile-table, .bauteile-table tbody, .bauteile-table tr, .bauteile-table td { display: block; width: 100%; }
+  .bauteile-table thead { display: none; }
+  .bauteile-table td + td { border-top: 0; }
+  .bauteile-table pre, .bauteile-table iframe { height: 320px; }
+}

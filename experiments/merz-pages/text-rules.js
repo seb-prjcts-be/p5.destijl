@@ -1,10 +1,12 @@
+// Found texts: T019-T025, Merz 1, p. 4.
+// See assets/fundsachen/texts/catalogue.json for source scans.
 const lines = [
-  "A LINE HOLDS A PLACE",
-  "WORDS RETURN BELOW IT",
-  "LEAVE ROOM BETWEEN",
-  "ONE THOUGHT AND ANOTHER"
+  "STILTE",
+  "STEM",
+  "WACHT",
+  "WAAK"
 ];
-const heading = { text: "LINES", x: 52, y: 92, size: 100 };
+const heading = { text: "WEK", x: 52, y: 92, size: 100 };
 const layout = { x: 90, y: 330, width: 450, gap: 57 };
 const ink = "#20201e";
 const accent = "#b92d26";
@@ -43,12 +45,12 @@ function draw() {
   noStroke();
   fill(ink);
   textSize(12);
-  text("TEXT / RULES / INTERVALS", 0, 0);
+  text("DADA COMPLET", 0, 0);
   pop();
   noStroke();
   fill(ink);
   textSize(12);
-  text("02 / TEXT AND RULES", 52, 748);
+  text("DADA erwacht.", 52, 748);
 }
 
 function letters(value, x, y, options) {

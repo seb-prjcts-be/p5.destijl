@@ -1,5 +1,7 @@
+// Found texts: T019, Merz 1, p. 4; T383, Merz 7, p. 70. Selected sounds are recombined.
+// See assets/fundsachen/texts/catalogue.json for source scans.
 // With p5.js and p5.merz.js loaded.
-// 0 for Merzbild, 1 for Splitter, 2 for Rrrt.
+// 0 for Merzbild, 1 for STILTE, 2 for RF RF.
 let study = 0;
 
 function setup() {
@@ -33,7 +35,7 @@ function merzbild() {
 }
 
 function splitWord() {
-  const word = Merz.satz('SPLITTER', { size: 110, weight: 0.85, spacing: 8 });
+  const word = Merz.satz('STILTE', { size: 110, weight: 0.85, spacing: 8 });
   // Two strips might leave more of the word intact.
   const pieces = Merz.splitter(word, { rows: 3 });
   const torn = pieces.map((piece, i) => Merz.riss(piece, { amount: 0.16, seed: 17 + i }));
@@ -45,7 +47,7 @@ function splitWord() {
     angle: [-4, 0, 0],
     color: [Merz.farbe.rot, Merz.farbe.schwarz, Merz.farbe.schwarz]
   });
-  Merz.stempel('splitter', 30, 705, { size: 81, color: Merz.farbe.schwarz });
+  Merz.stempel('STILTE', 30, 705, { size: 81, color: Merz.farbe.schwarz });
   Merz.stempel('17 / 41 / 103', 377, 703, { size: 15, font: 'monospace', color: Merz.farbe.rot });
 }
 
@@ -59,8 +61,8 @@ function rrrt() {
     }
   }
   Merz.stempel(bowl, impressions);
-  Merz.stempel('rrrt', 28, 98, { size: 105, color: Merz.farbe.rot });
-  Merz.stempel('ABFALL  KLEBSTOFF  MERZBILD  ZWECKFREI', 28, 660, {
+  Merz.stempel('RF RF', 28, 98, { size: 86, color: Merz.farbe.rot });
+  Merz.stempel('W W  PBD  ZFM  TZPF TZPF', 28, 660, {
     size: 16, font: 'monospace', color: Merz.farbe.schwarz, rows: 4, leading: 20
   });
 }

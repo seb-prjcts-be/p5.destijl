@@ -1,3 +1,5 @@
+// Found texts: T169, Merz 2, p. 31; T103, p. 17; T166, p. 30.
+// See assets/fundsachen/texts/catalogue.json for source scans.
 // Load p5.js and p5.merz.js before this sketch.
 const seed = 17;
 const ticketNumber = "038 / 72";
@@ -42,7 +44,7 @@ function draw() {
   fill("#20201e");
   textFont("monospace");
   textSize(13);
-  text("ONE JOURNEY / KEEP THIS PART", 18, 27);
+  text("Hier abschneiden!", 18, 27);
   textSize(34);
   text(ticketNumber, 18, 82);
   stroke("#20201e");
@@ -61,7 +63,7 @@ function draw() {
   fill("#b92d26");
   textFont("Georgia");
   textSize(30);
-  text("again", 373, 228);
+  text("i", 373, 228);
   paint(
     Merz.bauteile("R", { size: 140 }).find((part) => part.id === "bowl").paths,
     70,
@@ -71,7 +73,7 @@ function draw() {
   fill("#20201e");
   textFont("Georgia");
   textSize(18);
-  text("a piece kept / a piece used again", 235, 601);
+  text("Hierin is het onmogelijke mogelijk.", 235, 601);
 }
 
 function paint(paths, x, y, colour) {

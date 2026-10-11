@@ -1,3 +1,5 @@
+// Found texts: T169, Merz 2, p. 31.
+// See assets/fundsachen/texts/catalogue.json for source scans.
 const fragments = {
   m: {
     x: 10,
@@ -72,7 +74,7 @@ function draw() {
   textFont("Arial");
   textSize(14);
   text(
-    "A scan fragment keeps the paper around it.\nThe geometric letter remains editable.",
+    "Hier abschneiden!",
     60,
     690
   );

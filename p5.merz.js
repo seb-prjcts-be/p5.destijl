@@ -1281,6 +1281,66 @@
     result.updatePixels();
     return result;
   }
-  root.Merz=Object.freeze({version:'0.3.0',palette,farbe:settings(),ready,settings,satz,bauteile,bauteil,ausschnitt,rundschnitt,splitter,schnitt,riss,andruck,stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
+  // Coordinates select the short drawing route; data calls keep their own signatures.
+  function drawingCall(name, original) {
+    return function(source, ...args) {
+      const offset = name === 'bauteil' ? 1 : 0;
+      const [x, y, options = {}, p = root] = args.slice(offset);
+      const direct = typeof x === 'number' && typeof y === 'number' &&
+        (args[offset + 2] === undefined || typeof args[offset + 2] === 'object');
+      if (!direct) return original(source, ...args);
+      number(x, 'x'); number(y, 'y');
+      if (!options || Array.isArray(options)) throw new TypeError(name + ' options must be an object');
+      const allowed = ['color', 'angle', 'scale', 'size', 'weight', 'proportion', 'spacing', 'leading'];
+      if (name === 'riss') allowed.push('amount', 'seed');
+      if (name === 'andruck') allowed.push('ink', 'paper', 'seed');
+      if (name === 'splitter') allowed.push('rows', 'columns', 'gap');
+      for (const key of Object.keys(options)) if (!allowed.includes(key)) throw new RangeError('Unknown ' + name + ' option: ' + key);
+      const placement = { x, y, color: options.color ?? palette.ink, angle: options.angle ?? 0, scale: options.scale ?? 1 };
+      colour(placement.color); number(placement.angle, 'angle'); number(placement.scale, 'scale', .001);
+      if (!p || typeof p.push !== 'function' || typeof p.applyMatrix !== 'function') throw new TypeError(name + ' needs a p5 drawing context');
+      let material;
+      if (name === 'bauteil') material = bauteil(source, args[0], options);
+      else if (name === 'bauteile') material = bauteile(source, options);
+      else material = typeof source === 'string' ? satz(source, options) : source;
+      if (name === 'satz' || name === 'bauteil' || name === 'bauteile') return stempel(material, placement, p);
+      if (['ausschnitt', 'rundschnitt', 'schnitt'].includes(name) && fragmentData.has(material)) material = material.bau(p, { color: placement.color });
+      // One full-size cut supplies the natural bounds, including path strokes.
+      const full = fragmentData.has(material) ? material : splitter(material)[0];
+      const left = full.x, top = full.y, width = full.width, height = full.height;
+      let piece;
+      if (name === 'ausschnitt') piece = ausschnitt(material, left, top, width, Math.max(1, height / 2));
+      if (name === 'rundschnitt') piece = rundschnitt(material, left, top, width, height);
+      if (name === 'schnitt') piece = schnitt(material, [[left, top], [left + width, top], [left, top + height]]);
+      if (name === 'riss') piece = riss(full, options);
+      if (name === 'andruck') {
+        const printed = andruck(full.bau(p, { color: placement.color }), options, p);
+        piece = ausschnitt(printed, 0, 0, printed.width, printed.height);
+      }
+      if (name === 'splitter') {
+        const gap = number(options.gap ?? 8, 'gap', 0);
+        const rows = options.rows ?? (options.columns === undefined ? 3 : 1);
+        const columns = options.columns ?? 1;
+        const pieces = splitter(fragmentData.has(material) ? full.bau(p, { color: placement.color }) : material, { rows, columns });
+        // Gap is local to the object, so the whole set shares one transform.
+        p.push();
+        try {
+          const angle = placement.angle * Math.PI / 180, c = Math.cos(angle) * placement.scale, s = Math.sin(angle) * placement.scale;
+          p.applyMatrix(c, s, -s, c, x, y);
+          return pieces.reduce((count, strip, index) => count + stempel(strip, {
+            x: (index % columns) * (width / columns + gap),
+            y: Math.floor(index / columns) * (height / rows + gap),
+            color: placement.color
+          }, p), 0);
+        } finally { p.pop(); }
+      }
+      return stempel(piece, placement, p);
+    };
+  }
+  root.Merz=Object.freeze({version:'0.3.0',palette,farbe:settings(),ready,settings,
+    satz:drawingCall('satz',satz),bauteile:drawingCall('bauteile',bauteile),bauteil:drawingCall('bauteil',bauteil),
+    ausschnitt:drawingCall('ausschnitt',ausschnitt),rundschnitt:drawingCall('rundschnitt',rundschnitt),
+    splitter:drawingCall('splitter',splitter),schnitt:drawingCall('schnitt',schnitt),riss:drawingCall('riss',riss),
+    andruck:drawingCall('andruck',andruck),stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
   root.MerzComposition=MerzComposition;
 })(globalThis);

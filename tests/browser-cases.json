@@ -12,5 +12,7 @@
   "stempel-min-browser.html",
   "surface-library-browser.html",
   "surface-library-min-browser.html",
-  "audit-browser.html?min=1"
+  "audit-browser.html?min=1",
+  "direct-browser.html",
+  "direct-min-browser.html"
 ]

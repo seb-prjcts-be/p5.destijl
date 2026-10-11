@@ -1,3 +1,5 @@
+// Found texts: T019-T025, Merz 1, p. 4.
+// See assets/fundsachen/texts/catalogue.json for source scans.
 /* Local composition shared by the surface comparisons. */
 (function (root) {
   "use strict";
@@ -9,7 +11,7 @@
         height: 840,
         background: null
       });
-      work.text("ROOM", 48, 110, {
+      work.text("STEM", 48, 110, {
         size: 128,
         spacing: 12,
         weight: 0.8
@@ -22,7 +24,7 @@
       layer.textFont("Georgia");
       layer.textSize(19);
       layer.text(
-        "A word takes its place.\nSmall text keeps a different voice.\nThe space between them stays open.",
+        "DADA erwacht.",
         48,
         355
       );
@@ -34,7 +36,7 @@
       layer.fill("#b92d26");
       layer.textFont("Arial");
       layer.textSize(22);
-      layer.text("ROOM TO MAKE", 0, 0);
+      layer.text("WACHT", 0, 0);
     }
     if (index === 3) {
       layer.stroke("#20201e");
@@ -44,7 +46,7 @@
       layer.fill("#20201e");
       layer.textFont("Arial");
       layer.textSize(12);
-      layer.text("01 / LARGE AND SMALL", 48, 748);
+      layer.text("STILTE", 48, 748);
     }
     layer.pop();
   }

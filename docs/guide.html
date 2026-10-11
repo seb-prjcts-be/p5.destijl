@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Guide - p5.merz</title><link rel="stylesheet" href="library.css?v=swatches-1"><link rel="icon" href="data:,"><script defer src="code-style.js"></script><script defer src="../docs/navigation.js"></script></head><body><header><a class="brand" href="../index.html">p5.merz</a><span>Guide</span></header>
 <nav class="study-nav" aria-label="p5.merz pages">
-      <a href="../index.html">Showcase</a>
+      <a href="../index.html#showcase">Showcase</a>
       <a href="examples.html">Examples</a>
       <a href="fundsachen.html">Fundsachen</a>
       <a aria-current="page" href="guide.html">Guide</a>
@@ -12,6 +12,26 @@
 &lt;script src="p5.merz.js"&gt;&lt;/script&gt;
 &lt;script src="sketch.js"&gt;&lt;/script&gt;</pre>
 <p><a href="#api-reference">Function reference</a> lists the calls and their return values. The sections below include options and sketches.</p>
+<h2 id="direct-drawing">Draw a piece</h2>
+<pre>function setup() {
+  createCanvas(400, 300);
+  noLoop();
+  background(Merz.farbe.grau);
+  Merz.riss('R', 150, 100);
+}</pre>
+<p>Pass the material and its position to draw it directly. The library makes the geometry, cuts or raster image it needs. <a href="bauteile.html">Bauteile</a> shows one short sketch for each operation.</p>
+<pre>Merz.satz('R', 150, 100);
+Merz.bauteile('R', 150, 100);
+Merz.bauteil('R', 'bowl', 150, 100);
+Merz.ausschnitt('R', 150, 100);
+Merz.rundschnitt('R', 150, 100);
+Merz.schnitt('R', 150, 100);
+Merz.splitter('R', 150, 100);
+Merz.riss('R', 150, 100);
+Merz.andruck('R', 150, 100);</pre>
+<p>Each line is a separate drawing. Geometric letters default to size 100 and black. The rectangular cut keeps the upper half; the oval fits the source bounds; the triangular cut keeps the upper-left half. Splitter draws three horizontal strips with an 8-unit gap. Riss and andruck use their fixed default amounts and seeds. Coordinates place the geometry origin or the top-left of the cut output; ordinary text stamps use a baseline.</p>
+<p>Options come after x and y, when you need them: <code>Merz.riss('R', 150, 100, { size: 160, color: Merz.farbe.rot })</code>. Color, angle and scale apply to placement; size, weight, proportion, spacing and leading apply when making letters. Riss also accepts amount and seed; andruck accepts ink, paper and seed; splitter accepts rows, columns and gap. In instance mode, pass the p5 instance last: <code>Merz.riss('R', 150, 100, {}, p)</code>.</p>
+<p>Direct calls return the number of pieces drawn. They also accept prepared geometry, images and fragments for cutting and surface operations. Without drawing coordinates, the calls below return their usual editable data or images. Keep those when you want to reuse material, choose exact cuts or export composition geometry. Direct raster operations process the source on each call; draw static results in setup().</p>
 <h2 id="settings">The default colo(u)rs</h2>
 <p>p5.merz includes five colours, ready to use through <code>Merz.farbe</code>. <code>grau</code> is the background colour at index 0.</p>
 <ul class="palette-swatches" aria-label="Default library colours">

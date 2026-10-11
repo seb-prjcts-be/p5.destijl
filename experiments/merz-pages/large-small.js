@@ -1,12 +1,14 @@
-const word = "ROOM";
+// Found texts: T019-T025, Merz 1, p. 4.
+// See assets/fundsachen/texts/catalogue.json for source scans.
+const word = "STEM";
 const title = { x: 48, y: 110, size: 128 };
 const smallText = {
   x: 48,
   y: 355,
   size: 19,
-  text: "A word takes its place.\nSmall text keeps a different voice.\nThe space between them stays open."
+  text: "DADA erwacht."
 };
-const sideText = { x: 540, y: 620, size: 22, text: "ROOM TO MAKE" };
+const sideText = { x: 540, y: 620, size: 22, text: "WACHT" };
 const ink = "#20201e",
   accent = "#b92d26";
 
@@ -48,7 +50,7 @@ function draw() {
   fill(ink);
   textFont("Arial");
   textSize(12);
-  text("01 / LARGE AND SMALL", 48, 748);
+  text("STILTE", 48, 748);
 }
 
 function letters(value, x, y, options) {

@@ -1,3 +1,5 @@
+// Found texts: T166, Merz 2, p. 30.
+// See assets/fundsachen/texts/catalogue.json for source scans.
 // Load p5.js and p5.merz.js before this sketch.
 const inkAmount = 0.12;
 const paperAmount = 0.18;
@@ -34,7 +36,7 @@ function setup() {
   ink.textSize(15);
   ink.text("1 / 2 / 3", 52, 671);
   ink.textSize(11);
-  ink.text("Collected here. Arranged in code.", 52, 700);
+  ink.text("Hierin is het onmogelijke mogelijk.", 52, 700);
   const impression = Merz.andruck(ink, { ink: inkAmount, paper: 0, seed });
   const page = createGraphics(width, height);
   page.pixelDensity(1);

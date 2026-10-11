@@ -1,3 +1,5 @@
+// Found texts: T423, Merz 8/9, p. 76; T041, Merz 1, p. 7; T130, Merz 2, p. 23; T021/T024, Merz 1, p. 4.
+// See assets/fundsachen/texts/catalogue.json for source scans.
 /* Own composition, inspired by typographic relationships in Merz.
  * Uses the shared Merz geometry for both drawing routes.
  */
@@ -42,18 +44,18 @@
     p.noErase();
     p.noStroke(); p.fill(ink);
     p.textFont('Arial'); p.textStyle('normal'); p.textSize(12);
-    p.text('LETTERS / LINES / COLOUR PLANES', 52, 65);
+    p.text('MERZBILD', 52, 65);
     p.textSize(16);
-    p.text('A word, a line and a plane.', 52, 315);
-    p.text('Change the text and the space around it.', 52, 339);
+    p.text('Kunstwerk ist Gleichgewicht.', 52, 315);
+    p.text('Nichts ist Zufall.', 52, 339);
     p.textFont('Georgia'); p.textSize(85);
     p.text('m', 345, 479);
     p.push(); p.translate(543, 570); p.rotate(-Math.PI / 2);
     p.textFont('Arial'); p.textSize(14);
-    p.text('room to make your own', 0, 0); p.pop();
+    p.text('WACHT', 0, 0); p.pop();
     p.textFont('Arial'); p.textSize(14);
     p.text('01', 52, 744);
-    p.text('p5.merz / an ink study', 100, 744);
+    p.text('DADA COMPLET', 100, 744);
     p.pop();
   }
   function render(p, amount, seed, route) {

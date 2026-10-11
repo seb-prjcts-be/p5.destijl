@@ -1,10 +1,12 @@
+// Found texts: T019-T023, Merz 1, p. 4; T041, p. 7.
+// See assets/fundsachen/texts/catalogue.json for source scans.
 const ink = "#20201e";
 const accent = "#b92d26";
 const leftGroup = {
   x: 45,
   y: 58,
   size: 28,
-  text: "One group.\nAn interval.\nElsewhere."
+  text: "STILTE\nWACHT\nWAAK"
 };
 const rules = { x: 490, y: 50, width: 270, gap: 15, count: 6 };
 const rightGroup = {
@@ -54,8 +56,8 @@ function draw() {
   noStroke();
   fill(ink);
   textSize(24);
-  text("The middle is left open.", 300, 500);
-  text("03 / OPEN PAGE", 45, 555);
+  text("Nichts ist Zufall.", 300, 500);
+  text("WEK", 45, 555);
 }
 
 function letters(value, x, y, options) {
