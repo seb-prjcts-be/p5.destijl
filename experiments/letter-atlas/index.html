@@ -1,9 +1,9 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Letter atlas - p5.merz</title><link rel="icon" href="data:,"><link rel="stylesheet" href="../shared/studies.css?v=platypi-1"><script defer src="../../vendor/p5-2.3.4.min.js"></script><script defer src="../letter-as-plane/model.js"></script><script defer src="../../p5.merz.js"></script><script defer src="../shared/bars.js"></script><script defer src="sketch.js?v=api-audit-1"></script><script defer src="../../docs/navigation.js"></script></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Letter atlas - p5.merz</title><link rel="icon" href="data:,"><link rel="stylesheet" href="../shared/studies.css?v=platypi-1"><script defer src="../../vendor/p5-2.3.4.min.js"></script><script defer src="../letter-as-plane/model.js"></script><script defer src="../../p5.merz.js"></script><script defer src="../shared/bars.js"></script><script defer src="sketch.js"></script><script defer src="../../docs/navigation.js"></script></head><body>
 <header><a class="brand" href="../../index.html">p5.merz</a><span>Comparing letters</span></header>
 <nav class="study-nav" aria-label="p5.merz pages">
-      <a href="../../index.html#showcase">Showcase</a>
+      <a href="../../index.html">Showcase</a>
       <a href="../../docs/examples.html">Examples</a>
-      <a href="../../docs/fundsachen.html">Merzbilder</a>
+      <a href="../../docs/fundsachen.html">Fundsachen</a>
       <a href="../../docs/guide.html">Guide</a>
       <a aria-current="true" href="../../docs/research.html">Research</a>
       <a href="../../docs/about.html">About</a>
@@ -12,7 +12,6 @@
 
 
 <main class="wide"><h1>Letter atlas</h1><p class="notes">Two drawings of our own: the first on a row grid, the newer one with continuous bars.</p>
-
 <div class="atlas-controls"><div><label for="weight">Bar thickness</label> <input id="weight" type="range" min=".35" max="1" step=".05" value="1"><output id="weight-value" for="weight">1.00</output></div><div><label for="letter">Letter</label><select id="letter"><option>A</option><option>M</option><option>N</option><option>R</option><option>S</option><option>V</option><option>W</option><option>X</option><option>Y</option><option>Z</option></select></div><button id="save" type="button">Save the redrawn letter as SVG</button></div>
 <div class="compare"><section><h2>First grid study</h2><div id="old"></div></section><section><h2>Library letters</h2><div id="new"></div></section></div>
 <p id="letter-note" class="notes" role="status"></p><p class="notes">At lower bar thicknesses, vertical stems in the first model separate. The newer drawing keeps them connected. The slider changes our drawings while the source stays fixed. D/O and U/V have distinct shapes in the library. Their readability still needs study.</p>

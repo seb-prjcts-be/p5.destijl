@@ -19,9 +19,9 @@ async function setup() {
     }
     small.update(id,{text:'xé'});
     check(small.get(id).text==='XE'&&small.get(id).id===id,'normalization preserves the element id');
-    const piece=await Merz.merzbilder('001');
-    check(piece.width===70,'global Merzbilder resolves relative to the library');
-    await new Promise((resolve,reject)=>new p5(p=>{p.setup=async()=>{try{p.noCanvas();p.noLoop();const f=await Merz.merzbilder('001',{},p);check(f.width===70,'instance Merzbilder resolves relative to the library');p.remove();resolve();}catch(e){reject(e);}}}));
+    const piece=await Merz.fundsachen('001');
+    check(piece.width===70,'global Fundsachen resolves relative to the library');
+    await new Promise((resolve,reject)=>new p5(p=>{p.setup=async()=>{try{p.noCanvas();p.noLoop();const f=await Merz.fundsachen('001',{},p);check(f.width===70,'instance Fundsachen resolves relative to the library');p.remove();resolve();}catch(e){reject(e);}}}));
     if(new URLSearchParams(location.search).has('bench')) {
       for(const size of [600,2000,4000]) {
         const layer=createGraphics(size,size);layer.pixelDensity(1);layer.background('#b92d26');

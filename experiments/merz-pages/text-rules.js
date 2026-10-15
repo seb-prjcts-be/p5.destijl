@@ -1,12 +1,10 @@
-// Found texts: T019-T025, Merz 1, p. 4.
-// See assets/fundsachen/texts/catalogue.json for source scans.
 const lines = [
-  "NUMMER",
-  "STAB",
-  "KRAFT",
-  "BAND"
+  "A LINE HOLDS A PLACE",
+  "WORDS RETURN BELOW IT",
+  "LEAVE ROOM BETWEEN",
+  "ONE THOUGHT AND ANOTHER"
 ];
-const heading = { text: "WEG", x: 52, y: 92, size: 100 };
+const heading = { text: "LINES", x: 52, y: 92, size: 100 };
 const layout = { x: 90, y: 330, width: 450, gap: 57 };
 const ink = "#20201e";
 const accent = "#b92d26";
@@ -23,7 +21,7 @@ function setup() {
 
 function draw() {
   background("#f7f7f2");
-  Merz.satz(heading.text, heading.x, heading.y, {
+  letters(heading.text, heading.x, heading.y, {
     size: heading.size,
     spacing: 12,
     weight: 0.75
@@ -39,11 +37,34 @@ function draw() {
     strokeWeight(4);
     line(layout.x, y + 15, layout.x + layout.width, y + 15);
   }
-  Merz.stempel('DADA COMPLET', 50, 570, { size: 12, font: 'Arial', angle: -90 });
+  push();
+  translate(50, 570);
+  rotate(-HALF_PI);
   noStroke();
   fill(ink);
   textSize(12);
-  text("DADA erwacht.", 52, 748);
+  text("TEXT / RULES / INTERVALS", 0, 0);
+  pop();
+  noStroke();
+  fill(ink);
+  textSize(12);
+  text("02 / TEXT AND RULES", 52, 748);
+}
+
+function letters(value, x, y, options) {
+  push();
+  translate(x, y);
+  noFill();
+  stroke(options.color || "#20201e");
+  strokeCap(SQUARE);
+  strokeJoin(MITER);
+  for (const part of Merz.satz(value, options).paths) {
+    strokeWeight(part.width);
+    beginShape();
+    for (const point of part.points) vertex(...point);
+    endShape();
+  }
+  pop();
 }
 
 function keyPressed() {

@@ -1,5 +1,3 @@
-// Found texts: T169, Merz 2, p. 31; T103, p. 17; T041, Merz 1, Page 7.
-// See assets/fundsachen/texts/catalogue.json for source scans.
 // Load p5.js and p5.merz.js before this sketch.
 const seed = 17;
 const ticketNumber = "038 / 72";
@@ -44,7 +42,7 @@ function draw() {
   fill("#20201e");
   textFont("monospace");
   textSize(13);
-  text("Hier abschneiden!", 18, 27);
+  text("ONE JOURNEY / KEEP THIS PART", 18, 27);
   textSize(34);
   text(ticketNumber, 18, 82);
   stroke("#20201e");
@@ -63,7 +61,7 @@ function draw() {
   fill("#b92d26");
   textFont("Georgia");
   textSize(30);
-  text("i", 373, 228);
+  text("again", 373, 228);
   paint(
     Merz.bauteile("R", { size: 140 }).find((part) => part.id === "bowl").paths,
     70,
@@ -73,9 +71,21 @@ function draw() {
   fill("#20201e");
   textFont("Georgia");
   textSize(18);
-  text("Nichts ist Zufall.", 235, 601);
+  text("a piece kept / a piece used again", 235, 601);
 }
 
 function paint(paths, x, y, colour) {
-  Merz.stempel({ paths }, x, y, { color: colour });
+  push();
+  translate(x, y);
+  noFill();
+  stroke(colour);
+  strokeCap(SQUARE);
+  strokeJoin(MITER);
+  for (const path of paths) {
+    strokeWeight(path.width);
+    beginShape();
+    for (const point of path.points) vertex(...point);
+    endShape();
+  }
+  pop();
 }

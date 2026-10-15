@@ -1,6 +1,6 @@
 // Load p5.js and p5.merz.js before this sketch.
-// Sound fragments: T045-T047, Merz 1, p. 8. Recombined here.
-const syllables = ["OI", "BI", "EI", "DI"];
+// These syllables are invented for this visual study.
+const syllables = ["ta", "rr", "oum", "eh"];
 const repetitions = 7;
 
 function setup() {
@@ -25,11 +25,16 @@ function draw() {
   textSize(145);
   text(syllables[2], 205, 368);
   textStyle(NORMAL);
+  push();
+  translate(65, 475);
+  rotate(-0.48);
+  fill("#20201e");
+  textFont("monospace");
   for (let i = 0; i < repetitions; i++) {
-    Merz.stempel(syllables[1], 65 + Math.cos(-0.48) * i * 62,
-      475 + Math.sin(-0.48) * i * 62,
-      { size: 18 + i * 3, font: 'monospace', angle: -0.48 * 180 / Math.PI });
+    textSize(18 + i * 3);
+    text(syllables[1], i * 62, 0);
   }
+  pop();
   const fork = Merz.bauteile("Y", { size: 46, weight: 0.45 }).find(
     (part) => part.id === "fork"
   );
@@ -45,5 +50,17 @@ function draw() {
 }
 
 function paint(paths, x, y, colour) {
-  Merz.stempel({ paths }, x, y, { color: colour });
+  push();
+  translate(x, y);
+  noFill();
+  stroke(colour);
+  strokeCap(SQUARE);
+  strokeJoin(MITER);
+  for (const path of paths) {
+    strokeWeight(path.width);
+    beginShape();
+    for (const point of path.points) vertex(...point);
+    endShape();
+  }
+  pop();
 }

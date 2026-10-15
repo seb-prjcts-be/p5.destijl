@@ -1,5 +1,5 @@
 /* p5.merz 0.3.0 - Sebastien Vanblaere. MIT license.
- * A sheet, a printer's case, cut pieces and found letters after the magazine Merz.
+ * Geometric letters, named parts, cuts, stamps and colour planes for p5.js.
  */
 (function (root) {
   'use strict';
@@ -647,19 +647,19 @@
 ].map(item=>Object.freeze({...item,crop:Object.freeze(item.crop)}));
   // END FUNDSACHEN CATALOGUE
   const foundImages = new WeakMap();
-  async function merzbilder(id, options={}, p=root, width, context=root) {
+  async function fundsachen(id, options={}, p=root, width, context=root) {
     let placement;
     if (isContext(options) && p === root) { p = options; options = {}; }
     if (typeof options === 'number') {
       placement = { x: number(options, 'x'), y: number(p, 'y'), width: number(width, 'width', 1) };
       options = {}; p = context;
-      if (!p || typeof p.image !== 'function' || typeof p.push !== 'function') throw new TypeError('merzbilder needs a p5 drawing context');
+      if (!p || typeof p.image !== 'function' || typeof p.push !== 'function') throw new TypeError('fundsachen needs a p5 drawing context');
     }
-    if (!options || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('merzbilder options must be an object');
+    if (!options || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('fundsachen options must be an object');
     const key=typeof id==='number'&&Number.isInteger(id)?String(id).padStart(3,'0'):id;
     const item=foundItems.find(item=>item.id===key||item.name===key);
     if(!item)throw new RangeError('Unknown Fundsachen item: '+id);
-    if(!p||typeof p.loadImage!=='function')throw new TypeError('merzbilder needs a p5 instance or globalThis');
+    if(!p||typeof p.loadImage!=='function')throw new TypeError('fundsachen needs a p5 instance or globalThis');
     for(const key of Object.keys(options))if(!['baseURL','url','variant'].includes(key))throw new RangeError('Unknown Fundsachen option: '+key);
     const variant=options.variant??'ink';
     if(!['ink','scan','svg'].includes(variant))throw new RangeError('variant must be ink, scan or svg');
@@ -686,8 +686,8 @@
     }
     return ausschnitt(image, 0, 0, image.width, image.height);
   }
-  merzbilder.list=()=>foundItems.map(item=>({...item,crop:[...item.crop]}));
-  Object.freeze(merzbilder);
+  fundsachen.list=()=>foundItems.map(item=>({...item,crop:[...item.crop]}));
+  Object.freeze(fundsachen);
   const L=.5,R=4.5,M=2.5,path=(...points)=>points;
   const glyphs = {
     A:[path([L,R],[L,L],[R,L],[R,R]),path([L,M],[R,M])],
@@ -998,32 +998,11 @@
       p=context;
     }
     const paths=Array.isArray(source)?source.flatMap(bauteil=>bauteil?.paths||[]):source?.paths;
-    const isSegment=value=>!!value&&typeof value==='object'&&!Array.isArray(value)&&typeof value.text==='string';
-    const isText=typeof source==='string'||(Array.isArray(source)&&source.length>0&&source.every(line=>typeof line==='string'||isSegment(line)));
-    // Strings are lines, split at line breaks. An array of segments is one line of pieces on a shared baseline.
-    let lines=null;
-    if(isText){
-      const items=Array.isArray(source)?source:[source];
-      const segments=items.filter(isSegment);
-      if(segments.length&&segments.length!==items.length)throw new TypeError('Use strings for lines or segments for one line, not both');
-      for(const segment of segments){
-        for(const key of Object.keys(segment))if(!['text','size','font','weight','stretch','color','spacing','width','height'].includes(key))throw new RangeError('Unknown segment option: '+key);
-        if(segment.size!==undefined)number(segment.size,'segment size',.001);
-        if(segment.weight!==undefined&&(number(segment.weight,'segment weight',100)>900))throw new RangeError('segment weight must be between 100 and 900');
-        if(segment.stretch!==undefined&&(number(segment.stretch,'segment stretch',62)>125))throw new RangeError('segment stretch must be between 62 and 125');
-        if(segment.font!==undefined&&(typeof segment.font!=='string'||!segment.font.trim()))throw new TypeError('segment font must be a font family name');
-        if(segment.color!==undefined)colour(segment.color);
-        if(segment.spacing!==undefined)number(segment.spacing,'segment spacing');
-        if(segment.width!==undefined)number(segment.width,'segment width',1);
-        if(segment.height!==undefined){if(segment.width===undefined)throw new RangeError('segment height needs width');number(segment.height,'segment height',1);}
-        if(segment.width!==undefined&&segment.spacing!==undefined)throw new RangeError('Use width or spacing in a segment, not both');
-      }
-      lines=segments.length?[items]:items.flatMap(line=>line.split('\n').map(text=>[{text}]));
-    }
+    const isText=typeof source==='string'||(Array.isArray(source)&&source.length>0&&source.every(line=>typeof line==='string'));
+    const lines=isText?(Array.isArray(source)?source:[source]).flatMap(line=>line.split('\n')):null;
     const fragmentSeries=Array.isArray(source)&&source.length>0&&source.every(piece=>fragmentData.has(piece));
     const isFragment=fragmentSeries||fragmentData.has(source);
-    const isSheet=sheetData.has(source);
-    if(!isText&&!isFragment&&!isSheet&&(!Array.isArray(paths)||!paths.length||paths.some(path=>!path||!Number.isFinite(path.width)||path.width<=0||!Array.isArray(path.points)||path.points.length<2||path.points.some(point=>!Array.isArray(point)||point.length!==2||!point.every(Number.isFinite)))))throw new TypeError('stempel needs text, geometry, letter parts or a cut piece');
+    if(!isText&&!isFragment&&(!Array.isArray(paths)||!paths.length||paths.some(path=>!path||!Number.isFinite(path.width)||path.width<=0||!Array.isArray(path.points)||path.points.length<2||path.points.some(point=>!Array.isArray(point)||point.length!==2||!point.every(Number.isFinite)))))throw new TypeError('stempel needs text, geometry, letter parts or a cut piece');
     if(placements && typeof placements==='object' && !Array.isArray(placements))placements=[placements];
     if(!Array.isArray(placements))throw new TypeError('placements must be an array');
     const expanded=[];
@@ -1049,7 +1028,7 @@
     }
     const copies=expanded.map(item=>{
       if(!item||typeof item!=='object')throw new TypeError('Each placement needs x and y');
-      for(const key of Object.keys(item))if(!(isText?['x','y','angle','scale','color','size','font','weight','stretch','rows','leading','spacing','width','height','rule','align','gap']:['x','y','angle','scale','color']).includes(key))throw new RangeError('Unknown placement option: '+key);
+      for(const key of Object.keys(item))if(!(isText?['x','y','angle','scale','color','size','font','weight','stretch','rows','leading','spacing','align']:['x','y','angle','scale','color']).includes(key))throw new RangeError('Unknown placement option: '+key);
       const textOptions={};
       if(isText){
         textOptions.size=number(item.size??32,'size',.001);
@@ -1063,22 +1042,8 @@
         if(!Number.isSafeInteger(textOptions.rows)||textOptions.rows<1||textOptions.rows>1024)throw new RangeError('rows must be a whole number from 1 to 1024');
         textOptions.leading=number(item.leading??textOptions.size*1.2,'leading',.001);
         textOptions.spacing=number(item.spacing??0,'spacing');
-        if(item.width!==undefined)textOptions.width=number(item.width,'width',1);
-        if(item.height!==undefined){
-          if(item.width===undefined)throw new RangeError('height needs width: together they describe the box each line fills');
-          textOptions.height=number(item.height,'height',1);
-        }
-        if(item.width!==undefined&&item.spacing!==undefined)throw new RangeError('Use width or spacing, not both');
         textOptions.align=item.align??'left';
         if(!['left','center','right'].includes(textOptions.align))throw new RangeError('align must be left, center or right');
-        textOptions.gap=item.gap===undefined?null:number(item.gap,'gap');
-        if(item.rule!==undefined&&item.rule!==false){
-          const rule=item.rule===true?{}:item.rule;
-          if(!rule||typeof rule!=='object'||Array.isArray(rule))throw new TypeError('rule must be true or an object with weight, color, before and after');
-          for(const key of Object.keys(rule))if(!['weight','color','before','after'].includes(key))throw new RangeError('Unknown rule option: '+key);
-          for(const key of ['before','after'])if(rule[key]!==undefined&&typeof rule[key]!=='boolean')throw new TypeError('rule '+key+' must be true or false');
-          textOptions.rule={weight:number(rule.weight??4,'rule weight',.01),color:rule.color===undefined?null:colour(rule.color),before:rule.before===true,after:rule.after===true};
-        }
       }
       return {...textOptions,x:number(item.x,'x'),y:number(item.y,'y'),angle:number(item.angle??0,'angle'),scale:number(item.scale??1,'scale',.001),color:colour(item.color??palette.ink)};
     });
@@ -1094,62 +1059,22 @@
         const a=item.angle*Math.PI/180,c=Math.cos(a)*item.scale,s=Math.sin(a)*item.scale;
         p.applyMatrix(c,s,-s,c,item.x,item.y);
         if(isText){
-          p.noStroke();p.fill(item.color);p.textStyle(p.NORMAL??'normal');p.textAlign(p.LEFT??'left',p.BASELINE??'alphabetic');p.textLeading(item.leading);
-          const stretches=item.height!==undefined||lines.some(line=>line.some(segment=>segment.height!==undefined));
-          if((stretches||item.rule)&&typeof p.textBounds!=='function')throw new TypeError('height and rule need text measurement from p5.js 2.x');
+          p.noStroke();p.fill(item.color);p.textFont(familyFor(item.font,item.stretch));p.textSize(item.size);
+          if(typeof p.textWeight==='function')p.textWeight(item.weight);
+          p.textStyle(p.NORMAL??'normal');p.textAlign(p.LEFT??'left',p.BASELINE??'alphabetic');p.textLeading(item.leading);
           const all=[];for(let row=0;row<item.rows;row++)all.push(...lines);
-          const setFont=segment=>{p.textFont(familyFor(segment.font,segment.stretch));p.textSize(segment.size);if(typeof p.textWeight==='function')p.textWeight(segment.weight);};
-          // Measure every segment first, then draw rules under the text.
-          const layout=all.map((line,i)=>{
-            const segments=line.map(raw=>{
-              const segment={text:raw.text,size:raw.size??item.size,font:raw.font??item.font,weight:raw.weight??item.weight,stretch:raw.stretch??item.stretch,color:raw.color??item.color,spacing:raw.spacing??(raw.width!==undefined?0:item.spacing),width:raw.width,height:raw.height};
-              if(line.length===1&&segment.width===undefined&&item.width!==undefined){segment.width=item.width;segment.height=item.height;}
-              setFont(segment);
-              if(segment.height!==undefined){
-                const b=p.textBounds(segment.text,0,0);
-                if(!(b.w>0&&b.h>0))return {...segment,width:0,empty:true};
-                return {...segment,bounds:b,sx:segment.width/b.w,sy:segment.height/b.h};
-              }
-              if(segment.width===undefined&&segment.spacing===0)return {...segment,width:p.textWidth(segment.text)};
-              const chars=[...segment.text],advances=chars.map(ch=>p.textWidth(ch));
-              const natural=advances.reduce((sum,w)=>sum+w,0);
-              const gap=segment.width===undefined?segment.spacing:chars.length>1?(segment.width-natural)/(chars.length-1):0;
-              return {...segment,chars,advances,gap,width:segment.width??Math.max(0,natural+gap*(chars.length-1))};
-            });
-            const natural=segments.reduce((sum,segment)=>sum+segment.width,0);
-            let gap=item.gap??item.size*.3;
-            if(segments.length>1&&item.width!==undefined)gap=(item.width-natural)/(segments.length-1);
-            const width=segments.length>1?natural+gap*(segments.length-1):segments[0].width;
+          for(const [i,line] of all.entries()){
+            const y=i*item.leading;
+            if(item.spacing===0&&item.align==='left'){p.text(line,0,y);continue;}
+            const chars=item.spacing===0?null:[...line];
+            const advances=chars?chars.map(ch=>p.textWidth(ch)):null;
+            const width=chars?Math.max(0,advances.reduce((sum,w)=>sum+w,0)+item.spacing*(chars.length-1)):p.textWidth(line);
             const start=item.align==='right'?-width:item.align==='center'?-width/2:0;
-            return {y:i*item.leading,segments,gap,width,start};
-          });
-          if(item.rule){
-            setFont(item);
-            const cap=item.height??p.textBounds('H',0,0).h,span=item.width??Math.max(...layout.map(row=>row.width));
-            const left=item.align==='right'?-span:item.align==='center'?-span/2:0;
-            const slots=[];
-            if(item.rule.before)slots.push(-1);
-            for(let i=0;i<layout.length-1;i++)slots.push(i);
-            if(item.rule.after)slots.push(layout.length-1);
-            p.rectMode(p.CORNER??'corner');p.fill(item.rule.color??item.color);
-            for(const i of slots){const cy=i*item.leading+(item.leading-cap)/2;p.rect(left,cy-item.rule.weight/2,span,item.rule.weight);}
-            p.fill(item.color);
-          }
-          for(const row of layout){
-            let x=row.start;
-            for(const segment of row.segments){
-              if(!segment.empty){
-                setFont(segment);p.fill(segment.color);
-                if(segment.bounds){const b=segment.bounds;p.push();p.translate(x-b.x*segment.sx,row.y-(b.y+b.h)*segment.sy);p.scale(segment.sx,segment.sy);p.text(segment.text,0,0);p.pop();}
-                else if(segment.chars){let cx=x;for(const [k,ch] of segment.chars.entries()){p.text(ch,cx,row.y);cx+=segment.advances[k]+segment.gap;}}
-                else p.text(segment.text,x,row.y);
-              }
-              x+=segment.width+row.gap;
-            }
+            if(chars){let cx=start;for(const [k,ch] of chars.entries()){p.text(ch,cx,y);cx+=advances[k]+item.spacing;}}
+            else p.text(line,start,y);
           }
         }
         else if(isFragment){p.imageMode(p.CORNER??'corner');p.noTint();p.image(images.get(material).get(item.color),0,0);}
-        else if(isSheet){const data=sheetImages(source);p.imageMode(p.CORNER??'corner');p.noTint();p.image(data.paper,0,0);p.image(data.print,0,0);}
         else {
           p.noFill();p.stroke(item.color);p.strokeCap(p.PROJECT??'square');p.strokeJoin(p.MITER??'miter');
           for(const path of paths){p.strokeWeight(path.width);p.beginShape();for(const point of path.points)p.vertex(...point);p.endShape();}
@@ -1291,7 +1216,6 @@
         canvas.width=pixelWidth;canvas.height=pixelHeight;
         const ctx=canvas.getContext('2d',{willReadFrequently:true});
         {
-
           ctx.save();
           ctx.scale(density,density);
           ctx.translate(-x,-y);
@@ -1376,7 +1300,7 @@
       for(const spot of spots) {const d=Math.hypot(x-spot.x,y-spot.y)/spot.r;stain=Math.max(stain,Math.max(0,1-d)**2);}
       // Sparse marks stay faint; solid ink remains solid enough to read.
       pixels[i]=Math.round(255*settings.ink*(.035*grain+.12*stain+(grain<.003?.25:0)));
-      // Paper: tonal clouds, a finer field, fibre-like streaks and grain, measured against the Merz 2 and 8/9 covers at amount 1.
+      // Paper: tonal clouds, a finer field, fibre-like streaks and grain.
       // Stored around 128; darker tones also warm the colour when applied.
       let tone=0;
       if(settings.paper>0){
@@ -1396,8 +1320,6 @@
     return pixels;
   }
   function andruck(source,options={},p=root) {
-    const plain=value=>value===undefined||(!!value&&typeof value==='object'&&!Array.isArray(value)&&!value.canvas&&typeof value.get!=='function'&&!isContext(value));
-    if(plain(source))return makeSheet(source??{},arguments.length>=2?options:p);
     const settings=surfaceSettings(options);
     if(!source||!source.canvas||typeof source.get!=='function'||!p||typeof p.createImage!=='function') throw new TypeError('andruck needs a p5 image or graphics and a p5 drawing context');
     const width=source.width,height=source.height;
@@ -1427,43 +1349,6 @@
     return result;
   }
   // Coordinates select the short drawing route; data calls keep their own signatures.
-  const sheetData=new WeakMap();
-  const sheetCalls=['stempel','satz','bauteile','bauteil','rundschnitt','riss','andruck','merzbilder'];
-  function makeSheet(options={},p=root) {
-    if(!options||typeof options!=='object'||Array.isArray(options))throw new TypeError('andruck options must be an object');
-    for(const key of Object.keys(options))if(!['width','height','paper','ink','seed','color'].includes(key))throw new RangeError('Unknown andruck option: '+key);
-    const settings=surfaceSettings({ink:options.ink??0.12,paper:options.paper??0.2,seed:options.seed??17});
-    const color=colour(options.color??palette.paper);
-    if(!p||typeof p.createGraphics!=='function'||typeof p.image!=='function')throw new TypeError('andruck needs a p5 drawing context to make a sheet');
-    const size={};
-    for(const key of ['width','height']){
-      if(options[key]===undefined&&!(Number.isFinite(p[key])&&p[key]>=1))throw new TypeError('andruck needs a canvas size for the sheet: call createCanvas() first, or pass width and height');
-      size[key]=number(options[key]??p[key],key,1);
-      if(!Number.isInteger(size[key]))throw new RangeError(key+' must be a whole number');
-    }
-    if(size.width*size.height>16000000)throw new RangeError('a sheet must fit within 16 million pixels');
-    const sheet=p.createGraphics(size.width,size.height);
-    sheet.clear();
-    // The paper ground is treated once; the ink is treated when the sheet is stamped.
-    const ground=p.createGraphics(size.width,size.height);
-    ground.pixelDensity(sheet.pixelDensity());
-    ground.background(color);
-    const data={paper:andruck(ground,{ink:0,paper:settings.paper,seed:settings.seed+1},p),print:null,settings,owner:p};
-    ground.remove();
-    for(const name of ['clear','background']){
-      const original=sheet[name];
-      sheet[name]=function(...args){data.print=null;return original.apply(this,args);};
-    }
-    // The sheet carries the drawing calls, so no context argument is needed.
-    for(const name of sheetCalls)sheet[name]=(...args)=>root.Merz[name](...args,sheet);
-    sheetData.set(sheet,data);
-    return sheet;
-  }
-  function sheetImages(sheet){
-    const data=sheetData.get(sheet);
-    if(!data.print)data.print=andruck(sheet,{ink:data.settings.ink,paper:0,seed:data.settings.seed},data.owner);
-    return data;
-  }
   function drawingCall(name, original) {
     return function(source, ...args) {
       const offset = name === 'bauteil' ? 1 : 0;
@@ -1503,6 +1388,6 @@
   root.Merz=Object.freeze({version:'0.3.0',palette,farbe:settings(),ready,settings,
     satz:drawingCall('satz',satz),bauteile:drawingCall('bauteile',bauteile),bauteil:drawingCall('bauteil',bauteil),
     ausschnitt,rundschnitt:drawingCall('rundschnitt',rundschnitt),splitter,schnitt,riss:drawingCall('riss',riss),
-    andruck:drawingCall('andruck',andruck),stempel,merzbilder,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
+    andruck:drawingCall('andruck',andruck),stempel,fundsachen,characters:Object.keys(glyphs).join(''),create:options=>new MerzComposition(options)});
   root.MerzComposition=MerzComposition;
 })(globalThis);

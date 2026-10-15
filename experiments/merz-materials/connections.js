@@ -1,5 +1,3 @@
-// Found texts: T423, Merz 8/9, p. 76.
-// See assets/fundsachen/texts/catalogue.json for source scans.
 // Load p5.js and p5.merz.js before this sketch.
 const seed = 31;
 const opening = 108;
@@ -68,9 +66,21 @@ function draw() {
   fill("#20201e");
   textFont("monospace");
   textSize(13);
-  text("Kunstwerk ist Gleichgewicht.", 70, 660);
+  text("opening / crossing / joining", 70, 660);
 }
 
 function paint(paths, x, y, colour) {
-  Merz.stempel({ paths }, x, y, { color: colour });
+  push();
+  translate(x, y);
+  noFill();
+  stroke(colour);
+  strokeCap(SQUARE);
+  strokeJoin(MITER);
+  for (const path of paths) {
+    strokeWeight(path.width);
+    beginShape();
+    for (const point of path.points) vertex(...point);
+    endShape();
+  }
+  pop();
 }

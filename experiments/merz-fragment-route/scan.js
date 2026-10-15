@@ -11,7 +11,7 @@ async function setup() {
   const source = await loadImage("../merz-fragments/assets/merz-2-cover.jpg");
   // A little more height would bring more paper into the cut.
   const piece = Merz.ausschnitt(source, 8, 48, 286, 167);
-  cut = Merz.riss(piece, { amount, seed });
+  cut = Merz.riss(piece, { amount, seed }).bau();
   describe(
     "Change amount and seed, or change the crop position and size. The library cuts the scan and changes its edge; p5 places the pieces."
   );
@@ -20,7 +20,10 @@ async function setup() {
 function draw() {
   background(Merz.farbe.grau);
   for (let i = 0; i < 3; i++) {
-    Merz.stempel(cut, 65 + i * 38, 65 + i * 170,
-      { scale: 370 / 286, angle: (-0.08 + i * 0.08) * 180 / Math.PI });
+    push();
+    translate(65 + i * 38, 65 + i * 170);
+    rotate(-0.08 + i * 0.08);
+    image(cut, 0, 0, 370, 216);
+    pop();
   }
 }

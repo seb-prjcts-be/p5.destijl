@@ -58,7 +58,7 @@ function objects(p,amount){let id=0;function shape(points,c,limit=4,holes=[]){p.
  // Negative opening assembled by separate bands; no background-colour overpaint.
  rect(50,534,350,7,black);rect(50,563,350,2,black);shape([[410,527],[545,554],[538,578],[403,551]],red);
  rect(280,460,140,29,black);
- p.fill(black);p.textFont('monospace');p.textSize(15);p.text('1 / 2 / 3',50,657);p.textSize(11);p.text('Kunst ist Form.',50,689);
+ p.fill(black);p.textFont('monospace');p.textSize(15);p.text('1 / 2 / 3',50,657);p.textSize(11);p.text('Collected here. Arranged in code.',50,689);
 }
 function render(p,g,s,onlyPaper,scratchOnly=false,stainOnly=false){p.clear();const ground=onlyPaper||state.paper;if(ground)paper(p);else p.background('#f7f7f2');if(stainOnly||(g&&s&&state.paper))stains(p,state.stains);const layer=p.createGraphics(W,H);layer.pixelDensity(1);layer.clear();objects(layer,g?state.geometry:0);const canvas=shaderPass(layer.canvas,s?state.ink:0,state.seed,(scratchOnly||(g&&s))?state.scratches:0);p.drawingContext.drawImage(canvas,0,0);layer.remove();}
 function update(){document.getElementById('geometry-value').value=state.geometry;document.getElementById('ink-value').value=state.ink;for(const id of ['scratches','stains'])document.getElementById(id+'-value').value=state[id];try{for(const {p,g,s,paper,scratchOnly,stainOnly} of views.values())render(p,g,s,paper,scratchOnly,stainOnly);document.getElementById('status').textContent=`Seven sheets ready. Pattern ${state.seed}. Each output is 600 × 760 pixels.`;}catch(e){document.getElementById('status').textContent=e.message;console.error(e);}}

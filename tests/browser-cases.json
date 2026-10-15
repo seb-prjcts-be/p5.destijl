@@ -15,7 +15,5 @@
   "audit-browser.html?min=1",
   "direct-browser.html",
   "direct-min-browser.html",
-  "sheet-browser.html",
-  "sheet-min-browser.html",
   "examples-browser.html"
 ]

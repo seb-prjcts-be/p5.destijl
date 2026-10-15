@@ -1,7 +1,5 @@
-// Found texts: T020/T025, Merz 1, p. 4.
-// See assets/fundsachen/texts/catalogue.json for source scans.
 // Load p5.js, p5.merz.js and the local edges.js study first.
-const word = "STAB";
+const word = "ROOM";
 const edgeAmount = 0.7;
 const edgeSeed = 17;
 
@@ -41,7 +39,7 @@ function draw() {
   ink.fill("#20201e");
   ink.textFont("Georgia");
   ink.textSize(20);
-  ink.text("DADA erwacht.", 45, 435);
+  ink.text("A little room to try things.", 45, 435);
   ink.stroke("#20201e");
   ink.strokeWeight(2);
   ink.line(45, 485, 540, 485);

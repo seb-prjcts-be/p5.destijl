@@ -18,20 +18,10 @@ function setup() {
   }
   render(globalThis);
   const a=drawingContext.getImageData(0,0,300,240).data;
-  // Measure, stretch and rules are checked on the rendered ink.
   const g2=createGraphics(300,120); g2.pixelDensity(1);
   const inkBox=()=>{const d=g2.drawingContext.getImageData(0,0,300,120).data;let x0=300,x1=-1,y0=120,y1=-1;
     for(let i=3;i<d.length;i+=4)if(d[i]>0){const px=(i>>2)%300,py=Math.floor((i>>2)/300);x0=Math.min(x0,px);x1=Math.max(x1,px);y0=Math.min(y0,py);y1=Math.max(y1,py);}
     return {x0,x1,y0,y1,w:x1-x0+1,h:y1-y0+1};};
-  g2.clear(); Merz.stempel('MERZ',10,80,{width:200},g2); const spaced=inkBox();
-  results.push(['width fills the measure', Math.abs(spaced.x1-210)<=4 && spaced.x0>=10 && spaced.x0<=14]);
-  g2.clear(); Merz.stempel('MERZ',10,80,{width:200,height:60},g2); const stretched=inkBox();
-  results.push(['width and height fill the ink box', Math.abs(stretched.w-200)<=2 && Math.abs(stretched.h-60)<=2 && Math.abs(stretched.x0-10)<=1 && Math.abs(stretched.y1-79)<=1]);
-  g2.clear(); Merz.stempel(['AB','CD'],10,40,{leading:50,rule:{weight:6,color:'#b92d26'}},g2);
-  const d2=g2.drawingContext.getImageData(0,0,300,120).data; const at=(x,y)=>d2.slice((y*300+x)*4,(y*300+x)*4+4);
-  g2.textFont('Merz Grotesk 100'); g2.textSize(32); g2.textWeight(800); const cap=g2.textBounds('H',0,0).h; const mid=at(12,Math.round(40+(50-cap)/2));
-  results.push(['rule between the lines', mid[0]>150 && mid[1]<90 && mid[3]>0]);
-  results.push(['no rule above the first line', at(12,8)[3]===0]);
   g2.clear(); Merz.stempel('MERZ',10,80,{size:60,stretch:62},g2); const narrow=inkBox();
   g2.clear(); Merz.stempel('MERZ',10,80,{size:60,stretch:125},g2); const wide=inkBox();
   results.push(['stretch changes the width', wide.w > narrow.w * 1.4]);

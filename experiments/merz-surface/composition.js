@@ -1,5 +1,3 @@
-// Found texts: T019-T025, Merz 1, p. 4.
-// See assets/fundsachen/texts/catalogue.json for source scans.
 /* Local composition shared by the surface comparisons. */
 (function (root) {
   "use strict";
@@ -11,7 +9,7 @@
         height: 840,
         background: null
       });
-      work.text("STAB", 48, 110, {
+      work.text("ROOM", 48, 110, {
         size: 128,
         spacing: 12,
         weight: 0.8
@@ -24,13 +22,19 @@
       layer.textFont("Georgia");
       layer.textSize(19);
       layer.text(
-        "DADA erwacht.",
+        "A word takes its place.\nSmall text keeps a different voice.\nThe space between them stays open.",
         48,
         355
       );
     }
     if (index === 2) {
-      Merz.stempel('KRAFT', 540, 620, { size: 22, font: 'Arial', color: '#b92d26', angle: -90 }, layer);
+      layer.translate(540, 620);
+      layer.rotate(-Math.PI / 2);
+      layer.noStroke();
+      layer.fill("#b92d26");
+      layer.textFont("Arial");
+      layer.textSize(22);
+      layer.text("ROOM TO MAKE", 0, 0);
     }
     if (index === 3) {
       layer.stroke("#20201e");
@@ -40,7 +44,7 @@
       layer.fill("#20201e");
       layer.textFont("Arial");
       layer.textSize(12);
-      layer.text("NUMMER", 48, 748);
+      layer.text("01 / LARGE AND SMALL", 48, 748);
     }
     layer.pop();
   }

@@ -1,12 +1,10 @@
-// Found texts: T019-T023, Merz 1, p. 4; T041, p. 7.
-// See assets/fundsachen/texts/catalogue.json for source scans.
 const ink = "#20201e";
 const accent = "#b92d26";
 const leftGroup = {
   x: 45,
   y: 58,
   size: 28,
-  text: "NUMMER\nKRAFT\nBAND"
+  text: "One group.\nAn interval.\nElsewhere."
 };
 const rules = { x: 490, y: 50, width: 270, gap: 15, count: 6 };
 const rightGroup = {
@@ -49,15 +47,31 @@ function draw() {
   fill(ink);
   rect(65, 390, 30, 95);
   rect(105, 365, 45, 120);
-  Merz.satz("R", rightGroup.x, rightGroup.y, {
+  letters("R", rightGroup.x, rightGroup.y, {
     size: 105,
     weight: 0.65
   });
   noStroke();
   fill(ink);
   textSize(24);
-  text("Nichts ist Zufall.", 300, 500);
-  text("WEG", 45, 555);
+  text("The middle is left open.", 300, 500);
+  text("03 / OPEN PAGE", 45, 555);
+}
+
+function letters(value, x, y, options) {
+  push();
+  translate(x, y);
+  noFill();
+  stroke(options.color || "#20201e");
+  strokeCap(SQUARE);
+  strokeJoin(MITER);
+  for (const part of Merz.satz(value, options).paths) {
+    strokeWeight(part.width);
+    beginShape();
+    for (const point of part.points) vertex(...point);
+    endShape();
+  }
+  pop();
 }
 
 function keyPressed() {

@@ -2,10 +2,6 @@
 
 For a new sketch, start with [Stempel](merz-stempel/), [Fundsachen](merz-fundsachen/), [cut fragments](merz-fragment-route/scan.html) or [paper and ink](merz-sheet/). The [guide](../docs/guide.html) describes the current library API.
 
-The [Brillantine advertisement](../examples/brillantine/) combines a complete page with fixed paper and ink in a still composition.
-
-The showcase also includes [Die Blume Anna](../examples/blume-anna/), [NASCI](../examples/nasci-page/) and [OI EI](../examples/lautfolge/). These are new compositions; the earlier drawings remain in Examples and the study folders.
-
 The older studies remain available for comparison. Their local helpers do not define the library API.
 
 | Folder | Status | What remains useful |
@@ -15,7 +11,7 @@ The older studies remain available for comparison. Their local helpers do not de
 | [merz-fragment-route](merz-fragment-route/scan.html) | Current library examples | The same cutting and tearing operations on a scan, a word and a letter part. |
 | [merz-fragments](merz-fragments/) | Earlier sample route, retained | Explicit crops and their source record. Fundsachen now provides numbered samples. |
 | [merz-fundsachen](merz-fundsachen/) | Current library examples | Loading samples by number or name, then placing and treating them. |
-| [merz-material](merz-material/) | Research retained for comparison | Separate paper fields, contours and ink experiments. Its connected paper field is now the paper of andruck(), measured against the covers; the shader ink and contour studies remain research. |
+| [merz-material](merz-material/) | Research retained for comparison | Separate paper fields, contours and ink experiments. Its shader studies remain research; library andruck() now uses the CPU. |
 | [merz-materials](merz-materials/clippings.html) | Composition studies | Scans, syllables and drawn connections. Helpers specific to these drawings remain local. |
 | [merz-pages](merz-pages/) | Composition references | Scale, overlap, reading direction and open space in three clean pages. |
 | [merz-parts](merz-parts/module-parts.html) | Current examples alongside earlier adapters | module-start and module-parts use satz(), bauteil() and stempel(). The adapter and path-index studies show the earlier approach. |
@@ -25,5 +21,3 @@ The older studies remain available for comparison. Their local helpers do not de
 | [merz-surface](merz-surface/) | Earlier research, retained | Printing, ageing and edge hypotheses compared on fixed compositions. These helpers have not all become library functions. |
 | [page-study](page-study/) | Earlier composition study | Text spacing and reading direction. |
 | [shared](shared/) | Supporting code | Styles and geometric bars shared by the earlier studies; not a separate experiment. |
-
-[Showcase motion](showcase-motion/) retains the earlier reveal and playback code for comparison. Public showcase pages are static.

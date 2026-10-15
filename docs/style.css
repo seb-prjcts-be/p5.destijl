@@ -1,5 +1,6 @@
 @import url("prose.css?v=2");
 @font-face { font-family: "Archivo"; src: url("../assets/fonts/archivo/Archivo-Variable.ttf") format("truetype"); font-style: normal; font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+@font-face { font-family: "Archivo Black"; src: url("../assets/fonts/archivo/Archivo-Variable.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
 h1, h2, h3, h4, h5, h6 { text-transform: uppercase; }
 :root{--paper:#f7f7f2;--site:#f1f1ed;--ink:#20201e;--red:#b92d26;--blue:#234b92;--yellow:#e8bb32;--muted:#62625b;--line:#d2d2c9}
 .study-nav{display:flex;justify-content:flex-end;gap:18px;flex-wrap:wrap;padding:12px 4vw;border-bottom:1px solid var(--line);font-size:14px}.study-nav a[aria-current]{font-weight:bold;text-decoration-thickness:2px}

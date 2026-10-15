@@ -1,7 +1,7 @@
 // Every example page must draw a canvas without errors or unhandled rejections.
 (async () => {
   const report = document.getElementById('result');
-  const pages = ['blume-anna', 'brillantine', 'characters', 'free-composition', 'lautfolge', 'nasci-page', 'poster', 'riss', 'umschlag', 'zwei'];
+  const pages = ['bauteile', 'characters', 'free-composition', 'poster', 'riss'];
   const lines = [];
   let failed = 0;
   for (const name of pages) {

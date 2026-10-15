@@ -1,21 +1,16 @@
-// Found texts: T360/T393, Merz 8/9, cover.
-// See assets/fundsachen/texts/catalogue.json for source scans.
+// An editable vector composition of planes, lines and geometric words.
 let work;
 
 function setup() {
   createCanvas(700, 700).parent('example');
   noLoop();
+  const farbe = Merz.farbe;
   work = Merz.create({ width: 700, height: 700 });
-  work.line(60, 325, 640, 325, { color: Merz.farbe.rot, strokeWeight: 12 });
-  work.text('NASCI', 60, 115, { size: 120, spacing: 15 });
-  // Five moments of one construction. Change the step to change its growth.
-  for (let i = 0; i < 5; i++) {
-    const size = 48 + i * 16;
-    work.letter('Y', 60 + i * 120, 520 - size, { size, weight: 0.55 });
-  }
-  work.text('KRAFT', 60, 565, { size: 40, spacing: 8 });
-  work.plane(60, 650, 580, 12, { color: Merz.farbe.blau });
-  describe('NASCI above five branching Y forms growing from left to right along a shared baseline, with KRAFT below, a red rule and a blue strip.');
+  work.plane(390, 70, 220, 290, { color: farbe.blau });
+  work.line(60, 405, 640, 405, { color: farbe.rot, strokeWeight: 12 });
+  work.text('FORM', 60, 120, { size: 120, spacing: 18 });
+  work.text('SPACE', 520, 620, { size: 42, spacing: 10, rotation: -HALF_PI });
+  describe('FORM in geometric letters with a blue plane, a red horizontal line and the vertical word SPACE.');
   document.getElementById('save-example').addEventListener('click', () => work.downloadSVG());
 }
 

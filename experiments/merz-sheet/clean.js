@@ -35,7 +35,7 @@ function setup() {
   ink.textSize(15);
   ink.text("1 / 2 / 3", 52, 671);
   ink.textSize(11);
-  ink.text("Kunst ist Form.", 52, 700);
+  ink.text("Collected here. Arranged in code.", 52, 700);
   const impression = Merz.andruck(ink, { ink: inkAmount, paper: 0, seed });
   const page = createGraphics(width, height);
   page.pixelDensity(1);
